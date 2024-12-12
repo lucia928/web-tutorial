@@ -129,12 +129,32 @@ function getConcurrentSiderBar() {
 function getSourceCodeSiderBar() {
   return [
     {
-      text: 'JVM',
+      text: 'Spring 源码解析',
       collapsed: false,
       items: [
         {
-          text: "JVM",
-          link: "/docs/basic/jvm"
+          text: "spring",
+          link: "/docs/source-code/spring"
+        },
+      ]
+    },
+    {
+      text: 'Spring MVC 源码解析',
+      collapsed: false,
+      items: [
+        {
+          text: "Spring MVC",
+          link: "/docs/source-code/spring"
+        },
+      ]
+    },
+    {
+      text: 'Mybatis 源码解析',
+      collapsed: false,
+      items: [
+        {
+          text: "Mybatis",
+          link: "/docs/source-code/spring"
         },
       ]
     }
@@ -145,7 +165,6 @@ function getDistributedSiderBar() {
   return [
     {
       text: 'Zookeeper',
-      collapsed: false,
       items: [
         {
           text: " Zookeeper特性与节点数据类型",
@@ -171,7 +190,6 @@ function getDistributedSiderBar() {
     },
     {
       text: 'Sharding Sphere',
-      collapsed: false,
       items: [
         {
           text: "分库分表入门",
@@ -199,13 +217,96 @@ function getDistributedSiderBar() {
 }
 
 function getDataBaseSiderBar() {
-
+  return [
+    {
+      text: 'MySQL',
+      collapsed: false,
+      items: [
+        {
+          text: "spring",
+          link: "/docs/database/spring"
+        },
+      ]
+    },
+    {
+      text: 'Redis',
+      collapsed: false,
+      items: [
+        {
+          text: "spring",
+          link: "/docs/database/spring"
+        },
+      ]
+    },
+    {
+      text: 'ElaticSearch',
+      collapsed: false,
+      items: [
+        {
+          text: "ElasticSearch快速入门实战",
+          link: "/docs/database/es/"
+        },
+        {
+          text: "ElasticSearch 高级查询语法Query DSL实战",
+          link: "/docs/database/es/"
+        },
+        {
+          text: "ElasticSearch搜索技术深入与聚合查询实战",
+          link: "/docs/database/es/"
+        },
+        {
+          text: "ElasticSearch集群架构实战及其原理剖析",
+          link: "/docs/database/es/"
+        },
+        {
+          text: "ElasticSearch高级功能详解与原理剖析",
+          link: "/docs/database/es/"
+        },
+        {
+          text: "Logstash与FileBeat详解以及ELK整合详解",
+          link: "/docs/database/es/"
+        },
+      ]
+    },
+    {
+      text: 'Mongodb',
+      collapsed: false,
+      items: [
+        {
+          text: "spring",
+          link: "/docs/database/spring"
+        },
+      ]
+    },
+  ]
 }
 
 function getMqSiderBar() {
-
+  return [
+    {
+      text: 'MySQL',
+      collapsed: false,
+      items: [
+        {
+          text: "spring",
+          link: "/docs/database/spring"
+        },
+      ]
+    },
+  ]
 }
 
 function getMicroservicesSiderBar() {
-
+  return [
+    {
+      text: 'MySQL',
+      collapsed: false,
+      items: [
+        {
+          text: "spring",
+          link: "/docs/database/spring"
+        },
+      ]
+    },
+  ]
 }
