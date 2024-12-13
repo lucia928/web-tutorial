@@ -244,10 +244,10 @@ function getDataBaseSiderBar() {
       items: [
         {
           text: "ElasticSearch快速入门实战",
-          link: "/docs/database/es/"
+          link: "/docs/database/es/quickstart-guide.md"
         },
         {
-          text: "ElasticSearch 高级查询语法Query DSL实战",
+          text: "ElasticSearch高级查询语法Query DSL实战",
           link: "/docs/database/es/"
         },
         {
