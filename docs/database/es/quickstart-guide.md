@@ -175,7 +175,7 @@ windows下，设置ES_JAVA_HOME和ES_HOME的环境变量
 
 进入bin目录，直接运行elasticsearch.bat
 
-测试，浏览器中访问：http://localhost:9200/
+测试，浏览器中访问：`http://localhost:9200/`
 
 ![image-20241213102411429](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20241213102411429.png)
 
@@ -417,7 +417,7 @@ netstat -tunlp | grep 5601
 
 注意：kibana也需要非root用户启动。
 
-4）访问Kibana: <http://localhost:5601/app/dev_tools#/console>
+4）访问Kibana: `http://localhost:5601/app/dev_tools#/console`
 
 ![image-20241212185107574](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/image-20241212185107574.png)
 

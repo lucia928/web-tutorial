@@ -248,23 +248,23 @@ function getDataBaseSiderBar() {
         },
         {
           text: "ElasticSearch高级查询语法Query DSL实战",
-          link: "/docs/database/es/"
+          link: "/docs/database/es/query-dsl.md"
         },
         {
           text: "ElasticSearch搜索技术深入与聚合查询实战",
-          link: "/docs/database/es/"
+          link: "/docs/database/es/analyze-aggregation.md"
         },
         {
           text: "ElasticSearch集群架构实战及其原理剖析",
-          link: "/docs/database/es/"
+          link: "/docs/database/es/cluster-architecture.md"
         },
         {
           text: "ElasticSearch高级功能详解与原理剖析",
-          link: "/docs/database/es/"
+          link: "/docs/database/es/advanced-features.md"
         },
         {
           text: "Logstash与FileBeat详解以及ELK整合详解",
-          link: "/docs/database/es/"
+          link: "/docs/database/es/logstash-fileBeat.md"
         },
       ]
     },
