@@ -23,6 +23,10 @@ function getBasicSiderBar() {
           link: "/docs/basic/jvm/jmm.md"
         },
         {
+          text: "深入理解Class文件",
+          link: "/docs/basic/jvm/class.md"
+        },
+        {
           text: "JVM对象创建与内存分配机制深度剖析",
           link: "/docs/basic/jvm/object.md"
         },
@@ -80,32 +84,32 @@ function getBasicSiderBar() {
       collapsed: false,
       items: [
         {
-          text: "深入理解网络通信和TCPIP协议",
-          link: "/docs/basic/netty/"
+          text: "深入理解网络通信和TCP、IP协议",
+          link: "/docs/basic/netty/network.md"
         },
         {
           text: "BIO实战、NIO编程与直接内存、零拷贝深入辨析",
-          link: "/docs/basic/netty/"
+          link: "/docs/basic/netty/io.md"
         },
         {
           text: "深入Linux内核理解epoll",
-          link: "/docs/basic/netty/"
+          link: "/docs/basic/netty/epoll.md"
         },
         {
           text: "Netty使用和常用组件辨析",
-          link: "/docs/basic/netty/"
+          link: "/docs/basic/netty/component.md"
         },
         {
           text: "Netty实战-手写通信框架与面试难题分析",
-          link: "/docs/basic/netty/"
+          link: "/docs/basic/netty/interview.md"
         },
         {
-          text: "Netty使用和常用组件辨析",
-          link: "/docs/basic/netty/"
+          text: "Netty核心线程模型源码分析",
+          link: "/docs/basic/netty/io-source.md"
         },
         {
-          text: "Netty使用和常用组件辨析",
-          link: "/docs/basic/netty/"
+          text: "Netty底层数据通信源码剖析",
+          link: "/docs/basic/netty/data-source.md"
         }
       ],
     }
