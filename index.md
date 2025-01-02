@@ -36,7 +36,7 @@ features:
   - icon: 
       src: /microservices.svg
     title: 微服务
-    details: Nacos、OpenFeign
+    details: Nacos、OpenFeign、GateWay、分布式事务、分布式鉴权
     link: /docs/microservices/
     linkText: more
 

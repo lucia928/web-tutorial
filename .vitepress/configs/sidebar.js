@@ -526,8 +526,20 @@ function getMqSiderBar() {
       collapsed: false,
       items: [
         {
-          text: "spring",
-          link: "/docs/mq/Kafka/"
+          text: "Kafka快速实战以及基本原理详解",
+          link: "/docs/mq/Kafka/overview.md"
+        },
+        {
+          text: "Kafka收发消息核心参数详解",
+          link: "/docs/mq/Kafka/send-receiving-messages.md"
+        },
+        {
+          text: "Kafka集群架构设计原理详解",
+          link: "/docs/mq/Kafka/cluster-architecture.md"
+        },
+        {
+          text: "Kafka日志索引详解以及生产常见问题分析与总结",
+          link: "/docs/mq/Kafka/log.md"
         },
       ]
     },
@@ -536,8 +548,20 @@ function getMqSiderBar() {
       collapsed: false,
       items: [
         {
-          text: "spring",
-          link: "/docs/mq/rocketmq/"
+          text: "RocketMQ快速实战以及集群架构原理详解",
+          link: "/docs/mq/rocketmq/overview.md"
+        },
+        {
+          text: "RocketMQ 核心编程模型以及生产环境最佳实践",
+          link: "/docs/mq/rocketmq/programming-model.md"
+        },
+        {
+          text: "RocketMQ高性能核心原理与源码架构剖析",
+          link: "/docs/mq/rocketmq/source-code.md"
+        },
+        {
+          text: "RocketMQ生产环境常见问题分析与总结",
+          link: "/docs/mq/rocketmq/prod.md"
         },
       ]
     },
@@ -546,8 +570,20 @@ function getMqSiderBar() {
       collapsed: false,
       items: [
         {
-          text: "spring",
-          link: "/docs/mq/rabbitmq/"
+          text: "RabbitMQ快速实战以及核心概念详解",
+          link: "/docs/mq/rabbitmq/overview.md"
+        },
+        {
+          text: "RabbitMQ核心编程模型以及消息应用场景详解",
+          link: "/docs/mq/rabbitmq/programming-model.md"
+        },
+        {
+          text: "RabbitMQ高级功能详解以及常用插件实战",
+          link: "/docs/mq/rabbitmq/source-code.md"
+        },
+        {
+          text: "RabbitMQ高可用集群架构详解以及生产环境最佳实践",
+          link: "/docs/mq/rabbitmq/prod.md"
         },
       ]
     },
@@ -561,8 +597,12 @@ function getMicroservicesSiderBar() {
       collapsed: false,
       items: [
         {
-          text: "spring",
-          link: "/docs/microservices/spring-boot/"
+          text: "微服务架构的演变",
+          link: "/docs/microservices/orverview/orverview.md"
+        },
+        {
+          text: "微服务架构的技术选型",
+          link: "/docs/microservices/orverview/orverview.md"
         },
       ]
     },
@@ -571,18 +611,20 @@ function getMicroservicesSiderBar() {
       collapsed: false,
       items: [
         {
-          text: "spring",
+          text: "Nacos概览",
           link: "/docs/microservices/nacos/"
         },
-      ]
-    },
-    {
-      text: 'Sentinel',
-      collapsed: false,
-      items: [
         {
-          text: "spring",
-          link: "/docs/microservices/sentinel/"
+          text: "整合Nacos",
+          link: "/docs/microservices/nacos/"
+        },
+        {
+          text: "Nacos集群搭建",
+          link: "/docs/microservices/nacos/"
+        },
+        {
+          text: "Nacos配置中心",
+          link: "/docs/microservices/nacos/"
         },
       ]
     },
@@ -591,8 +633,30 @@ function getMicroservicesSiderBar() {
       collapsed: false,
       items: [
         {
-          text: "spring",
+          text: "Feign概览",
           link: "/docs/microservices/open-feign/"
+        },
+        {
+          text: "Feign设计架构",
+          link: "/docs/microservices/open-feign/"
+        },
+      ]
+    },
+    {
+      text: 'Sentinel',
+      collapsed: false,
+      items: [
+        {
+          text: "Sentinel快速开始",
+          link: "/docs/microservices/sentinel/"
+        },
+        {
+          text: "整合Sentinel",
+          link: "/docs/microservices/sentinel/"
+        },
+        {
+          text: "Sentinel源码解析",
+          link: "/docs/microservices/sentinel/"
         },
       ]
     },
@@ -601,7 +665,19 @@ function getMicroservicesSiderBar() {
       collapsed: false,
       items: [
         {
-          text: "spring",
+          text: "分布式事务与两阶段提交",
+          link: "/docs/microservices/open-feign/"
+        },
+        {
+          text: "Seata概览",
+          link: "/docs/microservices/open-feign/"
+        },
+        {
+          text: "Seata AT、XA、TCC模式",
+          link: "/docs/microservices/open-feign/"
+        },
+        {
+          text: "Seata源码分析",
           link: "/docs/microservices/open-feign/"
         },
       ]
@@ -611,7 +687,11 @@ function getMicroservicesSiderBar() {
       collapsed: false,
       items: [
         {
-          text: "spring",
+          text: "Spring Cloud Gateway概览",
+          link: "/docs/microservices/gateway/"
+        },
+        {
+          text: "Spring Cloud Gateway实战",
           link: "/docs/microservices/gateway/"
         },
       ]
@@ -621,7 +701,15 @@ function getMicroservicesSiderBar() {
       collapsed: false,
       items: [
         {
-          text: "spring",
+          text: "Skywalking概览",
+          link: "/docs/microservices/skywalking/"
+        },
+        {
+          text: "Skywalking使用",
+          link: "/docs/microservices/skywalking/"
+        },
+        {
+          text: "Skywalking集群部署",
           link: "/docs/microservices/skywalking/"
         },
       ]
@@ -631,7 +719,15 @@ function getMicroservicesSiderBar() {
       collapsed: false,
       items: [
         {
-          text: "auth",
+          text: "Spring Security 实战",
+          link: "/docs/microservices/auth/"
+        },
+        {
+          text: "OAuth 2.0协议",
+          link: "/docs/microservices/auth/"
+        },
+        {
+          text: "微服务网关整合OAuth 2.0",
           link: "/docs/microservices/auth/"
         },
       ]
