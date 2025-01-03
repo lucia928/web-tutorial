@@ -1,18 +1,10 @@
-[TOC]
-
-<center>图灵：楼兰<br> RocketMQ高性能核心原理分析<br> 你的神秘技术宝藏</center>
-
-​	这一部分主要是理解RocketMQ一些重要的高性能核心设计。我们知道，在MQ这个领域， RocketMQ实际上是属于一个后起之秀。RocketMQ除了能够支撑MQ的业务功能之外，还有更重要的一部分就是对于高吞吐、高性能、高可用的三高架构设计。这些设计的思想，很多都是我们去处理三高问题时可以学习借鉴的经验。
-
-​	另外，与RabbitMQ和Kafka这些外国的产品不同，RocketMQ作为国人开发的产品，很多核心实现机制其实是非常符合我们的思想的。所以，这次，我们直接从源码入手，来梳理RocketMQ的一些核心的三高设计。
-
 # 一、源码环境搭建
 
 ## 1、主要功能模块
 
-​	RocketMQ的官方Git仓库地址：<https://github.com/apache/rocketmq> 可以用git把项目clone下来或者直接下载代码包。
+RocketMQ的官方Git仓库地址：<https://github.com/apache/rocketmq> 可以用git把项目clone下来或者直接下载代码包。
 
-​	也可以到RocketMQ的官方网站上下载指定版本的源码： <http://rocketmq.apache.org/dowloading/releases/>
+也可以到RocketMQ的官方网站上下载指定版本的源码： <http://rocketmq.apache.org/dowloading/releases/>
 
 源码下很多的功能模块，很容易让人迷失方向，我们只关注下几个最为重要的模块：
 
@@ -25,33 +17,35 @@
 
 ## 2、源码启动服务
 
-​	将源码导入IDEA后，需要先对源码进行编译。编译指令 clean install -Dmaven.test.skip=true
+​	将源码导入IDEA后，需要先对源码进行编译。编译指令`clean install -Dmaven.test.skip=true`
 
-![image.png](https://note.youdao.com/yws/res/9566/WEBRESOURCEdc5e536e2a3feffba980580efc0ecd7e)
+![image-20250103112537088](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031125136.png)
 
 编译完成后就可以开始调试代码了。调试时需要按照以下步骤：
 
 ​	调试时，先在项目目录下创建一个conf目录，并从`distribution`拷贝`broker.conf`和`logback_broker.xml`和`logback_namesrv.xml`
 
-![image.png](https://note.youdao.com/yws/res/9573/WEBRESOURCE57a4b014426ac2c4da663a897b25eae3)
+![image-20250103112611789](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031126827.png)
 
 > 注解版源码中已经复制好了。
 
 **2.1 启动nameServer**
 
-​	展开namesrv模块，运行NamesrvStartup类即可启动NameServer
+​	展开namesrv模块，运行NamesrvStartup类即可启动NameServer。
 
-![image.png](https://note.youdao.com/yws/res/9585/WEBRESOURCE21a1642c9866586844d035d1fdcd81f5)
+![image-20250103112632237](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031126283.png)
 
 启动时，会报错，提示需要配置一个ROCKETMQ\_HOME环境变量。这个环境变量我们可以在机器上配置，跟配置JAVA\_HOME环境变量一样。也可以在IDEA的运行环境中配置。目录指向源码目录即可。
 
-![image.png](https://note.youdao.com/yws/res/9560/WEBRESOURCE9ff1a9ebd9fd0f3cd5f30d724d422114)
+![image-20250103112646997](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031126036.png)
 
-![image.png](https://note.youdao.com/yws/res/9561/WEBRESOURCEcaa8284876da1faff23caaaa2d240fc6)
+![image-20250103112701083](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031127137.png)
 
 配置完成后，再次执行，看到以下日志内容，表示NameServer启动成功
 
-    The Name Server boot success. serializeType=JSON
+```shell
+The Name Server boot success. serializeType=JSON
+```
 
 **2.2 启动Broker**
 
@@ -88,7 +82,7 @@ abortFile=E:\\RocketMQ\\data\\rocketmq\\dataDir\\abort
 
 启动Broker时，同样需要ROCETMQ\_HOME环境变量，并且还需要配置一个-c 参数，指向broker.conf配置文件。
 
-![image.png](https://note.youdao.com/yws/res/9580/WEBRESOURCE3781ddaf0ab4b8dbde9fd4892f9b5651)
+![image-20250103112739591](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031127653.png)
 
 然后重新启动，即可启动Broker。
 
@@ -142,7 +136,7 @@ consumer.setNamesrvAddr("192.168.232.128:9876");
 
 ​	从NameServer启动和关闭这两个关键步骤，我们可以总结出NameServer的组件其实并不是很多，整个NameServer的结构是这样的；
 
-![image.png](https://note.youdao.com/yws/res/9584/WEBRESOURCE29c90d1551df6375a5585ec427ac47b3)
+![image-20250103112801487](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031128535.png)
 
 > 这两个配置类就可以用来指导如何优化Nameserver的配置。比如，如何调整nameserver的端口？自己试试从源码中找找答案。
 
@@ -191,7 +185,7 @@ this.brokerFastFailure.start();//这也是一些负责具体业务的功能组�
 
 我们需要抽象出Broker的一个整体结构：
 
-![image.png](https://note.youdao.com/yws/res/9574/WEBRESOURCE43d60a879b526bdfc6203291131f1eb2)
+![image-20250103112824192](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031128245.png)
 
 ​	可以看到Broker启动了两个Netty服务，他们的功能基本差不多。实际上，在应用中，可以通过producer.setSendMessageWithVIPChannel(true)，让少量比较重要的producer走VIP的通道。而在消费者端，也可以通过consumer.setVipChannelEnabled(true)，让消费者支持VIP通道的数据。
 
@@ -225,9 +219,9 @@ this.brokerFastFailure.start();//这也是一些负责具体业务的功能组�
 
 整体RPC框架流程如下图：
 
-![image.png](https://note.youdao.com/yws/res/9575/WEBRESOURCEd94e49e13075ac5b40b6e552d7f38a74)
+![image-20250103112850876](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031128933.png)
 
-​	RocketMQ使用Netty框架提供了一套基于服务码的服务注册机制，让各种不同的组件都可以按照自己的需求，注册自己的服务方法。RocketMQ的这一套服务注册机制，是非常简洁使用的。在使用Netty进行其他相关应用开发时，都可以借鉴他的这一套服务注册机制。例如要开发一个大型的IM项目，要加减好友、发送文本，图片，甚至红包、维护群聊信息等等各种各样的请求，这些请求如何封装，就可以很好的参考这个框架。
+RocketMQ使用Netty框架提供了一套基于服务码的服务注册机制，让各种不同的组件都可以按照自己的需求，注册自己的服务方法。RocketMQ的这一套服务注册机制，是非常简洁使用的。在使用Netty进行其他相关应用开发时，都可以借鉴他的这一套服务注册机制。例如要开发一个大型的IM项目，要加减好友、发送文本，图片，甚至红包、维护群聊信息等等各种各样的请求，这些请求如何封装，就可以很好的参考这个框架。
 
 **3、关于RocketMQ的同步结果推送与异步结果推送**
 
@@ -279,7 +273,7 @@ this.timer.scheduleAtFixedRate(new TimerTask() {
 
 ​	NameServer内部会通过RouteInfoManager组件及时维护Broker信息。同时在NameServer启动时，会启动定时任务，扫描不活动的Broker。方法入口：NamesrvController.initialize方法。
 
-![image.png](https://note.youdao.com/yws/res/9558/WEBRESOURCE9cd19e3fe68a4e4f6c65f60e9a9af628)
+![image-20250103112907705](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031129749.png)
 
 **3、极简化的服务注册发现流程**
 
@@ -322,13 +316,13 @@ Producer有两种：
 
 ​	这里其实就是一种设计模式，虽然有很多种不同的客户端，但是这些客户端的启动流程最终都是统一的，全是交由mQClientFactory对象来启动。而不同之处在于这些客户端在启动过程中，按照服务端的要求注册不同的信息。例如生产者注册到producerTable，消费者注册到consumerTable，管理控制端注册到adminExtTable
 
-![image.png](https://note.youdao.com/yws/res/9559/WEBRESOURCE949f118118049b9da7afe3b109ac9d1b)
+![image-20250103112925259](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031129323.png)
 
 2、发送消息的核心流程
 
 ​	核心流程如下：
 
-![image.png](https://note.youdao.com/yws/res/9564/WEBRESOURCEe17b1d90bd0cf558b3b24f40d7d4dba8)
+![image-20250103112937834](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031129888.png)
 
 ​	1、发送消息时，会维护一个本地的topicPublishInfoTable缓存，DefaultMQProducer会尽量保证这个缓存数据是最新的。但是，如果NameServer挂了，那么DefaultMQProducer还是会基于这个本地缓存去找Broker。只要能找到Broker，还是可以正常发送消息到Broker的。 --可以在生产者示例中，start后打一个断点，然后把NameServer停掉，这时，Producer还是可以发送消息的。
 
@@ -380,7 +374,7 @@ Producer有两种：
 
 ​	Consumer的核心启动过程和Producer是一样的， 最终都是通过mQClientFactory对象启动。不过之间添加了一些注册信息。整体的启动过程如下：
 
-![image.png](https://note.youdao.com/yws/res/9586/WEBRESOURCEca0869432564877333e954b3ddaeb5c2)
+![image-20250103113004117](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031130177.png)
 
 **3、广播模式与集群模式的Offset处理**
 
@@ -488,7 +482,7 @@ this.rebalanceImpl.setAllocateMessageQueueStrategy(this.defaultMQPushConsumer.ge
 
 ​	为什么给队列加个锁，就能保证顺序消费呢？结合顺序消息的实现机制理解一下。
 
-![image.png](https://note.youdao.com/yws/res/9563/WEBRESOURCE644c04092e89bd526ad08b78e5aa8b9b)
+![image-20250103113032814](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031130866.png)
 
 ​	从源码中可以看到，Consumer提交请求时，都是往线程池里异步提交的请求。如果不加队列锁，那么就算Consumer提交针对同一个MessageQueue的拉取消息请求，这些请求都是异步执行，他们的返回顺序是乱的，无法进行控制。给队列加个锁之后，就保证了针对同一个队列的第二个请求，必须等第一个请求处理完了之后，释放了锁，才可以提交。这也是在异步情况下保证顺序的基础思路。
 
@@ -521,7 +515,7 @@ this.rebalanceImpl.setAllocateMessageQueueStrategy(this.defaultMQPushConsumer.ge
 
 ​	在之前源码中看到过，Producer轮训时，如果发现往某一个Broker上发送消息失败了，那么下一次会尽量避免再往同一个Broker上发送消息。但是，如果你的应用场景允许发送消息长延迟，也可以给Producer设定setSendLatencyFaultEnable(true)。这样对于某些Broker集群的网络不是很好的环境，可以提高消息发送成功的几率。
 
-![image.png](https://note.youdao.com/yws/res/9581/WEBRESOURCE94e4d57101ac23117eff7505bd588cf3)
+![image-20250103113052682](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031130730.png)
 
 ​	同时生产者在发送消息时，可以指定一个MessageQueueSelector。通过这个对象来将消息发送到自己指定的MessageQueue上。这样可以保证消息局部有序。
 
@@ -561,7 +555,7 @@ this.rebalanceImpl.setAllocateMessageQueueStrategy(this.defaultMQPushConsumer.ge
 
 最常用的就是平均分配和轮训分配了。例如平均分配时的分配情况是这样的：
 
-![image.png](https://note.youdao.com/yws/res/9588/WEBRESOURCE45a321b92ac66306eb8700a72da7ad20)
+![image-20250103113111436](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031131489.png)
 
 ​	而轮训分配就不计算了，每次把一个队列分给下一个Consumer实例。
 
@@ -583,7 +577,7 @@ this.rebalanceImpl.setAllocateMessageQueueStrategy(this.defaultMQPushConsumer.ge
 
 ​	在进入源码之前，我们首先需要看一下RocketMQ在磁盘上存了哪些文件。RocketMQ消息直接采用磁盘文件保存消息，默认路径在\${user\_home}/store目录。这些存储目录可以在broker.conf中自行指定。
 
-![image.png](https://note.youdao.com/yws/res/9579/WEBRESOURCE9a3b326e79ebf7a51daa0b00c06dc98c)
+![image-20250103113135422](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031131486.png)
 
 *   存储文件主要分为三个部分：
 
@@ -599,9 +593,9 @@ this.rebalanceImpl.setAllocateMessageQueueStrategy(this.defaultMQPushConsumer.ge
 
 ​	整体的消息存储结构，官方做了个图进行描述：
 
-![image.png](https://note.youdao.com/yws/res/9578/WEBRESOURCE1174b1eb33288f8ca76567ff11435fb4)
+![image-20250103113759713](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031137775.png)
 
-​	简单来说，Producer发过来的所有消息，不管是属于那个Topic，Broker都统一存在CommitLog文件当中，然后分别构建ConsumeQueue文件和IndexFile两个索引文件，用来辅助消费者进行消息检索。这种设计最直接的好处是可以较少查找目标文件的时间，让消息以最快的速度落盘。对比Kafka存文件时，需要寻找消息所属的Partition文件，再完成写入。当Topic比较多时，这样的Partition寻址就会浪费非常多的时间。所以Kafka不太适合多Topic的场景。而RocketMQ的这种快速落盘的方式，在多Topic的场景下，优势就比较明显了。
+简单来说，Producer发过来的所有消息，不管是属于那个Topic，Broker都统一存在CommitLog文件当中，然后分别构建ConsumeQueue文件和IndexFile两个索引文件，用来辅助消费者进行消息检索。这种设计最直接的好处是可以较少查找目标文件的时间，让消息以最快的速度落盘。对比Kafka存文件时，需要寻找消息所属的Partition文件，再完成写入。当Topic比较多时，这样的Partition寻址就会浪费非常多的时间。所以Kafka不太适合多Topic的场景。而RocketMQ的这种快速落盘的方式，在多Topic的场景下，优势就比较明显了。
 
 ​	然后在文件形式上：
 
@@ -763,7 +757,7 @@ this.rebalanceImpl.setAllocateMessageQueueStrategy(this.defaultMQPushConsumer.ge
 
 ​	RocketMQ整个文件管理的核心入口在DefaultMessageStore的start方法中，整体流程总结如下：
 
-![image.png](https://note.youdao.com/yws/res/9582/WEBRESOURCE666865e967fe306ad99f3b27d1516e03)
+![image-20250103113838486](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031138553.png)
 
 ### 7、文件索引结构
 
@@ -914,7 +908,7 @@ if (started.compareAndSet(false, true)) {
 
 ​	整个延迟消息的实现方式是这样的：
 
-![image.png](https://note.youdao.com/yws/res/9565/WEBRESOURCE3bb7b14f74a458d7efb939e344d1440c)
+![image-20250103113905306](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031139375.png)
 
 ​	而ScheduleMessageService中扫描延迟消息的主要逻辑是这样的：
 
@@ -993,7 +987,7 @@ if (started.compareAndSet(false, true)) {
 
 ​	整个流程以及源码重点如下图所示：
 
-![image.png](https://note.youdao.com/yws/res/9587/WEBRESOURCE8cfb7fccb35b0ca806d6334f871177df)
+![image-20250103113931496](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031139566.png)
 
 # 五、关于零拷贝与顺序写
 
@@ -1022,13 +1016,13 @@ Mapped:           133032 kB
 
 ​	但是，只要操作系统的刷盘操作不是时时刻刻执行的，那么对于用户态的应用程序来说，那就避免不了非正常宕机时的数据丢失问题。因此，操作系统也提供了一个系统调用，应用程序可以自行调用这个系统调用，完成PageCache的强制刷盘。在Linux中是fsync，同样我们可以用man 2 fsync 指令查看。
 
-![image.png](https://note.youdao.com/yws/res/9576/WEBRESOURCE4f0a0bfc936180b24a33ed1a3e0b4acc)
+![image-20250103113959627](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031139693.png)
 
 RocketMQ对于何时进行刷盘，也设计了两种刷盘机制，同步刷盘和异步刷盘。只需要在broker.conf中进行配置就行。
 
-![image.png](https://note.youdao.com/yws/res/9567/WEBRESOURCE7d6e049db652d3e346717e7e96a16f41)
+![image-20250103114013431](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031140488.png)
 
-​	RocketMQ到底是怎么实现同步刷盘和异步刷盘的，还记得吗？
+RocketMQ到底是怎么实现同步刷盘和异步刷盘的，还记得吗？
 
 ## 2、零拷贝加速文件读写
 
@@ -1038,11 +1032,11 @@ RocketMQ对于何时进行刷盘，也设计了两种刷盘机制，同步刷盘
 
 ​	我们知道，操作系统对于内存空间，是分为用户态和内核态的。用户态的应用程序无法直接操作硬件，需要通过内核空间进行操作转换，才能真正操作硬件。这其实是为了保护操作系统的安全。正因为如此，应用程序需要与网卡、磁盘等硬件进行数据交互时，就需要在用户态和内核态之间来回的复制数据。而这些操作，原本都是需要由CPU来进行任务的分配、调度等管理步骤的，早先这些IO接口都是由CPU独立负责，所以当发生大规模的数据读写操作时，CPU的占用率会非常高。
 
-![image.png](https://note.youdao.com/yws/res/9571/WEBRESOURCEeaf4296c7a520df8561948ef41a78d5a)
+![image-20250103114033512](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031140578.png)
 
 之后，操作系统为了避免CPU完全被各种IO调用给占用，引入了DMA(直接存储器存储)。由DMA来负责这些频繁的IO操作。DMA是一套独立的指令集，不会占用CPU的计算资源。这样，CPU就不需要参与具体的数据复制的工作，只需要管理DMA的权限即可。
 
-![image.png](https://note.youdao.com/yws/res/9562/WEBRESOURCE0aebdd54fbcffaeffc8cb0829220dc6b)
+![image-20250103114054344](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031140405.png)
 
 ​	DMA拷贝极大的释放了CPU的性能，因此他的拷贝速度会比CPU拷贝要快很多。但是，其实DMA拷贝本身，也在不断优化。
 
@@ -1050,7 +1044,7 @@ RocketMQ对于何时进行刷盘，也设计了两种刷盘机制，同步刷盘
 
 ​	为了避免DMA总线冲突对性能的影响，后来又引入了Channel通道的方式。Channel，是一个完全独立的处理器，专门负责IO操作。既然是处理器，Channel就有自己的IO指令，与CPU无关，他也更适合大型的IO操作，性能更高。
 
-![image.png](https://note.youdao.com/yws/res/9572/WEBRESOURCEd82d664f418ce989d0f337fca6de470f)
+![image-20250103114109629](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031141697.png)
 
 ​	这也解释了，为什么Java应用层与零拷贝相关的操作都是通过Channel的子类实现的。这其实是借鉴了操作系统中的概念。
 
@@ -1062,13 +1056,13 @@ RocketMQ对于何时进行刷盘，也设计了两种刷盘机制，同步刷盘
 
 ​	以一次文件的读写操作为例，应用程序对磁盘文件的读与写，都需要经过内核态与用户态之间的状态切换，每次状态切换的过程中，就需要有大量的数据复制。
 
-![image.png](https://note.youdao.com/yws/res/9577/WEBRESOURCEd1ad081cb19d627ae4f7fe8fd9c74fc0)
+![image-20250103114126848](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031141907.png)
 
 ​	在这个过程中，总共需要进行四次数据拷贝。而磁盘与内核态之间的数据拷贝，在操作系统层面已经由CPU拷贝优化成了DMA拷贝。而内核态与用户态之间的拷贝依然是CPU拷贝。所以，在这个场景下，零拷贝技术优化的重点，就是内核态与用户态之间的这两次拷贝。
 
 ​	而mmap文件映射的方式，就是在用户态不再保存文件的内容，而只保存文件的映射，包括文件的内存起始地址，文件大小等。真实的数据，也不需要在用户态留存，可以直接通过操作映射，在内核态完成数据复制。
 
-![image.png](https://note.youdao.com/yws/res/9583/WEBRESOURCE04fb8d02ec7cc67b37c812eeef699206)
+![image-20250103114137907](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031141968.png)
 
 ​	这个拷贝过程都是在操作系统的系统调用层面完成的，在Java应用层，其实是无法直接观测到的，但是我们可以去JDK源码当中进行间接验证。在JDK的NIO包中，java.nio.HeapByteBuffer映射的就是JVM的一块堆内内存，在HeapByteBuffer中，会由一个byte数组来缓存数据内容，所有的读写操作也是先操作这个byte数组。这其实就是没有使用零拷贝的普通文件读写机制。
 
@@ -1099,7 +1093,7 @@ public class BlockDemo {
 
 ​	通过Java指令运行起来后，可以用jps查看到运行的进程ID。然后，就可以使用lsof -p {PID}的方式查看文件的映射情况。
 
-![image.png](https://note.youdao.com/yws/res/9568/WEBRESOURCEb0fcf7589b8e3af7c10eb48bbb24fdf2)
+![image-20250103114203721](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031142813.png)
 
 这里面看到的mem类型的FD其实就是文件映射。
 
@@ -1117,14 +1111,15 @@ sourceReadChannel.transferTo(0,sourceFile.length(),targetWriteChannel);
 
 ​	还记得Kafka当中是如何使用零拷贝的吗？你应该看到过这样的例子，就是Kafka将文件从磁盘复制到网卡时，就大量的使用了零拷贝。百度去搜索一下零拷贝，铺天盖地的也都是拿这个场景在举例。
 
-![image.png](https://note.youdao.com/yws/res/9569/WEBRESOURCE6c6ea16607d16240eef3f9fae0e2c06f)
+![image-20250103114217957](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031142020.png)
 
 ​	早期的sendfile实现机制其实还是依靠CPU进行页缓存与socket缓存区之间的数据拷贝。但是，在后期的不断改进过程中，sendfile优化了实现机制，在拷贝过程中，并不直接拷贝文件的内容，而是只拷贝一个带有文件位置和长度等信息的文件描述符FD，这样就大大减少了需要传递的数据。而真实的数据内容，会交由DMA控制器，从页缓存中打包异步发送到socket中。
 
-![image.png](https://note.youdao.com/yws/res/9589/WEBRESOURCEa8b8b60a1c6445b87f8673e962856aed)
+![image-20250103114229208](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031142280.png)
 
 ​	为什么大家都喜欢用这个场景来举例呢？其实我们去看下Linux操作系统的man帮助手册就能看到一部分答案。使用指令man 2 sendfile就能看到Linux操作系统对于sendfile这个系统调用的手册。
-![image.png](https://note.youdao.com/yws/res/9570/WEBRESOURCE5a33593332929fa320e0550aa271e4d8)
+
+![image-20250103114258643](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031142710.png)
 
 ​	2.6.33版本以前的Linux内核中，out\_fd只能是一个socket，所以网上铺天盖地的老资料都是拿网卡来举例。但是现在版本已经没有了这个限制。
 
@@ -1137,6 +1132,3 @@ sourceReadChannel.transferTo(0,sourceFile.length(),targetWriteChannel);
 ​	Kafka官方详细分析过顺序写的性能提升问题。Kafka官方曾说明，顺序写的性能基本能够达到内存级别。而如果配备固态硬盘，顺序写的性能甚至有可能超过写内存。而RocketMQ很大程度上借鉴了Kafka的这种思想。
 
 ​	例如可以看下org.apache.rocketmq.store.CommitLog#DefaultAppendMessageCallback中的doAppend方法。在这个方法中，会以追加的方式将消息先写入到一个堆外内存byteBuffer中，然后再通过fileChannel写入到磁盘。
-
-> 有道云笔记链接：<https://note.youdao.com/s/b6nB9EWV>
-

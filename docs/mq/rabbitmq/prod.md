@@ -1,9 +1,3 @@
-
-
-[TOC]
-
-
-
 # 一、如何保证RabbitMQ服务高可用
 
 ## 1、RabbitMQ如何保证消息安全
@@ -14,7 +8,7 @@
 
 ​	其实对于RabbitMQ，一个节点的服务也是作为一个集群来处理的，在web控制台的admin-> cluster 中可以看到集群的名字，并且可以在页面上修改。
 
-![image.png](https://note.youdao.com/yws/res/9692/WEBRESOURCEacb7d90d7a96d05aa848fe1f57685df7)
+![image-20250103103423001](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031034060.png)
 
 ​	那么RabbitMQ是怎么考虑数据安全这回事的呢？实际上，RabbitMQ考虑了两种集群模式：
 
@@ -73,7 +67,7 @@ Starting node rabbit@worker1 ...
 
 加入完成后，可以在worker2的Web管理界面上看到集群的节点情况：
 
-![image.png](https://note.youdao.com/yws/res/9690/WEBRESOURCE9d90479eb54648c44dcbc6dcff309f7f)
+![image-20250103103512555](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031035601.png)
 
 > 也可以用后台指令查看集群状态  rabbitmqctl cluster\_status
 
@@ -94,7 +88,7 @@ Starting node rabbit@worker1 ...
 
 同样，这些配置的策略也可以在Web控制台操作。另外也提供了HTTP API来进行这些操作。
 
-![image.png](https://note.youdao.com/yws/res/9695/WEBRESOURCE29ace58a5d6d1fadcc7d2d6b7dc373e3)
+![image-20250103103529388](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031035450.png)
 
 > 这些参数需要大致了解下。其中，pattern是队列的匹配规则, ^表示全部匹配。 ^ ha \  这样的配置表示以ha开头。通常就用虚拟主机来区分就够了，这个队列匹配规则就配置成全匹配。
 >
@@ -124,7 +118,7 @@ Starting node rabbit@worker1 ...
 
 ​	这时最好的方案是使用Federation联邦插件给关键的RabbitMQ服务搭建一个备份服务。
 
-![image.png](https://note.youdao.com/yws/res/9693/WEBRESOURCE05ab6a3d8fb4eb9faa4b6e17b5411783)
+![image-20250103103555037](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031035088.png)
 
 ​	关于Federation插件的使用方式，在之前章节已经做过介绍，这里就不多做介绍了。
 
@@ -136,7 +130,7 @@ Starting node rabbit@worker1 ...
 
 ​	为了防止这种情况情况，可以在RabbitMQ之前部署一个Haproxy，这是一个TCP负载均衡工具。应用程序只需要访问haproxy的服务端口，Haproxy会将请求以负载均衡的方式转发到后端的RabbitMQ服务上。
 
-![image.png](https://note.youdao.com/yws/res/9694/WEBRESOURCE8592ca8bf4d5aa3401e176bd631cddf1)
+![image-20250103103739266](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031037307.png)
 
 ​	有了haproxy后，如果某一个RabbitMQ服务崩溃了，Haproxy会将请求往另外一个RabbitMQ服务转发，这样应用程序就不需要做IP切换了。此时，对于RabbitMQ来说，整个集群的服务是稳定的。
 
@@ -148,7 +142,7 @@ Starting node rabbit@worker1 ...
 
 ​	keepalived是一个搭建高可用服务的常见工具。 他会暴露出一个虚拟IP(VIP)，并将VIP绑定到不同的网卡上。引入keepalived后，可以将VIP先绑定在已有的Haproxy服务上，然后引入一个从Haproxy作为一个备份。 当主Haproxy服务出现异常后，keepalived可以将虚拟IP转为绑定到从Haproxy服务的网卡上，这个过程称为VIP漂移。而对于应用程序，自始至终只需要访问keepalived暴露出来的VIP，感知不到VIP漂移的过程。这样就保证了Haproxy服务的高可用性。
 
-![image.png](https://note.youdao.com/yws/res/9688/WEBRESOURCE871c0e1181444a3c065800dec8f97214)
+![image-20250103103806165](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031038211.png)
 
 ​	Haproxy+Keeperalived的组合是分布式场景中经常用到的一种高可用方案。他们的部署也不麻烦，就是下载+配置+运行即可。当然，这并不是我们的重点，只要了解即可。如果你对部署操作感兴趣，想要自己搭建一下的话，可以参考下这个文章：<https://www.yuque.com/xiaochuan-5hgfq/rqiea6/xc65icrse4kkokeh>  官网有对应的搭建视频。
 
@@ -160,7 +154,7 @@ Starting node rabbit@worker1 ...
 
 ​	**对于元数据，可以在Web管理页面通过json文件直接导出或导入。**
 
-![image.png](https://note.youdao.com/yws/res/9689/WEBRESOURCEddfedb067cd0ab616b8d6072bbe0ed9a)
+![image-20250103103825733](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031038786.png)
 
 ​	**而对于消息，可以手动进行备份恢复**
 
@@ -176,13 +170,13 @@ Starting node rabbit@worker1 ...
 
 ​	关于RabbitMQ的性能监控，在管理控制台中提供了非常丰富的展示。例如在下面这个简单的集群节点图中，就监控了非常多系统的关键资源。
 
-![image.png](https://note.youdao.com/yws/res/9696/WEBRESOURCEf923d0e5f6cb2592b107e730ea7e82d0)
+![image-20250103103922408](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031039464.png)
 
 ​	还包括消息的生产消费频率、关键组件使用情况等等非常多的信息，都可以从这个管理控制台上展现出来。但是，对于构建一个自动化的性能监控系统来说，这个管理页面就不太够用了。为此，RabbitMQ也提供了一系列的HTTP接口，通过这些接口可以非常全面的使用并管理RabbitMQ的各种功能。
 
 ​	这些HTTP的接口不需要专门去查手册，在部署的管理控制台页面下方已经集成了详细的文档，我们只需要打开HTTP API的页面就能看到。
 
-![image.png](https://note.youdao.com/yws/res/9691/WEBRESOURCE42335c0f25b617ef402c9eef7e982219)
+![image-20250103103947298](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031039369.png)
 
 ​	比如最常用的  http\://\[server\:port]/api/overview 接口，会列出非常多的信息，包含系统的资源使用情况。通过这个接口，就可以很好的对接Promethus、Grafana等工具，构建更灵活的监控告警体系。
 
@@ -198,7 +192,7 @@ Starting node rabbit@worker1 ...
 
 我们考虑一个通用的MQ场景：
 
-![image.png](https://note.youdao.com/yws/res/9697/WEBRESOURCE826481ef2e4ca511e97b8a95fcc2e61a)
+![image-20250103104004765](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031040818.png)
 
 ​	其中，1，2，4三个场景都是跨网络的，而跨网络就肯定会有丢消息的可能。
 
@@ -368,6 +362,3 @@ spring.rabbitmq.listener.simple.concurrency=5
 ​	虽然MQ的功能，说起来比较简单，但是随着MQ的应用逐渐深化，所需要解决的问题也更深入。对各种细化问题的挖掘程度，很大程度上决定了开发团队能不能真正Hold得住MQ产品。通常面向互联网的应用场景，更加注重MQ的吞吐量，需要将消息尽快的保存下来，再供后端慢慢消费。而针对企业内部的应用场景，更加注重MQ的数据安全性，在复杂多变的业务场景下，每一个消息都需要有更加严格的安全保障。而在当今互联网，Kafka是第一个场景的不二代表，但是他会丢失消息的特性，让kafka的使用场景比较局限。RabbitMQ作为一个老牌产品，是第二个场景最有力的代表。当然，随着互联网应用不断成熟，也不断有其他更全能的产品冒出来，比如阿里的RocketMQ以及雅虎的Pulsar。但是不管未来MQ领域会是什么样子，RabbitMQ依然是目前企业级最为经典也最为重要的一个产品。他的功能最为全面，周边生态也非常成熟，并且RabbitMQ有庞大的Spring社区支持，本身也在吸收其他产品的各种优点，持续进化，所以未来RabbitMQ的重要性也会更加凸显。
 
 ​	最后，整个课程内容其实是比较多的。同时为了让这些内容能够尽量让你接触到，所以整理出了大量的资料、配置、试验。希望能够带你深入理解RabbitMQ解决各种常见问题的思路。你可能对RabbitMQ这么个年代久远的产品有过了解，但是，课上这些资料、试验你还是一定要自己从头梳理一下。因为RabbitMQ这个产品，沉淀了这么多年，积累起来的业务经验实在是太多为了。你就算用过很多年RabbitMQ，也几乎不可能触摸到RabbitMQ的全部。并且在这个过程中，你一定能找到一些你平时没有注意的技术细节。这些细节或许就是你日后解决某一个实际问题的关键。
-
-> 有道云笔记链接：<https://note.youdao.com/s/Lno1d7P0>
-

@@ -1,16 +1,8 @@
-[TOC]
-
-<center>图灵：楼兰<br> RocketMQ核心编程模型以及生产环境最佳实践<br> 你的神秘技术宝藏</center>
-
-> 笔记配合视频课程一起学习
-
-​	上一部分，我们可以搭建RocketMQ集群，然后也可以用命令行往RocketMQ写入消息并进行消费了。这一部分我们就来看怎么在项目中用上RocketMQ。
-
 # 一、回顾RocketMQ的消息模型
 
 ​	上一章节我们从试验整理出了RocketMQ的消息模型，这也是我们使用RocketMQ时最直接的指导。
 
-![image.png](https://note.youdao.com/yws/res/9556/WEBRESOURCE401db1b76bdc883b586c5560e25e310b)
+![image-20250103110716564](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031107654.png)
 
 # 二、深入理解RocketMQ的消息模型
 
@@ -289,7 +281,9 @@ consumer.setMessageModel(MessageModel.BROADCASTING);
 
 ​	RocketMQ会通过定时任务不断尝试本地Offsets文件的写入，但是，如果本地Offsets文件写入失败，RocketMQ不会进行任何的补救。
 
-> 如果想要了解更多细节，可以看下我的博文： <https://blog.csdn.net/roykingw/article/details/126351010。这里也揭示了一个小问题，如果在Windows本地使用SpringBoot集成RocketMQ的话，广播消息的offset.json文件将无法保存。>
+> 如果想要了解更多细节，可以看下我的博文： https://blog.csdn.net/roykingw/article/details/126351010。
+>
+> 这里也揭示了一个小问题，如果在Windows本地使用SpringBoot集成RocketMQ的话，广播消息的offset.json文件将无法保存。
 
 ## 4、顺序消息机制
 
@@ -344,7 +338,7 @@ consumer.registerMessageListener(new MessageListenerOrderly() {
 
 ​	基础思路：只有放到一起的一批消息，才有可能保持消息的顺序。
 
-![image.png](https://note.youdao.com/yws/res/9550/WEBRESOURCEb71d36417c2dd8b405da1d86a67541cf)
+![image-20250103110811540](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031108595.png)
 
 ​	1、生产者只有将一批有顺序要求的消息，放到同一个MesasgeQueue上，Broker才有可能保持这一批消息的顺序。
 
@@ -382,13 +376,13 @@ msg.setDelayTimeLevel(3);
 
 ​	RocketMQ给消息定制了18个默认的延迟级别，分别对应18个不同的预设好的延迟时间。
 
-![image.png](https://note.youdao.com/yws/res/9546/WEBRESOURCEd53a260089c0e9f65f44e5f63d22a275)
+![image-20250103110834645](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031108686.png)
 
 **实现思路：**
 
-​	延迟消息的难点其实是性能，需要不断进行定时轮训。全部扫描所有消息是不可能的，RocketMQ的实现方式是预设一个系统Topic，名字叫做SCHEDULE\_TOPIC\_XXXX。在这个Topic下，预设18个延迟队列。然后每次只针对这18个队列里的消息进行延迟操作，这样就不用一直扫描所有的消息了。
+​	延迟消息的难点其实是性能，需要不断进行定时轮询。全部扫描所有消息是不可能的，RocketMQ的实现方式是预设一个系统Topic，名字叫做SCHEDULE\_TOPIC\_XXXX。在这个Topic下，预设18个延迟队列。然后每次只针对这18个队列里的消息进行延迟操作，这样就不用一直扫描所有的消息了。
 
-![image.png](https://note.youdao.com/yws/res/9553/WEBRESOURCEd3a041207ccc55167f835e8b60ae9825)
+![image-20250103110905305](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031109375.png)
 
 **注意点：**
 
@@ -429,7 +423,7 @@ msg.setDelayTimeLevel(3);
 
 ​	例如，某系统中给仓储系统分配一个Topic，在Topic下，会传递过来入库、出库等不同的消息，仓储系统的不同业务消费者就需要过滤出自己感兴趣的消息，进行不同的业务操作。
 
-![image.png](https://note.youdao.com/yws/res/9544/WEBRESOURCE87da9bbc25ee7639ba013470c24c7e80)
+![image-20250103110924066](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031109146.png)
 
 **示例代码1：简单过滤**
 
@@ -532,17 +526,17 @@ msg.setDelayTimeLevel(3);
 
 ​	以电商为例，用户支付订单这一核心操作的同时会涉及到下游物流发货、积分变更、购物车状态清空等多个子系统的变更。这种场景，非常适合使用RocketMQ的解耦功能来进行串联。
 
-![image.png](https://note.youdao.com/yws/res/9547/WEBRESOURCE27ad6dd6e1de14de0247dbb519e99987)
+![image-20250103110946155](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031109222.png)
 
 ​	考虑到事务的安全性，即要保证相关联的这几个业务一定是同时成功或者同时失败的。如果要将四个服务一起作为一个分布式事务来控制，可以做到，但是会非常麻烦。而使用RocketMQ在中间串联了之后，事情可以得到一定程度的简化。由于RocketMQ与消费者端有失败重试机制，所以，只要消息成功发送到RocketMQ了，那么可以认为Branch2.1，Branch2.2，Branch2.3这几个分支步骤，是可以保证最终的数据一致性的。这样，一个复杂的分布式事务问题，就变成了MinBranch1和Branch2两个步骤的分布式事务问题。
 
 ​	然后，在此基础上，RocketMQ提出了事务消息机制，采用两阶段提交的思路，保证Main Branch1和Branch2之间的事务一致性。
 
-![image.png](https://note.youdao.com/yws/res/9548/WEBRESOURCEb12d73bde8873d0d419584bd76d0435b)
+![image-20250103111004067](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031110134.png)
 
 ​	具体的实现思路是这样的：
 
-![image.png](https://note.youdao.com/yws/res/9551/WEBRESOURCE331be2d51b489b63652525dde2d43e04)
+![image-20250103111018030](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031110086.png)
 
 1.  生产者将消息发送至Apache RocketMQ服务端。
 2.  Apache RocketMQ服务端将消息持久化成功之后，向生产者返回Ack确认消息已经发送成功，此时消息被标记为"暂不能投递"，这种状态下的消息即为半事务消息。
@@ -568,11 +562,11 @@ msg.setDelayTimeLevel(3);
 
 ​	3、其实，了解了事务消息的机制后，在具体执行时，可以对事务流程进行适当的调整。
 
-![image.png](https://note.youdao.com/yws/res/9549/WEBRESOURCEc3473961a0c3069990bc54cee2a6f275)
+![image-20250103111037501](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031110575.png)
 
 ​	4、如果你还是感觉不到RocketMQ事务消息机制的作用，那么可以看看下面这个面试题：
 
-![image.png](https://note.youdao.com/yws/res/9545/WEBRESOURCE6687e8aeadfaf8ebd5d98b9054af5f0a)
+![image-20250103111057650](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031110719.png)
 
 ## 9、ACL权限控制机制
 
@@ -584,7 +578,7 @@ msg.setDelayTimeLevel(3);
 
 ​	1、RocketMQ针对每个Topic，就有完整的权限控制。比如，在控制平台中，就可以很方便的给每个Topic配置权限。
 
-![image.png](https://note.youdao.com/yws/res/9552/WEBRESOURCEef9208a4e84e3d5a70c5b854d04a8da7)
+![image-20250103111114183](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031111234.png)
 
 ​	perm字段表示Topic的权限。有三个可选项。 2：禁写禁订阅，4：可订阅，不能写，6：可写可订阅
 
@@ -954,11 +948,11 @@ private void initRocketMQPushConsumer() throws MQClientException {
 
 ## 3、关注错误消息重试
 
-    我们已经知道RocketMQ的消费者端，如果处理消息失败了，Broker是会将消息重新进行投送的。而在重试时，RocketMQ实际上会为每个消费者组创建一个对应的重试队列。重试的消息会进入一个 “%RETRY%”+ConsumeGroup  的队列中。
+我们已经知道RocketMQ的消费者端，如果处理消息失败了，Broker是会将消息重新进行投送的。而在重试时，RocketMQ实际上会为每个消费者组创建一个对应的重试队列。重试的消息会进入一个 “%RETRY%”+ConsumeGroup  的队列中。
 
-![image.png](https://note.youdao.com/yws/res/9554/WEBRESOURCE77a358d80e635c8c27a132711a67766d)
+![image-20250103111209804](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031112861.png)
 
-​	多关注重试队列，可以及时了解消费者端的运行情况。这个队列中出现了大量的消息，就意味着消费者的运行出现了问题，要及时跟踪进行干预。
+多关注重试队列，可以及时了解消费者端的运行情况。这个队列中出现了大量的消息，就意味着消费者的运行出现了问题，要及时跟踪进行干预。
 
 然后RocketMQ默认允许每条消息最多重试16次，每次重试的间隔时间如下：
 
@@ -997,7 +991,7 @@ private void initRocketMQPushConsumer() throws MQClientException {
 
 ​	死信队列的名称是%DLQ%+ConsumGroup
 
-![image.png](https://note.youdao.com/yws/res/9555/WEBRESOURCE1daaf3d4b79b66ee958b31522856fc65)
+![image-20250103111244576](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031112631.png)
 
 **死信队列的特征：**
 
@@ -1056,6 +1050,3 @@ private void initRocketMQPushConsumer() throws MQClientException {
 ​	而要处理这个问题，RocketMQ的每条消息都有一个唯一的MessageId，这个参数在多次投递的过程中是不会改变的，所以业务上可以用这个MessageId来作为判断幂等的关键依据。
 
 ​	但是，这个MessageId是无法保证全局唯一的，也会有冲突的情况。所以在一些对幂等性要求严格的场景，最好是使用业务上唯一的一个标识比较靠谱。例如订单ID。而这个业务标识可以使用Message的Key来进行传递。
-
-> 有道云笔记链接：<https://note.youdao.com/s/A1mDpqzA>
-

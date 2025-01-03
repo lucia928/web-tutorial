@@ -1,9 +1,3 @@
-[TOC]
-
-<center>图灵：楼兰<br> RocketMQ快速实战以及核心概念详解<br> 你的神秘技术宝藏</center>
-
-> 笔记配合视频课程一起学习
-
 # 一、MQ简介
 
 ​	MQ：MessageQueue，消息队列。是在互联网中使用非常广泛的一系列服务中间件。 这个词可以分两个部分来看，一是Message：消息。消息是在不同进程之间传递的数据。这些进程可以部署在同一台机器上，也可以分布在不同机器上。二是Queue：队列。队列原意是指一种具有FIFO(先进先出)特性的数据结构，是用来缓存数据的。对于消息中间件产品来说，能不能保证FIFO特性，尚值得考量。但是，所有消息队列都是需要具备存储消息，让消息排队的能力。
@@ -17,8 +11,8 @@ MQ的作用主要有以下三个方面：
     例子：快递员发快递，直接到客户家效率会很低。引入菜鸟驿站后，快递员只需要把快递放到菜鸟驿站，就可以继续发其他快递去了。客户再按自己的时间安排去菜鸟驿站取快递。
 
     作用：异步能提高系统的响应速度、吞吐量。
-
-![image.png](https://note.youdao.com/yws/res/9526/WEBRESOURCEaeedf0a36b4757196364ba5882e0addf)
+    
+    ![image-20250103104646168](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031046209.png)
 
 *   解耦
 
@@ -29,16 +23,16 @@ MQ的作用主要有以下三个方面：
     1、服务之间进行解耦，才可以减少服务之间的影响。提高系统整体的稳定性以及可扩展性。
 
     2、另外，解耦后可以实现数据分发。生产者发送一个消息后，可以由一个或者多个消费者进行消费，并且消费者的增加或者减少对生产者没有影响。
-
-![image.png](https://note.youdao.com/yws/res/9535/WEBRESOURCE76c2e512b8a6344c5f9a09b444c75ef8)
+    
+    ![image-20250103104710054](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031047098.png)
 
 *   削峰
 
     例子：长江每年都会涨水，但是下游出水口的速度是基本稳定的，所以会涨水。引入三峡大坝后，可以把水储存起来，下游慢慢排水。
 
     作用：以稳定的系统资源应对突发的流量冲击。
-
-![image.png](https://note.youdao.com/yws/res/9540/WEBRESOURCEb3d6cdd33d64b33ec8c923e3e6350418)
+    
+    ![image-20250103104724883](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031047927.png)
 
 # 二、RocketMQ产品特点
 
@@ -65,9 +59,7 @@ MQ的作用主要有以下三个方面：
 
 ## 1、快速搭建RocketMQ服务
 
-​	RocketMQ的官网地址： <http://rocketmq.apache.org> 。在下载页面可以获取RocketMQ的源码包以及运行包。下载页面地址：<https://rocketmq.apache.org/download。>
-
-![image.png](https://note.youdao.com/yws/res/9527/WEBRESOURCE1fb163e04d6abc00bb6abc3a94b80f5e)
+​	RocketMQ的官网地址： <http://rocketmq.apache.org> 。在下载页面可以获取RocketMQ的源码包以及运行包。[下载页面地址](https://rocketmq.apache.org/download)。
 
 ​	当前最新的版本是5.x，这是一个着眼于云原生的新版本，给 RocketMQ 带来了非常多很亮眼的新特性。但是目前来看，企业中用得还比较少。因此，我们这里采用的还是更为稳定的4.9.5版本。
 
@@ -79,7 +71,7 @@ MQ的作用主要有以下三个方面：
 
 ​	运行只需要下载Binary运行版本就可以了。 当然，源码包也建议下载下来，后续会进行解读。运行包下载下来后，就可以直接解压，上传到服务器上。我们这里会上传到/app/rocketmq目录。解压后几个重要的目录如下:
 
-![image.png](https://note.youdao.com/yws/res/9539/WEBRESOURCE1ee5ece611da075caeef24e60e6a6659)
+![image-20250103104839436](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031048485.png)
 
 ​	接下来，RocketMQ建议的运行环境需要至少12G的内存，这是生产环境比较理想的资源配置。但是，学习阶段，如果你的服务器没有这么大的内存空间，那么就需要做一下调整。进入bin目录，对其中的runserver.sh和runbroker.sh两个脚本进行一下修改。
 
@@ -321,7 +313,7 @@ public class Consumer {
 
 ​	Dashboard服务并不在RocketMQ的运行包中，需要到RocketMQ的官网下载页面单独下载。
 
-![image.png](https://note.youdao.com/yws/res/9541/WEBRESOURCE95e53c20cbe9fc9a5088454073e370dc)
+![image-20250103104914980](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031049030.png)
 
 ​	这里只提供了源码，并没有提供直接运行的jar包。将源码下载下来后，需要解压并进入对应的目录，使用maven进行编译。(需要提前安装maven客户端)
 
@@ -350,9 +342,9 @@ rocketmq:
 java -jar rocketmq-dashboard-1.0.1-SNAPSHOT.jar
 ```
 
-​	应用启动完成后，会在服务器上搭建起一个web服务，我们就可以通过访问<http://192.168.232.128:8080查看到管理页面。>
+​	应用启动完成后，会在服务器上搭建起一个web服务，我们就可以通过访问`http://192.168.232.128:8080`查看到管理页面。
 
-![image.png](https://note.youdao.com/yws/res/9538/WEBRESOURCEf194412eac98a2e581c677634bb6ec8b)
+![image-20250103104942136](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031049203.png)
 
 ​	这个管理控制台的功能非常全面。驾驶舱页面展示RocketMQ近期的运行情况。运维页面主要是管理nameserver服务。集群页面主要管理RocketMQ的broker服务。很多信息都一目了然。在之后的过程中，我们也会逐渐了解DashBoard管理页面中更多的细节。
 
@@ -364,7 +356,7 @@ java -jar rocketmq-dashboard-1.0.1-SNAPSHOT.jar
 
 ​	整个集群方案如下图所示：
 
-![image.png](https://note.youdao.com/yws/res/9531/WEBRESOURCE828dd3f51f63d6642877ad99c28514b9)
+![image-20250103105008282](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031050333.png)
 
 ​	接下来我们准备三台相同的Linux服务器，搭建一下RocketMQ的分布式集群。为了更清晰的描述这三台服务器上的操作，我们给每个服务器指定一个机器名。
 
@@ -598,7 +590,7 @@ rocketmq:
 
 ​	启动完成后，在集群菜单页就可以看到集群的运行情况
 
-![image.png](https://note.youdao.com/yws/res/9528/WEBRESOURCE91238717cfe2d5fc2eca16b5b74d448d)
+![image-20250103105136343](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031051404.png)
 
 ​	在RocketMQ的这种主从架构的集群下，客户端发送的消息会分散保存到broker-a和broker-b两个服务上，然后每个服务都配有slave服务，可以备份对应master服务上的消息，这样就可以防止单点故障造成的消息丢失问题。
 
@@ -614,7 +606,7 @@ rocketmq:
 
 ​	整个集群结构如下图所示：
 
-![image.png](https://note.youdao.com/yws/res/9533/WEBRESOURCE42440082d829ae33eacab76a0287fa96)
+![image-20250103105157176](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031051231.png)
 
 ​	在Dledger集群中，就不再单独指定各个broker的服务，而是由这些broker服务自行进行选举，产生一个Leader角色的服务，响应客户端的各种请求。而其他的broker服务，就作为Follower角色，负责对Leader上的数据进行备份。当然，Follower所要负责的事情，比主从架构中的SLAVE角色会要复杂一点，因为这种节点选举是在后端不断进行的，他们需要随时做好升级成Leader的准备。
 
@@ -730,7 +722,7 @@ nohup bin/mqbroker -c conf/dledger/broker.conf &
 
 ​	我们可以在Dashboard控制台的集群菜单页看到Dledger集群的运行状况。
 
-![image.png](https://note.youdao.com/yws/res/9529/WEBRESOURCE96eb854d5d3236693b60ff3810afedcd)
+![image-20250103105228744](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031052808.png)
 
 ​	从整个配置过程中可以看到，我们并没有指定每个节点的角色，而Dledger集群就自动将192.168.232.129也就是worker2上的broker服务选举成了master。
 
@@ -789,7 +781,7 @@ nohup bin/mqbroker -c conf/dledger/broker.conf &
 
 ​	下图是RocketMQ运行时的整体架构：
 
-![image.png](https://note.youdao.com/yws/res/9534/WEBRESOURCE5dad85a3218667451333d350c23e64a5)
+![image-20250103105246851](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031052912.png)
 
 ​	接下来，我们就完整梳理一下RocketMQ中各个组件的作用：
 
@@ -821,17 +813,19 @@ tools.sh org.apache.rocketmq.example.quickstart.Producer
 
 ​	Producer这个测试类，会往RocketMQ中发送一千条测试消息。发送消息后，我们可以在控制台看到很多如下的日志信息。
 
-    SendResult [sendStatus=SEND_OK, msgId=7F000001426E28A418FC6545DFD803E7, offsetMsgId=C0A8E88100002A9F0000000000B4F6E5, messageQueue=MessageQueue [topic=TopicTest, brokerName=broker-a, queueId=2], queueOffset=124]
+```shell
+SendResult [sendStatus=SEND_OK, msgId=7F000001426E28A418FC6545DFD803E7, offsetMsgId=C0A8E88100002A9F0000000000B4F6E5, messageQueue=MessageQueue [topic=TopicTest, brokerName=broker-a, queueId=2], queueOffset=124]
+```
 
 ​	这是RocketMQ的Broker服务端给消息生产者的响应。这个响应信息代表的是Broker服务端已经正常接收并保存了消息生产者发送的消息。这里面提到了很多topic、messageQueue等概念，这些是什么意思呢？我们不妨先去RocketMQ的DashBoard控制台看一下RocketMQ的Broker是如何保存这些消息的。
 
 ​	访问DashBoard上的“主题”菜单，可以看到多了一个名为TopicTest的主题。
 
-![image.png](https://note.youdao.com/yws/res/9532/WEBRESOURCE8d342e04b0d595b842cacab00d05cf23)
+![image-20250103105307731](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031053788.png)
 
 ​	这个TopicTest就是我们之前运行的Producer创建的主题。点击“状态”按钮，可以看到TopicTest上的消息分布。
 
-![image.png](https://note.youdao.com/yws/res/9530/WEBRESOURCEb1590dd4d6bed322e722f96816134a3d)
+![image-20250103105326312](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031053382.png)
 
 ​	从这里可以看到，TopicTest这个话题下，分配了八个MessageQueue。这里的MessageQueue就是一个典型的具有FIFO（先进先出）特性的消息集合。这八个MessageQueue均匀的分布在了集群中的两个Broker服务上。每个MesasgeQueue都记录了一个最小位点和最大位点。这里的位点代表每个MessageQueue上存储的消息的索引，也称为offset(偏移量)。每一条新记录的消息，都按照当前最大位点往后分配一个新的位点。这个位点就记录了这一条消息的存储位置。
 
@@ -839,7 +833,7 @@ tools.sh org.apache.rocketmq.example.quickstart.Producer
 
 ​	这是，再回头来看之前日志中打印的SendResult的信息。日志中的MessageQueue就代表这一条消息存在哪个队列上了。而queueOffset就表示这条消息记录在MessageQueue的哪个位置。
 
-![image.png](https://note.youdao.com/yws/res/9542/WEBRESOURCEa41f4ef69dd509e59375713570e4a2f7)
+![image-20250103105340824](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031053879.png)
 
 **然后：我们尝试启动一个消费者来消费消息**
 
@@ -851,7 +845,9 @@ tools.sh org.apache.rocketmq.example.quickstart.Consumer
 
 ​	这个Consumer同样是RocketMQ下的lib/rocketmq-example-4.9.5.jar中提供的消费者示例。Consumer启动完成后，我们可以在控制台看到很多类似这样的日志：
 
-    ConsumeMessageThread_3 Receive New Messages: [MessageExt [brokerName=broker-b, queueId=0, storeSize=194, queueOffset=95, sysFlag=0, bornTimestamp=1666252677571, bornHost=/192.168.232.128:38414, storeTimestamp=1666252678510, storeHost=/192.168.232.130:10911, msgId=C0A8E88200002A9F0000000000B4ADD2, commitLogOffset=11840978, bodyCRC=634652396, reconsumeTimes=0, preparedTransactionOffset=0, toString()=Message{topic='TopicTest', flag=0, properties={MIN_OFFSET=0, MAX_OFFSET=125, CONSUME_START_TIME=1666257428525, UNIQ_KEY=7F000001426E28A418FC6545DDC302F9, CLUSTER=rocketmq-cluster, TAGS=TagA}, body=[72, 101, 108, 108, 111, 32, 82, 111, 99, 107, 101, 116, 77, 81, 32, 55, 54, 49], transactionId='null'}]] 
+```shell
+ConsumeMessageThread_3 Receive New Messages: [MessageExt [brokerName=broker-b, queueId=0, storeSize=194, queueOffset=95, sysFlag=0, bornTimestamp=1666252677571, bornHost=/192.168.232.128:38414, storeTimestamp=1666252678510, storeHost=/192.168.232.130:10911, msgId=C0A8E88200002A9F0000000000B4ADD2, commitLogOffset=11840978, bodyCRC=634652396, reconsumeTimes=0, preparedTransactionOffset=0, toString()=Message{topic='TopicTest', flag=0, properties={MIN_OFFSET=0, MAX_OFFSET=125, CONSUME_START_TIME=1666257428525, UNIQ_KEY=7F000001426E28A418FC6545DDC302F9, CLUSTER=rocketmq-cluster, TAGS=TagA}, body=[72, 101, 108, 108, 111, 32, 82, 111, 99, 107, 101, 116, 77, 81, 32, 55, 54, 49], transactionId='null'}]] 
+```
 
 ​	这里面也打印出了一些我们刚刚熟悉的brokerName，queueId，queueOffset这些属性。其中queueOffset属性就表示这一条消息在MessageQueue上的存储位点。通过记录每一个消息的Offset偏移量，RocketMQ就可以快速的定位到这一条消息具体的存储位置，继而正确读取到消息的内容。
 
@@ -859,7 +855,7 @@ tools.sh org.apache.rocketmq.example.quickstart.Consumer
 
 ​	在DashBoard的“主题”页面，选择对应主题后的“CONSUMER管理”功能，就能看到消费者的消费情况。
 
-![image.png](https://note.youdao.com/yws/res/9536/WEBRESOURCE44e0701c9c8e7937eeb675c0f65c0406)
+![image-20250103105409540](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031054611.png)
 
 ​	从这里可以看到，刚才的Comsumer示例启动了一个叫做please\_rename\_unique\_group\_name\_4的消费者组。然后这个消费者从八个队列中都消费了数据。后面的代理者位点记录的是当前MessageQueue上记录的最大消息偏移量。而消费者位点记录的是当前消费者组在MessageQueue上消费的最大消息偏移量。其中的差值就表示当前消费者组没有处理完的消息。
 
@@ -869,10 +865,11 @@ tools.sh org.apache.rocketmq.example.quickstart.Consumer
 
 ​	对之前的实验过程进行梳理，我们就能抽象出RocketMQ的消息模型。如下图所示：
 
-![image.png](https://note.youdao.com/yws/res/9537/WEBRESOURCE91df231d6b3fe2c09c722f2bd7371523)\
-​	生产者和消费者都可以指定一个Topic发送消息或者拉取消息。而Topic是一个逻辑概念。Topic中的消息会分布在后面多个MessageQueue当中。这些MessageQueue会分布到一个或者多个broker中。
+![image-20250103105425796](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031054863.png)
 
-​	在RocketMQ的这个消息模型当中，最为核心的就是Topic。对于客户端，Topic代表了一类有相同业务规则的消息。对于Broker，Topic则代表了系统中一系列存储消息的资源。所以，RocketMQ对于Topic是需要做严格管理的。如果任由客户端随意创建Topic，那么服务端的资源管理压力就会非常大。默认情况下，Topic都需要由管理员在RocketMQ的服务端手动进行创建，然后才能给客户端使用的。而我们之前在broker.conf中手动添加的autoCreateTopic=true，就是表示可以由客户端自行创建Topic。这种配置方式显然只适用于测试环境，在生产环境不建议打开这个配置项。如果需要创建 Topic，可以交由运维人员提前创建 Topic。
+生产者和消费者都可以指定一个Topic发送消息或者拉取消息。而Topic是一个逻辑概念。Topic中的消息会分布在后面多个MessageQueue当中。这些MessageQueue会分布到一个或者多个broker中。
+
+在RocketMQ的这个消息模型当中，最为核心的就是Topic。对于客户端，Topic代表了一类有相同业务规则的消息。对于Broker，Topic则代表了系统中一系列存储消息的资源。所以，RocketMQ对于Topic是需要做严格管理的。如果任由客户端随意创建Topic，那么服务端的资源管理压力就会非常大。默认情况下，Topic都需要由管理员在RocketMQ的服务端手动进行创建，然后才能给客户端使用的。而我们之前在broker.conf中手动添加的autoCreateTopic=true，就是表示可以由客户端自行创建Topic。这种配置方式显然只适用于测试环境，在生产环境不建议打开这个配置项。如果需要创建 Topic，可以交由运维人员提前创建 Topic。
 
 ​	而对于业务来说，最为重要的就是消息Message了。生产者发送到某一个Topic下的消息，最终会保存在Topic下的某一个MessageQueue中。而消费者来消费消息时，RocketMQ会在Broker端给每个消费者组记录一个消息的消费位点Offset。通过Offset控制每个消费者组的消息处理进度。这样，每一条消息，在一个消费者组当中只被处理一次。
 
@@ -885,6 +882,3 @@ tools.sh org.apache.rocketmq.example.quickstart.Consumer
 ​	这一章节，主要是快速熟悉RocketMQ产品，并通过操作，理解总结RocketMQ的运行架构以及消息模型。这些抽象的模型和架构，实际上就体现了MQ产品最为核心的设计思想。如果可以的话，最好对比之间介绍过的RabbitMQ和Kafka，将这几个产品进行横向对比，这样就更能理解设计的精髓。
 
 ​	当然，这只是一个基础的消息模型。在面对具体业务时，RocketMQ在这个消息模型的基础上，进行了大量的业务封装。下一章节就会着重了解RocketMQ针对各种业务场景设计的消息功能。
-
-> 有道云笔记链接：<https://note.youdao.com/s/ToneNeza>
-

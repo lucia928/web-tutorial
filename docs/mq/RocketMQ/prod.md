@@ -1,7 +1,3 @@
-[TOC]
-
-<center>图灵：楼兰<br> RocketMQ生产环境常见问题分析<br> 你的神秘技术宝藏</center>
-
 # 一、RocketMQ如何保证消息不丢失
 
 ​	这个是在面试时，关于MQ，面试官最喜欢问的问题。这个问题是所有MQ都需要面对的一个共性问题。大致的解决思路都是一致的，但是针对不同的MQ产品又有不同的解决方案。分析这个问题要从以下几个角度入手：
@@ -10,7 +6,7 @@
 
 我们考虑一个通用的MQ场景：
 
-![image.png](https://note.youdao.com/yws/res/9630/WEBRESOURCEcd78fbeca3a4e2f9b71918a7896eb0bb)
+![image-20250103111549024](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031115082.png)
 
 其中，1，2，4三个场景都是跨网络的，而跨网络就肯定会有丢消息的可能。
 
@@ -26,7 +22,7 @@
 
 ​	但是如果深入一点的话，我们还是要理解下这个事务消息到底是不是靠谱。我们以最常见的电商订单场景为例，来简单分析下事务消息机制如何保证消息不丢失。我们看下下面这个流程图：
 
-![image.png](https://note.youdao.com/yws/res/9625/WEBRESOURCE315305bdfb24317933d5ba63667ca885)
+![image-20250103111605563](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031116601.png)
 
 **1、为什么要发送个half消息？有什么用？**
 
@@ -70,7 +66,7 @@
 
 **2、Dledger的文件同步**
 
-![image.png](https://note.youdao.com/yws/res/9628/WEBRESOURCE0a299ec12bd638fd39704b527d441339)
+![image-20250103111626578](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031116638.png)
 
 ​	在使用Dledger技术搭建的RocketMQ集群中，Dledger会通过两阶段提交的方式保证文件在主从之间成功同步。
 
@@ -144,7 +140,7 @@
 
 ​	在Web控制台的主题页面，可以通过 Consumer管理 按钮实时看到消息的积压情况。
 
-![image.png](https://note.youdao.com/yws/res/9624/WEBRESOURCEc9526b3081e4a446b325f7c8ecb90bc1)
+![image-20250103111648602](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031116654.png)
 
 ​	另外，也可以通过mqadmin指令在后台检查各个Topic的消息延迟情况。
 
@@ -154,7 +150,7 @@
 
 ​	首先，如果消息不是很重要，那么RocketMQ的管理控制台就直接提供了跳过堆积的功能。
 
-![image.png](https://note.youdao.com/yws/res/9629/WEBRESOURCE8d5156ef89ee23e8c72f862230c1dea0)
+![image-20250103111703241](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031117293.png)
 
 ​	然后，如果消息很重要，又确实是因为消费者端处理能力不不够，造成消息大量积压，那么我们可以设计出一套消息转移的方案。
 
@@ -181,7 +177,9 @@ RocketMQ默认提供了消息轨迹的功能，这个功能在排查问题时是
 
 打开消息轨迹功能，需要在broker.conf中打开一个关键配置：
 
-    traceTopicEnable=true
+```shell
+traceTopicEnable=true
+```
 
 这个配置的默认值是false。也就是说默认是关闭的。
 
@@ -189,11 +187,11 @@ RocketMQ默认提供了消息轨迹的功能，这个功能在排查问题时是
 
 默认情况下，消息轨迹数据是存于一个系统级别的Topic ,RMQ\_SYS\_TRACE\_TOPIC。这个Topic在Broker节点启动时，会自动创建出来。
 
-![image.png](https://note.youdao.com/yws/res/9627/WEBRESOURCE77cd6a24fe2ce3b031a910c5e0865ded)
+![image-20250103111742723](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031117787.png)
 
-​	打开消息轨迹后，在管理控制台就可以根据Key或者MessageId，查询消息在RocketMQ内的处理过程。
+打开消息轨迹后，在管理控制台就可以根据Key或者MessageId，查询消息在RocketMQ内的处理过程。
 
-![image.png](https://note.youdao.com/yws/res/9626/WEBRESOURCEe1ec2af84103a1a3b7f9bbf70f818a8e)
+![image-20250103111759733](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031117788.png)
 
 ​	另外，也支持客户端自定义轨迹数据存储的Topic。
 
@@ -206,7 +204,7 @@ RocketMQ默认提供了消息轨迹的功能，这个功能在排查问题时是
 
 ### 1 JVM选项
 
-    推荐使用最新发布的JDK 1.8版本。通过设置相同的Xms和Xmx值来防止JVM调整堆大小以获得更好的性能。简单的JVM配置如下所示：
+推荐使用最新发布的JDK 1.8版本。通过设置相同的Xms和Xmx值来防止JVM调整堆大小以获得更好的性能。简单的JVM配置如下所示：
 
 `-server -Xms8g -Xmx8g -Xmn4g`
 如果您不关心RocketMQ Broker的启动时间，还有一种更好的选择，就是通过“预触摸”Java堆以确保在JVM初始化期间每个页面都将被分配。那些不关心启动时间的人可以启用它： -XX:+AlwaysPreTouch禁用偏置锁定可能会减少JVM暂停， -XX:-UseBiasedLocking。至于垃圾回收，建议使用带JDK 1.8的G1收集器。
@@ -233,7 +231,7 @@ RocketMQ默认提供了消息轨迹的功能，这个功能在排查问题时是
 
 ### 2 Linux内核参数
 
-    RocketMQ的启动脚本中提供了一个os.sh脚本，在这个脚本中列出了许多建议的内核参数，可以进行微小的更改然后用于生产用途。下面的参数需要注意，更多细节请参考/proc/sys/vm/*的文档
+RocketMQ的启动脚本中提供了一个os.sh脚本，在这个脚本中列出了许多建议的内核参数，可以进行微小的更改然后用于生产用途。下面的参数需要注意，更多细节请参考`/proc/sys/vm/*`的文档。
 
 *   **vm.extra\_free\_kbytes**，告诉VM在后台回收（kswapd）启动的阈值与直接回收（通过分配进程）的阈值之间保留额外的可用内存。RocketMQ使用此参数来避免内存分配中的长延迟。（与具体内核版本相关）
 *   **vm.min\_free\_kbytes**，如果将其设置为低于1024KB，将会巧妙的将系统破坏，并且系统在高负载下容易出现死锁。
@@ -241,6 +239,3 @@ RocketMQ默认提供了消息轨迹的功能，这个功能在排查问题时是
 *   **vm.swappiness**，定义内核交换内存页面的积极程度。较高的值会增加攻击性，较低的值会减少交换量。建议将值设置为10来避免交换延迟。
 *   **File descriptor limits**，RocketMQ需要为文件（CommitLog和ConsumeQueue）和网络连接打开文件描述符。我们建议设置文件描述符的值为655350。
 *   Disk scheduler，RocketMQ建议使用I/O截止时间调度器，它试图为请求提供有保证的延迟。
-
-> 有道云笔记链接：<https://note.youdao.com/s/NCReOZ6y>
-
