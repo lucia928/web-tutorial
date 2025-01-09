@@ -602,7 +602,7 @@ function getMicroservicesSiderBar() {
         },
         {
           text: "微服务架构的技术选型",
-          link: "/docs/microservices/orverview/orverview.md"
+          link: "/docs/microservices/orverview/technology-selection.md"
         },
       ]
     },
@@ -612,20 +612,16 @@ function getMicroservicesSiderBar() {
       items: [
         {
           text: "Nacos概览",
-          link: "/docs/microservices/nacos/"
+          link: "/docs/microservices/nacos/overview.md"
         },
         {
           text: "整合Nacos",
-          link: "/docs/microservices/nacos/"
+          link: "/docs/microservices/nacos/integration.md"
         },
         {
-          text: "Nacos集群搭建",
-          link: "/docs/microservices/nacos/"
-        },
-        {
-          text: "Nacos配置中心",
-          link: "/docs/microservices/nacos/"
-        },
+          text: "Nacos源码分析",
+          link: "/docs/microservices/nacos/source-code.md"
+        }
       ]
     },
     {
@@ -633,13 +629,13 @@ function getMicroservicesSiderBar() {
       collapsed: false,
       items: [
         {
-          text: "Feign概览",
-          link: "/docs/microservices/open-feign/"
+          text: "Feign入门与实战",
+          link: "/docs/microservices/open-feign/overview.md"
         },
-        {
-          text: "Feign设计架构",
-          link: "/docs/microservices/open-feign/"
-        },
+        // {
+        //   text: "Feign设计架构",
+        //   link: "/docs/microservices/open-feign/architecture-design.md"
+        // },
       ]
     },
     {
@@ -666,19 +662,19 @@ function getMicroservicesSiderBar() {
       items: [
         {
           text: "分布式事务与两阶段提交",
-          link: "/docs/microservices/open-feign/"
+          link: "/docs/microservices/transactional/twophase-commit.md"
         },
         {
           text: "Seata概览",
-          link: "/docs/microservices/open-feign/"
+          link: "/docs/microservices/transactional/overview.md"
         },
         {
           text: "Seata AT、XA、TCC模式",
-          link: "/docs/microservices/open-feign/"
+          link: "/docs/microservices/transactional/detail.md"
         },
         {
           text: "Seata源码分析",
-          link: "/docs/microservices/open-feign/"
+          link: "/docs/microservices/transactional/source-code.md"
         },
       ]
     },
@@ -687,12 +683,8 @@ function getMicroservicesSiderBar() {
       collapsed: false,
       items: [
         {
-          text: "Spring Cloud Gateway概览",
-          link: "/docs/microservices/gateway/"
-        },
-        {
-          text: "Spring Cloud Gateway实战",
-          link: "/docs/microservices/gateway/"
+          text: "Spring Cloud Gateway入门与实战",
+          link: "/docs/microservices/gateway/overview.md"
         },
       ]
     },
@@ -702,7 +694,7 @@ function getMicroservicesSiderBar() {
       items: [
         {
           text: "Skywalking概览",
-          link: "/docs/microservices/skywalking/"
+          link: "/docs/microservices/skywalking/orverview.md"
         },
         {
           text: "Skywalking使用",
@@ -720,15 +712,15 @@ function getMicroservicesSiderBar() {
       items: [
         {
           text: "Spring Security 实战",
-          link: "/docs/microservices/auth/"
+          link: "/docs/microservices/auth/spring-security.md"
         },
         {
           text: "OAuth 2.0协议",
-          link: "/docs/microservices/auth/"
+          link: "/docs/microservices/auth/oauth.md"
         },
         {
           text: "微服务网关整合OAuth 2.0",
-          link: "/docs/microservices/auth/"
+          link: "/docs/microservices/auth/gateway-oauth.md"
         },
       ]
     },
