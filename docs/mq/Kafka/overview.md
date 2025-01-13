@@ -492,6 +492,3 @@ Formatting /app/kafka/kraft-log with metadata.version 3.4-IV0.
 ```
 
 ​	等三个服务都启动完成后，就可以像普通集群一样去创建Topic，并维护Topic的信息了。
-
-> 有道云笔记链接： <https://note.youdao.com/s/SWir3cKo>
-

@@ -1,12 +1,10 @@
-[TOC]
-
 # 一、MQ介绍
 
 ## 1、什么是MQ？为什么要用MQ？
 
 ChatGPT中对于消息队列的介绍是这样的：
 
-​什么是消息队列?
+什么是消息队列?
 
 &#x20;消息队列是一种在应用程序之间传递消息的技术。它提供了一种异步通信模式，允许应用程序在不同的时间处理消息。消息队列通常用于解耦应用程序，以便它们可以独立地扩展和修改。在消息队列中，消息发送者将消息发送到队列中，然后消息接收者从队列中接收消息。这种模式允许消息接收者按照自己的节奏处理消息，而不必等待消息发送者处理完消息。常见的消息队列包括RabbitMQ、Kafka和ActiveMQ等。&#x9;
 
@@ -69,7 +67,7 @@ public class AppDemo implements CommandLineRunner {
 
 ​	好了。不用添加配置文件，直接启动就行。 然后可以看到这样的结果：
 
-![image.png](https://note.youdao.com/yws/res/9648/WEBRESOURCE4010f78662d77e27221ee7bc9c882749)
+![image-20250103100045853](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031000951.png)
 
 > 扩展问题：MyApplicationListener使用@Component注解加入Spring容器和这样手动添加监听有什么区别？
 
@@ -79,7 +77,7 @@ public class AppDemo implements CommandLineRunner {
 
 ​	直接监听肯定是不行的，因为SpringBoot中的这些事件只在应用内部有效。因此，需要独立出一个中间服务，这样才可以去统一接收SpringBoot应用的这些事件。
 
-![image.png](https://note.youdao.com/yws/res/9642/WEBRESOURCE17c01eea226ab74b77b60731fd56caf6)
+![image-20250103100120714](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031001760.png)
 
 ​	这时这个神秘的中间服务要保证这些系统可以正常工作，应该要有哪些特性呢？
 
@@ -91,7 +89,7 @@ public class AppDemo implements CommandLineRunner {
 
 ​	而MQ也就是为了这样的场景创建的中间服务。MQ中间件在很多业务场景中都扮演着很重要的角色。例如下图是一个典型的秒杀场景业务图：
 
-![image.png](https://note.youdao.com/yws/res/9647/WEBRESOURCEc8daf8ecca1b4fd411320215923092b8)
+![image-20250103100143001](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031001057.png)
 
 ​	在后面的实战项目中，会带大家从头到尾搭建一个这样的秒杀系统。在这其中，对于后端最重要的优化就是使用MQ。在典型的秒杀场景，瞬间产生的大量下单请求很容易让后端的下单服务崩溃。这时，就可以让下单系统将订单消息发送到MQ中间暂存起来，而后端的额下单服务就可以从MQ中获取数据，按照自己的处理能力，慢慢进行下单。另外，下单是一个比较复杂的业务，需要通知支付系统、库存系统、物流系统、营销系统等大量的下游系统。下单系统光一个个通知这些系统，就会需要很长时间。这时，就可以将下单完成的消息发送到MQ，然后下游的各种系统可以从MQ中获取下单完成的消息，进行异步处理。这样也能极大提高下单系统的性能。
 
@@ -117,7 +115,7 @@ public class AppDemo implements CommandLineRunner {
 
 ​	所以MQ通常用起来比较简单，但是实现上是非常复杂的。基本上MQ代表了业界高可用、高并发、高可扩展三高架构的所有设计精髓。在MQ长期发展过程中，诞生了很多MQ产品，但是有很多MQ产品都已经逐渐被淘汰了。比如早期的ZeroMQ,ActiveMQ等。目前最常用的MQ产品包括Kafka、RabbitMQ和RocketMQ。我们对这三个产品做下简单的比较，重点需要理解他们的适用场景。
 
-![image.png](https://note.youdao.com/yws/res/9650/WEBRESOURCEe2b25047229836e129791f1074160739)
+![image-20250103100159230](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031001414.png)
 
 > 这里的优缺点并不是绝对的，因为每个产品都在不管演进。比如Kafka现在基本可以做到数据不丢失。RabbitMQ的Stream队列就是模拟Kafka的实现机制，消息吞吐量也提升了非常多。另外也还有很多新的MQ产品体现了更强大的竞争力，比如Pulsar。
 
@@ -125,13 +123,13 @@ public class AppDemo implements CommandLineRunner {
 
 ​	RabbitMQ的历史可以追溯到2006年，是一个非常老牌的MQ产品，使用非常广泛。同时期的很多MQ产品都已经逐渐被业界淘汰了，比如2003年诞生的ActiveMQ，2012年诞生的ZeroMQ，但是RabbitMQ却依然稳稳占据一席之地，足可见他的经典。官网地址 <https://www.rabbitmq.com/> 。
 
-![image.png](https://note.youdao.com/yws/res/9652/WEBRESOURCE230dd3effb2fe3213735b107ee91c5df)
+![image-20250103100231494](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031002559.png)
 
 ​	RabbitMQ虽然是开源的，但是是基于erlang语言开发的。这个语言比较小众，用得不是很多。因此很少研究源码。
 
 ​	RabbitMQ的应用相当广泛，拥有很多非常强大的特性：
 
-![image.png](https://note.youdao.com/yws/res/9641/WEBRESOURCE85697708daffe2872d74a8b78bdd5c44)
+![image-20250103100249545](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031002617.png)
 
 > Asynchronous Message(异步消息)、Developer Experience(开发体验)、Distributed Deployment(分布式部署)、Enterprise & Cloud Ready(企业云部署)、Tools & Plugins(工具和插件)、Management & Monitoring(管理和监控)六大部分
 
@@ -245,9 +243,7 @@ started 3 plugins.
 
 ​	但是注意下，默认情况下，只允许在localhost本地登录，远程访问是无法登录的。
 
-![image.png](https://note.youdao.com/yws/res/9645/WEBRESOURCE3024fed563390242e5df527e38f1b0f6)
-
-​
+![image-20250103100332885](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031003964.png)
 
 ​	这时，通常都会创建一个管理员账号单独对RabbitMQ进行管理。
 
@@ -265,17 +261,17 @@ Setting tags for user "admin" to [administrator] ...
 
 ​	登录控制台后上方就能看到RabbitMQ的主要功能。其中Overview是概述，主要展示RabbitMQ服务的一些整体运行情况。后面Conections、Channels、Exchanges和Queues就是RabbitMQ的核心功能。最后的Admin则是一些管理功能。
 
-![image.png](https://note.youdao.com/yws/res/9638/WEBRESOURCEbb1de3f80afaec180f80338a74c61d70)
+![image-20250103100349834](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031003876.png)
 
 ​	其中Admin主要是用来管理一些RabbitMQ的服务资源。例如刚才用命令行创建的admin用户，就可以在用户管理模块进行操作。
 
-![image.png](https://note.youdao.com/yws/res/9651/WEBRESOURCE82ffda41a4afc78da2ac75e1bea20c3b)
+![image-20250103100428114](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031004178.png)
 
 > 实际上RabbitMQ几乎所有的后台管理指令，都可以在管理页面上进行操作。
 
 ​	接下来可以尝试创建一个Veirtual Hosts虚拟机。
 
-![image.png](https://note.youdao.com/yws/res/9640/WEBRESOURCE45b71e09feb611b4b92e00e7f45148ee)
+![image-20250103100445063](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031004123.png)
 
 ​	这里就创建了一个名为/mirror的虚拟机，并配置了admin用户拥有访问的权限。在RabbitMQ中，不同虚拟机之间的资源是完全隔离的。不考虑资源分配的情况下，每个虚拟机就可以当成一个独立的RabbitMQ服务来使用。
 
@@ -287,11 +283,11 @@ Setting tags for user "admin" to [administrator] ...
 
 1、在Queues菜单，创建一个经典队列
 
-![image.png](https://note.youdao.com/yws/res/9639/WEBRESOURCEb514635bfab495bb9a9de98223d78586)
+![image-20250103100503390](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031005450.png)
 
 创建完成后，选择这个test1队列，就可以在页面上直接发送消息以及消费消息了。
 
-![image.png](https://note.youdao.com/yws/res/9649/WEBRESOURCE7db9400dba5d9c951a0b86fdfda208b1)
+![image-20250103100517017](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031005074.png)
 
 ​	从这里可以看到，RabbitMQ中的消息都是通过Queue队列传递的，这个Queue其实就是一个典型的FIFO的队列数据结构。而Exchange交换机则是用来辅助进行消息分发的。Exchange与Queue之间会建立一种绑定关系，通过绑定关系，Exchange交换机里发送的消息就可以分发到不同的Queue上。
 
@@ -301,21 +297,19 @@ Setting tags for user "admin" to [administrator] ...
 
 ​	进入Exchanges菜单，可以看到针对每个虚拟机，RabbitMQ都预先创建了多个Exchange交换机。
 
-![image.png](https://note.youdao.com/yws/res/9644/WEBRESOURCEb6dc48674d601520c6c95f1ef8ae3923)
+![image-20250103100536405](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031005464.png)
 
 ​		这里我们选择amq.direct交换机，进入交换机详情页，选择Binding，并将test1队列绑定到这个交换机上。
 
-![image.png](https://note.youdao.com/yws/res/9635/WEBRESOURCE880e193943e60a7a2dade07591b0f177)
+![image-20250103100554148](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031005200.png)
 
 ​	绑定完成后，可以在Exchange详情页以及Queue详情页都看到绑定的结果。
 
-![image.png](https://note.youdao.com/yws/res/9643/WEBRESOURCEa2f1af40bf076143632f353f313dc573)
+![image-20250103100610067](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031006131.png)
 
 ​	接下来就可以在Exchange的详情页里发送消息。然后在test1这个queue里就能消费到这条消息。
 
-![image.png](https://note.youdao.com/yws/res/9634/WEBRESOURCE857c8250a81ae4ae7202ca3c9580e777)
-
-​
+![image-20250103100641716](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031006787.png)
 
 ​	Exchange交换机既然可以绑定一个队列，当然也可以绑定更多的队列。而Exchange的作用，就是将发送到Exchange的消息转发到绑定的队列上。在具体使用时，通常只有消息生产者需要与Exchange打交道。而消费者，则并不需要与Exchange打交道，只要从Queue中消费消息就可以了。
 
@@ -400,11 +394,11 @@ public class FirstConsumer {
 
 ​	执行这个应用程序后，就会在RabbitMQ上新创建一个test2的队列(如果你之前没有创建过的话)，并且启动一个消费者，处理test2队列上的消息。这时，我们可以从管理平台页面上往test2队列发送一条消息，这个消费者程序就会及时消费消息。
 
-![image.png](https://note.youdao.com/yws/res/9646/WEBRESOURCE01ae99e00f9bf56b3f11ed67878b3d0e)
+![image-20250103100948076](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031009147.png)
 
 ​	然后在管理平台的Connections和Channels里就能看到这个消费者程序与RabbitMQ建立的一个Connection连接与一个Channel通道。
 
-![image.png](https://note.youdao.com/yws/res/9637/WEBRESOURCE346a359da5122b2340e4598a9cddf499)
+![image-20250103100902871](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031009933.png)
 
 ​	这里可以看到Connection就是与客户端的一个连接。只要连接还通着，他的状态就是running。而Channel是RabbitMQ与客户端进行数据交互的一个通道，没有数据交互时，状态就是idle闲置。有数据交互时，就会变成running。在他们后面，都会展示出数据交互的状态。
 
@@ -414,7 +408,7 @@ public class FirstConsumer {
 
 ​	通过这些操作，我们就可以了解到RabbitMQ的消息流转模型。
 
-![image.png](https://note.youdao.com/yws/res/9636/WEBRESOURCEe1b32bcaaf20b7c29a65b7b1b02e1fec)
+![image-20250103100845203](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031008256.png)
 
 ​	这里包含了很多RabbitMQ的重要概念：
 
@@ -440,7 +434,7 @@ public class FirstConsumer {
 
 ​	这是RabbitMQ中进行数据路由的重要组件。消息发送到RabbitMQ中后，会首先进入一个交换机，然后由交换机负责将数据转发到不同的队列中。RabbitMQ中有多种不同类型的交换机来支持不同的路由策略。从Web管理界面就能看到，在每个虚拟主机中，RabbitMQ都会默认创建几个不同类型的交换机来。
 
-​	![image.png](https://note.youdao.com/yws/res/9653/WEBRESOURCE08069b901e43d0fd2693bff98af33c4a)
+![image-20250103100826894](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031008952.png)
 
 ​	交换机多用来与生产者打交道。生产者发送的消息通过Exchange交换机分配到各个不同的Queue队列上，而对于消息消费者来说，通常只需要关注自己感兴趣的队列就可以了。
 
@@ -501,6 +495,3 @@ public class FirstProducer {
 ```
 
 ​	你看，整个流程跟消费者是不是差不多的？除了生产者发送完消息后需要主动关闭下连接，而消费者因为要持续消费消息所以不需要主动关闭连接，其他流程几乎完全一样的。
-
-> 有道云笔记链接地址： <https://note.youdao.com/s/9EDfKHZ9>
-

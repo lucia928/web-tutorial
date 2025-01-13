@@ -1,8 +1,8 @@
-[TOC]
+
 
 # 一、回顾RabbitMQ基础概念
 
-![image.png](https://note.youdao.com/yws/res/9658/WEBRESOURCEc0ac3893d62988f69e1cc9b5e265e55a)
+![image-20250103101316777](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031013833.png)
 
 ​	这一章节，就是将这个模型当中的这些重要组件，用客户端代码的方式进行落地。很多操作，都是与管理页面上的操作对应的，可以结合起来一起了解。
 
@@ -71,7 +71,7 @@ channel.exchangeDeclare(String exchange, String type, boolean durable, boolean a
 
 ​	声明Exchange时可以填入很多参数，对这些参数，你不用死记。实际上这些参数，包括最后的arguments中可以传入哪些参数，在管理控制台中都有。关键属性在页面上都有解释。
 
-![image.png](https://note.youdao.com/yws/res/9661/WEBRESOURCE0e12847146a6aca93af12a428b122758)
+![image-20250103101348049](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031013097.png)
 
 ​	Exchange有四种类型，对应了四种不同的消息分发逻辑。这里暂时先不用管，下面介绍消息场景时会详细分析。
 
@@ -104,7 +104,7 @@ channel.exchangeDeclare(String exchange, String type, boolean durable, boolean a
 
 ​	声明Queue时，同样大部分的参数是可以从管理平台看到的。比如Durability，AutoDelete以及后面的arguments参数可以传哪些参数，都可以从页面上看到。
 
-![image.png](https://note.youdao.com/yws/res/9665/WEBRESOURCE30e1721b9a8bb2a93467500502efae2f)
+![image-20250103101411714](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031014766.png)
 
 ​	Durablility表示是否持久化。Durable选项表示会将队列的消息写入硬盘，这样服务重启后这些消息就不会丢失。而另外一个选项Transient表示不持久化，消息只在内存中流转。这样服务重启后这些消息就会丢失。当然这也意味着消息读写的效率会比较高。
 
@@ -187,7 +187,7 @@ channel.basicPublish(String exchange, String routingKey, BasicProperties props,m
 
 ​	然后关于props参数，可以传入一些消息相关的属性。这些属性你同样不用死记。管理控制台上有明确的说明。
 
-![image.png](https://note.youdao.com/yws/res/9656/WEBRESOURCEaad2c23cd884efe614d86e9af72b37ef)
+![image-20250103101440915](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031014971.png)
 
 ​	props的这些配置项，可以用RabbitMQ中提供的一个Builder对象来构建。
 
@@ -338,11 +338,11 @@ public class CallbackConsumer {
 
 ​	这一部分是学习以及使用RabbitMQ的重中之重。日常开发过程中RabbitMQ能用到的场景基本都是从这几个场景进行扩展。这些消息模型在具体使用时，其实都是大同小异。主要是对Exchange进行深度使用，所以上手是非常容易的。这一部分的学习，理解业务场景是最为重要的。
 
-![image.png](https://note.youdao.com/yws/res/9660/WEBRESOURCE1496d5d2389defcb27581ae8414b9c60)
+![image-20250103101528104](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031015158.png)
 
 ## 1：hello world体验
 
-![image.png](https://note.youdao.com/yws/res/9664/WEBRESOURCE041fd46c85b6757d8e80144768866983)
+![image-20250103101548465](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031015513.png)
 
 最直接的方式，P端发送一个消息到一个指定的queue，中间不需要任何exchange规则。C端按queue方式进行消费。
 关键代码：(其实关键的区别也就是几个声明上的不同。)
@@ -365,7 +365,7 @@ channel.queueDeclare(QUEUE_NAME, false, false, false, null);
 
 这是RabbitMQ最基础也是最常用的一种工作机制。
 
-![image.png](https://note.youdao.com/yws/res/9655/WEBRESOURCEbfa1d66d5e30f2c7e78c43d0844f1368)
+![image-20250103101643423](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031016472.png)
 
 工作任务模式，领导部署一个任务，由下面的一个员工来处理。
 
@@ -401,7 +401,7 @@ channel.basicConsume(TASK_QUEUE_NAME, false, consumer);
 
 type为**fanout** 的exchange：
 
-![image.png](https://note.youdao.com/yws/res/9662/WEBRESOURCEb939de291bcf95e595a7e00f9e7d95ae)
+![image-20250103101659284](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031016329.png)
 
 这个机制是对上面的一种补充。也就是把preducer与Consumer进行进一步的解耦。producer只负责发送消息，至于消息进入哪个queue，由exchange来分配。如上图，就是把producer发送的消息，交由exchange同时发送到两个queue里，然后由不同的Consumer去进行消费。
 关键代码 ===》 producer: //只负责往exchange里发消息，后面的事情不管。
@@ -425,7 +425,7 @@ channel.queueBind(queueName, EXCHANGE_NAME, "");
 
 type为”direct” 的exchange
 
-![image.png](https://note.youdao.com/yws/res/9663/WEBRESOURCE0542b243bb54820e04520b0c400fb77f)
+![image-20250103101712811](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031017857.png)
 
 这种模式一看图就清晰了。 在上一章 exchange 往所有队列发送消息的基础上，增加一个路由配置，指定exchange如何将不同类别的消息分发到不同的queue上。
 关键代码===> Producer:
@@ -448,7 +448,7 @@ channel.basicConsume(queueName, true, consumer);
 
 type为"topic" 的exchange
 
-![image.png](https://note.youdao.com/yws/res/9657/WEBRESOURCE76e23e1e33e8b4f36c728222e9a7db85)
+![image-20250103101733098](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031017145.png)
 
 这个模式也就在上一个模式的基础上，对routingKey进行了模糊匹配
 单词之间用,隔开，\* 代表一个具体的单词。# 代表0个或多个单词。
@@ -559,7 +559,7 @@ channel.addConfirmListener(ConfirmCallback var1, ConfirmCallback var2);
 
 ​	关于Headers路由的示例，首先在Web管理页面上，可以看到默认创建了一个amqp.headers这样的Exchange交换机，这个就是Headers类型的路由交换机。
 
-![image.png](https://note.youdao.com/yws/res/9659/WEBRESOURCEacd662d6002c4c7dc591bb692d11c9b8)
+![image-20250103101805799](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031018854.png)
 
 ​	在Consumer端，声明Queue与Exchange绑定关系时，可以增加声明headers，表明自己对哪些信息感兴趣。
 
@@ -632,10 +632,12 @@ public class EmitLogHeader {
 
 ​	SpringBoot官方集成了RabbitMQ，只需要快速引入依赖包即可使用。RabbitMQ与SpringBoot集成的核心maven依赖就下面一个。
 
-    <dependency>
-    	<groupId>org.springframework.boot</groupId>
-    	<artifactId>spring-boot-starter-amqp</artifactId>
-    </dependency>
+```xml
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-amqp</artifactId>
+</dependency>
+```
 
 > 要特别注意下版本。不同版本下的配置方式会有变化。
 
@@ -672,6 +674,3 @@ public class EmitLogHeader {
 ​	这一章节是与开发人员联系最紧密的部分，因此也是必须要掌握的重点，尤其是基础的编程模型。各种不同的业务场景其实都是将这些步骤在不同业务场景中落地。
 
 ​	示例中给出了各种试验的代码。但是这些代码只是大家去理解RabbitMQ的基础，在面向不断更新的RabbitMQ新版本以及不同的业务场景时，还是需要能够做出灵活的扩展。这些示例和代码非常多，将这么多内容装到一个章节里，其目的是为了能够让你保持学习的连续性。但同时，这也意味着，不管你对RabbitMQ了解如何，你一定要亲手去试试这些代码，如果有时间的话，最好自己手敲一次。这样在以后面临具体的业务开发时，才能想得起这些API之间的联系。并且，就算你对RabbitMQ已经足够了解了，这些代码你也一定要自己回顾一下，尝试去理解一下这些基础API扩展出来的一些重要的方法、接口、参数。这些都是以后处理具体问题时的基础工具。如果你使用RabbitMQ经验比较丰富的话，尝试去对比理解一下新版本的特性。因为RabbitMQ在不断发展，你大概率是没有时间去深追每一个版本的优化细节的。既然回顾了一次，就回顾得彻底一点。
-
-> 有道云笔记链接：<https://note.youdao.com/s/N0g1WPfO>
-

@@ -1,19 +1,16 @@
-[TOC]
+# 前言
 
-<center><h3>RabbitMQ高级功能详解以及常用插件实战</h3>
-图灵：楼兰<br> 你的神秘技术宝藏</center>
-
-​	RabbitMQ是一个功能非常全面的MQ产品，本身是基于AMQP这样一个非常严格的开放式协议构建的，又历经了非常多企业的业务场景验证，所以，RabbitMQ的强大，代表的是一个生态，而不仅仅是一个MQ产品。这一章节，主要是结合一些应用场景，对上一章节一大堆的编程模型进行查漏补缺。带大家走出从Demo到实际应用的第一步。
+RabbitMQ是一个功能非常全面的MQ产品，本身是基于AMQP这样一个非常严格的开放式协议构建的，又历经了非常多企业的业务场景验证，所以，RabbitMQ的强大，代表的是一个生态，而不仅仅是一个MQ产品。这一章节，主要是结合一些应用场景，对上一章节一大堆的编程模型进行查漏补缺。带大家走出从Demo到实际应用的第一步。
 
 # 一、选择合适的队列
 
-​	之前我们一直在使用Classic经典队列。其实在创建队列时可以看到，我们实际上是可以选择三种队列类型的，classic经典队列，Quorum仲裁队列，Stream流式队列。后面这两种队列也是RabbitMQ在最近的几个大的版本中推出的新的队列类型。3.8.x推出了Quorum仲裁队列，3.9.x推出了Stream流式队列。这些新的队列类型都是RabbitMQ针对现代新的业务场景做出的大的改善。最明显的，以往的RabbitMQ版本，如果消息产生大量积累就会严重影响消息收发的性能。而这两种新的队列可以极大的提升RabbitMQ的消息堆积性能。
+之前我们一直在使用Classic经典队列。其实在创建队列时可以看到，我们实际上是可以选择三种队列类型的，classic经典队列，Quorum仲裁队列，Stream流式队列。后面这两种队列也是RabbitMQ在最近的几个大的版本中推出的新的队列类型。3.8.x推出了Quorum仲裁队列，3.9.x推出了Stream流式队列。这些新的队列类型都是RabbitMQ针对现代新的业务场景做出的大的改善。最明显的，以往的RabbitMQ版本，如果消息产生大量积累就会严重影响消息收发的性能。而这两种新的队列可以极大的提升RabbitMQ的消息堆积性能。
 
 ## 1、Classic经典队列
 
 这是RabbitMQ最为经典的队列类型。在单机环境中，拥有比较高的消息可靠性。
 
-![image.png](https://note.youdao.com/yws/res/9672/WEBRESOURCE32a4409d6eb4506afff5e4650d51165b)
+![image-20250103102026079](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031020130.png)
 
 ​	在这个图中可以看到，经典队列可以选择是否持久化(**Durability**)以及是否自动删除(**Auto delete**)两个属性。
 
@@ -29,7 +26,7 @@
 
 ​	仲裁队列，是RabbitMQ从3.8.0版本，引入的一个新的队列类型，整个3.8.X版本，也都是在围绕仲裁队列进行完善和优化。仲裁队列相比Classic经典队列，在分布式环境下对消息的可靠性保障更高。官方文档中表示，未来会使用Quorum仲裁队列代替传统Classic队列。
 
-![image.png](https://note.youdao.com/yws/res/9673/WEBRESOURCEb87cab5ed2eeb0aa4394ab86d7ac316a)
+![image-20250103102050111](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031020156.png)
 
 > 关于Quorum的详细介绍见 <https://www.rabbitmq.com/quorum-queues.html，这里只是对其中的重点进行下解读>
 
@@ -37,13 +34,13 @@
 
 ​	从整体功能上来说，Quorum队列是在Classic经典队列的基础上做减法，因此对于RabbitMQ的长期使用者而言，其实是会影响使用体验的。他与普通队列的区别：
 
-![image.png](https://note.youdao.com/yws/res/9676/WEBRESOURCE757f44a28a5568f0d9dd817eadacd8fa)
+![image-20250103102111832](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031021889.png)
 
 ​	从官方这个比较图就能看到，Quorum队列大部分功能都是在Classic队列基础上做减法，比如Non-durable queues表示是非持久化的内存队列。Exclusivity表示独占队列，即表示队列只能由声明该队列的Connection连接来进行使用，包括队列创建、删除、收发消息等，并且独占队列会在声明该队列的Connection断开后自动删除。
 
 ​	其中有个特例就是Poison Message handling(处理有毒的消息)。所谓毒消息是指消息一直不能被消费者正常消费(可能是由于消费者失败或者消费逻辑有问题等)，就会导致消息不断的重新入队，这样这些消息就成为了毒消息。这些读消息应该有保障机制进行标记并及时删除。Quorum队列会持续跟踪消息的失败投递尝试次数，并记录在"x-delivery-count"这样一个头部参数中。然后，就可以通过设置 Delivery limit参数来定制一个毒消息的删除策略。当消息的重复投递次数超过了Delivery limit参数阈值时，RabbitMQ就会删除这些毒消息。当然，如果配置了死信队列的话，就会进入对应的死信队列。
 
-\*\*Quorum队列更适合于 队列长期存在，并且对容错、数据安全方面的要求比低延迟、不持久等高级队列更能要求更严格的场景。\*\*例如 电商系统的订单，引入MQ后，处理速度可以慢一点，但是订单不能丢失。
+Quorum队列更适合于 队列长期存在，并且对容错、数据安全方面的要求比低延迟、不持久等高级队列更能要求更严格的场景。例如 电商系统的订单，引入MQ后，处理速度可以慢一点，但是订单不能丢失。
 
 也对应以下一些不适合使用的场景：
 
@@ -56,7 +53,7 @@
 
 ​	Stream队列是RabbitMQ自3.9.0版本开始引入的一种新的数据队列类型。这种队列类型的消息是持久化到磁盘并且具备分布式备份的，更适合于消费者多，读消息非常频繁的场景。
 
-![image.png](https://note.youdao.com/yws/res/9682/WEBRESOURCE31542d77f807c8e9b178f1826bf478ae)
+![image-20250103102224222](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031022272.png)
 
 > Stream队列的官方文档地址: <https://www.rabbitmq.com/streams.html>
 
@@ -211,7 +208,7 @@ channel.queueDeclare("myqueue", false, false, false, args);
 
 这些参数，也可以在RabbitMQ的管理页面进行配置。例如配置策略时：
 
-![image.png](https://note.youdao.com/yws/res/9677/WEBRESOURCE5ff47e399e8076d4f69c47898bb41c55)
+![image-20250103102300108](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031023167.png)
 
 ​	另外，你会注意到，在对队列进行配置时，只有Classic经典队列和Quorum仲裁队列才能配置死信队列，而目前Stream流式队列，并不支持配置死信队列。
 
@@ -259,7 +256,7 @@ channel.queueDeclare("myqueue", false, false, false, args);
 
 1、给队列指定参数
 
-![image.png](https://note.youdao.com/yws/res/9670/WEBRESOURCE62b2c4c4690f7e8808b56c15f4ac2413)
+![image-20250103102329442](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031023499.png)
 
 在代码中可以通过x-queue-mode参数指定
 
@@ -308,13 +305,13 @@ rabbitmq-plugins.bat enable rabbitmq_federation_management
 
 ​	插件启用完成后，可以在管理控制台的Admin菜单看到两个新增选项 Federation Status和Federation Upstreams。
 
-![image.png](https://note.youdao.com/yws/res/9675/WEBRESOURCEc5807a771b2790a2e43de8fba868194a)
+![image-20250103102419972](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031025269.png)
 
 ### 2、配置Upstream
 
 ​	Upstream表示是一个外部的服务节点，在RabbitMQ中，可以是一个交换机，也可以是一个队列。他的配置方式是由下游服务主动配置一个与上游服务的链接，然后数据就会从上游服务主动同步到下游服务中。
 
-![image.png](https://note.youdao.com/yws/res/9678/WEBRESOURCEf0c02727f884dfef01c9b8a399e3ebb2)
+![image-20250103102449950](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031025338.png)
 
 接下来我们用本地localhost的RabbitMQ服务来模拟DownStream下游服务，去指向一个192.168.65.112服务器上搭建的RabbitMQ服务，搭建一个联邦交换机Federation Exchange。
 
@@ -362,7 +359,7 @@ public class DownStreamConsumer {
 
 ​	然后在本地RabbitMQ中配置一个上游服务。
 
-![image.png](https://note.youdao.com/yws/res/9684/WEBRESOURCE99aeba405c65175a727bf12075299dc3)
+![image-20250103102557637](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031025697.png)
 
 ​	服务的名字Name属性随意，URI指向远程服务器(配置方式参看页面上的示例)：amqp\://admin\:admin\@192.168.65.112:5672/
 
@@ -370,7 +367,7 @@ public class DownStreamConsumer {
 
 ​	下面的Federated exchanges parameters和Federated queues parameters分别指定Upstream(也就是远程服务器)的Exchange和Queue。如果不指定，就是用和DownStream中相同的Exchange和Queue。如果UpStream里没有，就创建新的Exchange和Queue。
 
-![image.png](https://note.youdao.com/yws/res/9686/WEBRESOURCE22869bea36a6e4d69ad7f9756f692fe9)
+![image-20250103102618452](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031026501.png)
 
 > 注意： 1、其他的相关参数，可以在页面上查看帮助。
 >
@@ -380,7 +377,7 @@ public class DownStreamConsumer {
 
 ​	接下来需要配置一个指向上游服务的Federation策略。在配置策略时可以选择是针对Exchange交换机还是针对Queue队列。配置策略时，同样有很多参数可以选择配置。最简化的一个配置如下：
 
-![image.png](https://note.youdao.com/yws/res/9683/WEBRESOURCE7d7dc770868926b592d7798d4b44f0b7)
+![image-20250103102638065](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031026115.png)
 
 > 注意：每个策略的Definition部分，至少需要指定一个Federation目标。federation-upstream-set参数表示是以set集合的方式针对多个Upstream生效，all表示是全部Upstream。而federation-upstream参数表示只对某一个Upstream生效。
 
@@ -388,19 +385,19 @@ public class DownStreamConsumer {
 
 ​	配置完Upstream和对应的策略后，进入Federation Status菜单就能看到Federation插件的执行情况。状态为running表示启动成功，如果配置出错，则会提示失败原因`这个提示非常非常简单`
 
-![image.png](https://note.youdao.com/yws/res/9674/WEBRESOURCE327dde33d70d071f347e564e4ce4399a)
+![image-20250103102700223](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031027271.png)
 
 ​	然后，在远程服务Worker2的RabbitMQ服务中，可以看到对应生成的Federation交换机。
 
-![image.png](https://note.youdao.com/yws/res/9667/WEBRESOURCE9430f40668e7735fab89ee0c29e96b07)
+![image-20250103102728853](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031027904.png)
 
 ​	并且在fed\_exchange的详情页中也能够看到绑定关系。这里要注意一下他给出了一个默认的Routing\_key。
 
-![image.png](https://note.youdao.com/yws/res/9681/WEBRESOURCE814df7df2c4654b5bfff64c5e5638171)
+![image-20250103102747312](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031027366.png)
 
 ​	接下来就可以尝试在上游服务Worker2的fed\_exchange中发送消息，消息会同步到Local本地的联邦交换机中，从而被对应的消费者消费到。
 
-![image.png](https://note.youdao.com/yws/res/9671/WEBRESOURCEdec7a0b7d376cddeebba55b6c93cb316)
+![image-20250103102816634](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031028718.png)
 
 **渔与鱼**：在我们的实验过程中，会在上游服务重新生成一个新的Exchange交换机，这显然是不太符合实际情况的。我们通常的使用方式是希望将上游MQ中的某一个已有的Exchange交换机或者Queue队列的数据同步到下游一个新的Exchange或者Queue中。这要如何配置呢？你可以自己试试。
 
@@ -430,17 +427,17 @@ rabbitmq-plugins enable rabbitmq_sharding
 
 ​	启用完成后，需要配置Sharding的策略。
 
-![image.png](https://note.youdao.com/yws/res/9685/WEBRESOURCE08afda68123923dc0411b71e800eeab6)
+![image-20250103102856725](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031028790.png)
 
 ​	按照要求，就可以配置一个针对sharding\_开头的交换机和队列的策略。
 
-![image.png](https://note.youdao.com/yws/res/9679/WEBRESOURCE7dd8d3a8557f0afbcc6be9ee9068fe45)
+![image-20250103102912169](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031029212.png)
 
 ### 3、新增带Sharding的Exchange交换机
 
 ​	在创建Exchange时，可以看到，安装了Sharding插件后，多出了一种队列类型，x-modulus-hash
 
-![image.png](https://note.youdao.com/yws/res/9668/WEBRESOURCEac7f9488fd0ff7eb708e4a39c10e24dc)
+![image-20250103102929439](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031029491.png)
 
 ### 4、往分片交换机上发送消息
 
@@ -473,11 +470,11 @@ public class ShardingProducer {
 
 ​	启动后，就会在RabbitMQ上声明一个sharding\_exchange。查看这个交换机的详情，可以看到他的分片情况：
 
-![image.png](https://note.youdao.com/yws/res/9680/WEBRESOURCE86be5c58432e5ac72d42de06e7a06faa)
+![image-20250103102956979](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031029031.png)
 
 ​	并且，一万条消息被平均分配到了三个队列当中。
 
-![image.png](https://note.youdao.com/yws/res/9669/WEBRESOURCE7aa8f894aff81f1929337259933d1feb)
+![image-20250103103015558](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501031030605.png)
 
 ​	Sharding插件带来的x-modulus-hash类型Exchange，会忽略之前的routingkey配置，而将消息以轮询的方式平均分配到Exchange绑定的所有队列上。
 
@@ -545,6 +542,3 @@ public class ShardingConsumer {
 # 六、章节总结
 
 ​	这一章节主要是在基础编程模型的基础上，了解一些RabbitMQ在面向一些具体的业务问题时提供的解决工具。这些虽然不是每个开发人员都必须要掌握的开发技巧，但是理解并熟悉这些工具，对于深入掌握RabbitMQ是必须的，同时也是深入理解MQ业务场景所必须的。但是这并不是全部。以RabbitMQ的插件举例，这里我们已经介绍了好几个RabbitMQ的插件。可是目前RabbitMQ官方提供的插件有好几十个。这每一个插件都是针对具体业务场景的一种扩展。这些都是RabbitMQ的核心精髓。任何一个技术产品，真正产生价值的不是他提供的实现方式，而是他解决实际问题的思路。这些解决具体问题的思路才是技术人员需要掌握的核心。
-
-> 有道云笔记链接：	<https://note.youdao.com/s/DdGK0tRU>
-
