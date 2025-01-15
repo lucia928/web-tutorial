@@ -45,7 +45,7 @@ features:
     title: 分布式
     link: /docs/distributed/
     linkText: more
-    details: ZK、ShardingSphere
+    details: Zookeeper、ShardingSphere
 
   - icon: 
       # src: https://www.vectorlogo.zone/logos/apache_rocketmq/apache_rocketmq-icon.svg

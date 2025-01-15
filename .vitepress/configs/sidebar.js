@@ -349,24 +349,24 @@ function getDistributedSiderBar() {
       text: 'Zookeeper',
       items: [
         {
-          text: " Zookeeper特性与节点数据类型",
-          link: "/docs/distributed/zk"
+          text: "Zookeeper特性与节点数据类型",
+          link: "/docs/distributed/zk/overview.md"
         },
         {
-          text: " Zookeeper Java客户端实战",
-          link: "/docs/distributed/zk"
+          text: "Zookeeper Java客户端实战",
+          link: "/docs/distributed/zk/client.md"
         },
         {
-          text: " Zookeeper经典应用场景",
-          link: "/docs/distributed/zk"
+          text: "Zookeeper经典应用场景",
+          link: "/docs/distributed/zk/use-cases.md"
         },
         {
-          text: " Zookeeper源码分析",
-          link: "/docs/distributed/zk"
+          text: "Zookeeper源码分析",
+          link: "/docs/distributed/zk/source-code.md"
         },
         {
           text: "Zookeeper ZAB协议分析",
-          link: "/docs/distributed/zk"
+          link: "/docs/distributed/zk/zab.md"
         },
       ]
     },
@@ -375,23 +375,23 @@ function getDistributedSiderBar() {
       items: [
         {
           text: "分库分表入门",
-          link: "/docs/distributed/sharding-sphere"
+          link: "/docs/distributed/sharding-sphere/overview.md"
         },
         {
           text: "ShardingJDBC分库分表实战指南",
-          link: "/docs/distributed/sharding-sphere"
+          link: "/docs/distributed/sharding-sphere/database-sharding.md"
         },
         {
           text: "ShardingJDBC源码与内核解析",
-          link: "/docs/distributed/sharding-sphere"
+          link: "/docs/distributed/sharding-sphere/source-code.md"
         },
         {
           text: "深入理解ShardingProxy服务端数据分片",
-          link: "/docs/distributed/sharding-sphere"
+          link: "/docs/distributed/sharding-sphere/sharding-proxy.md"
         },
         {
           text: "CosID分布式主键生成框架",
-          link: "/docs/distributed/sharding-sphere"
+          link: "/docs/distributed/sharding-sphere/cosid.md"
         },
       ]
     }
