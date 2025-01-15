@@ -15,14 +15,14 @@ features:
   - icon: 
       src: /concurrent.svg
     title: Java并发
-    details: synchronized、JUC
+    details: 精通Java并发
     link: /docs/concurrent/
     linkText: more
 
   - icon: 
       src: /source-code.svg
     title: 源码解析
-    details: Spring、SpringMVC、Mybatis
+    details: Spring、SpringMVC、Mybatis、SpringBoot
     link: /docs/source-code/
     linkText: more
 

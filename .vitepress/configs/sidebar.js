@@ -123,59 +123,63 @@ function getConcurrentSiderBar() {
       items: [
         {
           text: "并发、线程与等待通知机制",
-          link: "/docs/concurrent/1.md"
+          link: "/docs/concurrent/notify.md"
         },
         {
           text: "ThreadLocal详解",
-          link: "/docs/concurrent/2.md"
+          link: "/docs/concurrent/threadLoal.md"
         },
         {
           text: "CAS&Atomic 原子操作详解",
-          link: "/docs/concurrent/3.md"
+          link: "/docs/concurrent/cas.md"
         },
         {
           text: "并发安全问题",
-          link: "/docs/concurrent/4.md"
+          link: "/docs/concurrent/thread-safe.md"
         },
         {
           text: "并发工具类应用场景",
-          link: "/docs/concurrent/5.md"
+          link: "/docs/concurrent/juc.md"
         },
         {
           text: "AQS原理分析",
-          link: "/docs/concurrent/6.md"
+          link: "/docs/concurrent/aqs.md"
+        },
+        {
+          text: "ReentrantReadWriteLock&StampLock详解",
+          link: "/docs/concurrent/reentrant-read-write-lock.md"
         },
         {
           text: "JUC包下的并发容器",
-          link: "/docs/concurrent/7.md"
+          link: "/docs/concurrent/juc-coll.md"
         },
         {
           text: "阻塞队列介绍",
-          link: "/docs/concurrent/8.md"
+          link: "/docs/concurrent/blocking-queue.md"
         },
         {
           text: "线程池",
-          link: "/docs/concurrent/9.md"
+          link: "/docs/concurrent/thread-pool.md"
         },
         {
           text: "Fork/Join框架介绍",
-          link: "/docs/concurrent/10.md"
+          link: "/docs/concurrent/fork-join.md"
         },
         {
           text: "Java内存模型详解",
-          link: "/docs/concurrent/11.md"
+          link: "/docs/concurrent/jmm.md"
         },
         {
           text: "CPU缓存架构详解",
-          link: "/docs/concurrent/12.md"
+          link: "/docs/concurrent/cpu-cache.md"
         },
         {
           text: "高性能内存队列Disruptor详解",
-          link: "/docs/concurrent/13.md"
+          link: "/docs/concurrent/disruptor.md"
         },
         {
           text: "常用并发设计模式",
-          link: "/docs/concurrent/14.md"
+          link: "/docs/concurrent/design-patterns.md"
         }
       ],
     }
