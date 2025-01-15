@@ -643,16 +643,20 @@ function getMicroservicesSiderBar() {
       collapsed: false,
       items: [
         {
+          text: "常见限流算法精讲",
+          link: "/docs/microservices/sentinel/rate-limiting-algorithm.md"
+        },
+        {
           text: "Sentinel快速开始",
-          link: "/docs/microservices/sentinel/"
+          link: "/docs/microservices/sentinel/overview.md"
         },
         {
-          text: "整合Sentinel",
-          link: "/docs/microservices/sentinel/"
+          text: "Sentinel规则配置",
+          link: "/docs/microservices/sentinel/configuration-rules.md"
         },
         {
-          text: "Sentinel源码解析",
-          link: "/docs/microservices/sentinel/"
+          text: "Sentinel推送模式",
+          link: "/docs/microservices/sentinel/push-mode.md"
         },
       ]
     },
@@ -698,12 +702,8 @@ function getMicroservicesSiderBar() {
         },
         {
           text: "Skywalking使用",
-          link: "/docs/microservices/skywalking/"
-        },
-        {
-          text: "Skywalking集群部署",
-          link: "/docs/microservices/skywalking/"
-        },
+          link: "/docs/microservices/skywalking/user-guide.md"
+        }
       ]
     },
     {
@@ -713,10 +713,6 @@ function getMicroservicesSiderBar() {
         {
           text: "Spring Security 实战",
           link: "/docs/microservices/auth/spring-security.md"
-        },
-        {
-          text: "OAuth 2.0协议",
-          link: "/docs/microservices/auth/oauth.md"
         },
         {
           text: "微服务网关整合OAuth 2.0",
