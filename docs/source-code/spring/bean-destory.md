@@ -1,11 +1,7 @@
-有道云链接：http://note.youdao.com/noteshare?id=1f3f25f6dc56c043ce8cc9dca586f2db&sub=7C4CF0F86D134F4BB21460D8F0271A42
-​
-
-## Bean的销毁过程
+# Bean的销毁过程
 
 
 Bean销毁是发送在Spring容器关闭过程中的。
-​
 
 在Spring容器关闭时，比如：
 ```java
@@ -28,10 +24,6 @@ context.close();
    1. InitDestroyAnnotationBeanPostProcessor中使得拥有@PreDestroy注解了的方法就是DisposableBean
 5. 把符合上述任意一个条件的Bean适配成DisposableBeanAdapter对象，并存入disposableBeans中（一个LinkedHashMap）
 
-
-
-
-
 在Spring容器关闭过程时：
 
 1. 首先发布ContextClosedEvent事件
@@ -46,13 +38,10 @@ context.close();
    2. 清空allBeanNamesByType，是一个Map，key是bean类型，value是该类型所有的beanName数组
    2. 清空singletonBeanNamesByType，和allBeanNamesByType类似，只不过只存了单例Bean
 
-**​**
-
 这里涉及到一个设计模式：**适配器模式**
 
 
 在销毁时，Spring会找出实现了DisposableBean接口的Bean。
-​
 
 但是我们在定义一个Bean时，如果这个Bean实现了DisposableBean接口，或者实现了AutoCloseable接口，或者在BeanDefinition中指定了destroyMethodName，那么这个Bean都属于“DisposableBean”，这些Bean在容器关闭时都要调用相应的销毁方法。
 

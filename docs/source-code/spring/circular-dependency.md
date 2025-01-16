@@ -1,5 +1,6 @@
-有道云链接：http://note.youdao.com/noteshare?id=e78822a17746bb276a7b7907f234371e&sub=ECD1569E5C7046568D2E0638E371EC23（复制链接到浏览器的时候注意转行的空格）
-​
+
+
+# Sprring 循环依赖
 
 ## 什么是循环依赖？
 很简单，就是A对象依赖了B对象，B对象依赖了A对象。
@@ -60,8 +61,6 @@ Bean的生命周期指的就是：在Spring中，Bean是如何生成的？
 1. 如果原始对象中的某个方法被AOP了，那么则需要根据原始对象生成一个代理对象
 1. 把最终生成的代理对象放入单例池（源码中叫做singletonObjects）中，下次getBean时就直接从单例池拿即可
 
-
-
 可以看到，对于Spring中的Bean的生成过程，步骤还是很多的，并且不仅仅只有上面的7步，还有很多很多，比如Aware回调、初始化等等，这里不详细讨论。
 
 
@@ -91,12 +90,10 @@ ABean创建-->依赖了B属性-->触发BBean创建--->B依赖了A属性--->需�
 
 ## 三级缓存
 
-
 三级缓存是通用的叫法。
 一级缓存为：**singletonObjects**
 二级缓存为：**earlySingletonObjects**
 三级缓存为**：singletonFactories**
-**​**
 
 **先稍微解释一下这三个缓存的作用，后面详细分析：**
 
@@ -104,25 +101,19 @@ ABean创建-->依赖了B属性-->触发BBean创建--->B依赖了A属性--->需�
 - **earlySingletonObjects**比singletonObjects多了一个early，表示缓存的是早期的bean对象。早期是什么意思？表示Bean的生命周期还没走完就把这个Bean放入了earlySingletonObjects。
 - **singletonFactories**中缓存的是ObjectFactory，表示对象工厂，表示用来创建早期bean对象的工厂。
 
-
-
-
-
 ## 解决循环依赖思路分析
 先来分析为什么缓存能解决循环依赖。
 
 
 上文分析得到，之所以产生循环依赖的问题，主要是：
 
-
 A创建时--->需要B---->B去创建--->需要A，从而产生了循环
 
-
-![image.png](https://cdn.nlark.com/yuque/0/2020/png/365147/1592471211638-86636131-146d-46c3-8775-421ef3322cc3.png#height=339&id=SMBo8&margin=%5Bobject%20Object%5D&name=image.png&originHeight=375&originWidth=572&originalType=binary&ratio=1&size=11141&status=done&style=none&width=517)
-
+![image-20250116144822028](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501161448070.png)
 
 那么如何打破这个循环，加个中间人（缓存）
-![image.png](https://cdn.nlark.com/yuque/0/2020/png/365147/1592471597769-3e23cc26-2b1d-4742-8c74-cea46327ada7.png#height=418&id=APAi3&margin=%5Bobject%20Object%5D&name=image.png&originHeight=643&originWidth=1056&originalType=binary&ratio=1&size=37167&status=done&style=none&width=687)
+
+![image-20250116144837406](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501161448458.png)
 
 
 A的Bean在创建过程中，在进行依赖注入之前，先把A的原始Bean放入缓存（提早暴露，只要放到缓存了，其他Bean需要时就可以从缓存中拿了），放入缓存后，再进行依赖注入，此时A的Bean依赖了B的Bean，如果B的Bean不存在，则需要创建B的Bean，而创建B的Bean的过程和A一样，也是先创建一个B的原始对象，然后把B的原始对象提早暴露出来放入缓存中，然后在对B的原始对象进行依赖注入A，此时能从缓存中拿到A的原始对象（虽然是A的原始对象，还不是最终的Bean），B的原始对象依赖注入完了之后，B的生命周期结束，那么A的生命周期也能结束。
@@ -201,16 +192,13 @@ public Object getEarlyBeanReference(Object bean, String beanName) {
 然后把beanName和bean（这是原始对象）存入earlyProxyReferences中
 调用wrapIfNecessary进行AOP，得到一个代理对象。
 
-
 那么，什么时候会调用getEarlyBeanReference方法呢？回到循环依赖的场景中
 
-
-![image.png](https://cdn.nlark.com/yuque/0/2020/png/365147/1592539097062-7912a20c-f209-47bd-bdc0-d6d4485ab395.png#height=281&id=Bwrqp&margin=%5Bobject%20Object%5D&name=image.png&originHeight=561&originWidth=1500&originalType=binary&ratio=1&size=142853&status=done&style=none&width=750)
+![image-20250116144938132](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501161449198.png)
 
 
 **左边文字**：
 这个ObjectFactory就是上文说的labmda表达式，中间有getEarlyBeanReference方法，注意存入singletonFactories时并不会执行lambda表达式，也就是不会执行getEarlyBeanReference方法
-
 
 **右边文字**：
 从singletonFactories根据beanName得到一个ObjectFactory，然后执行ObjectFactory，也就是执行getEarlyBeanReference方法，此时会得到一个A原始对象经过AOP之后的代理对象，然后把该代理对象放入earlySingletonObjects中，注意此时并没有把代理对象放入singletonObjects中，那什么时候放入到singletonObjects中呢？
@@ -235,27 +223,18 @@ public Object getEarlyBeanReference(Object bean, String beanName) {
 1. **earlySingletonObjects**：缓存**未经过完整生命周期的bean**，如果某个bean出现了循环依赖，就会**提前**把这个暂时未经过完整生命周期的bean放入earlySingletonObjects中，这个bean如果要经过AOP，那么就会把代理对象放入earlySingletonObjects中，否则就是把原始对象放入earlySingletonObjects，但是不管怎么样，就是是代理对象，代理对象所代理的原始对象也是没有经过完整生命周期的，所以放入earlySingletonObjects我们就可以统一认为是**未经过完整生命周期的bean。**
 1. **singletonFactories**：缓存的是一个ObjectFactory，也就是一个Lambda表达式。在每个Bean的生成过程中，经过**实例化**得到一个原始对象后，都会提前基于原始对象暴露一个Lambda表达式，并保存到三级缓存中，这个Lambda表达式**可能用到，也可能用不到**，如果当前Bean没有出现循环依赖，那么这个Lambda表达式没用，当前bean按照自己的生命周期正常执行，执行完后直接把当前bean放入singletonObjects中，如果当前bean在依赖注入时发现出现了循环依赖（当前正在创建的bean被其他bean依赖了），则从三级缓存中拿到Lambda表达式，并执行Lambda表达式得到一个对象，并把得到的对象放入二级缓存（(如果当前Bean需要AOP，那么执行lambda表达式，得到就是对应的代理对象，如果无需AOP，则直接得到一个原始对象)）。
 1. 其实还要一个缓存，就是**earlyProxyReferences**，它用来记录某个原始对象是否进行过AOP了。
-### 
-### 反向分析一下singletonFactories
+## 反向分析一下singletonFactories
 为什么需要**singletonFactories**？假设没有**singletonFactories**，只有**earlySingletonObjects**，earlySingletonObjects是二级缓存，它内部存储的是为经过完整生命周期的bean对象，Spring原有的流程是出现了循环依赖的情况下：
 
 1. 先从singletonFactories中拿到lambda表达式，这里肯定是能拿到的，因为每个bean**实例化之后**，**依赖注入之前**，就会生成一个lambda表示放入singletonFactories中
 1. 执行lambda表达式，得到结果，将结果放入earlySingletonObjects中
 
-​
-
 那如果没有singletonFactories，该如何把原始对象或AOP之后的代理对象放入earlySingletonObjects中呢？何时放入呢？
-​
 
 首先，将原始对象或AOP之后的代理对象放入earlySingletonObjects中的有两种：
 
 1. 实例化之后，依赖注入之前：如果是这样，那么对于每个bean而言，都是在依赖注入之前会去进行AOP，这是不符合bean生命周期步骤的设计的。
 1. 真正发现某个bean出现了循环依赖时：按现在Spring源码的流程来说，就是getSingleton(String beanName, boolean allowEarlyReference)中，是在这个方法中判断出来了当前获取的这个bean在创建中，就表示获取的这个bean出现了循环依赖，那在这个方法中该如何拿到原始对象呢？更加重要的是，该如何拿到AOP之后的代理对象呢？难道在这个方法中去循环调用BeanPostProcessor的初始化后的方法吗？不是做不到，不太合适，代码太丑。**最关键的是在这个方法中该如何拿到原始对象呢？**还是得需要一个Map，预习把这个Bean实例化后的对象存在这个Map中，那这样的话还不如直接用第一种方案，但是第一种又直接打破了Bean生命周期的设计。
 
-​
-
 所以，我们可以发现，现在Spring所用的singletonFactories，为了调和不同的情况，在singletonFactories中存的是lambda表达式，这样的话，只有在出现了循环依赖的情况，才会执行lambda表达式，才会进行AOP，也就说只有在出现了循环依赖的情况下才会打破Bean生命周期的设计，如果一个Bean没有出现循环依赖，那么它还是遵守了Bean的生命周期的设计的。
-
-
-
 

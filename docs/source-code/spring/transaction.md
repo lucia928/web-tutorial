@@ -1,5 +1,4 @@
-有道云链接：<http://note.youdao.com/noteshare?id=73adfd2c0d72e9be2f8f613a75008f71&sub=75CD877539EA4470960CCD82C2077264>
-​
+# **Spring 事务的实现原理**
 
 ## @EnableTransactionManagement工作原理
 
@@ -10,9 +9,6 @@
 
 AutoProxyRegistrar主要的作用是向Spring容器中注册了一个**InfrastructureAdvisorAutoProxyCreator**的Bean。
 而InfrastructureAdvisorAutoProxyCreator继承了**AbstractAdvisorAutoProxyCreator**，所以这个类的主要作用就是**开启自动代理**的作用，也就是一个BeanPostProcessor，会在初始化后步骤中去寻找Advisor类型的Bean，并判断当前某个Bean是否有匹配的Advisor，是否需要利用动态代理产生一个代理对象。
-​
-
-​
 
 ProxyTransactionManagementConfiguration是一个配置类，它又定义了另外三个bean：
 
@@ -21,14 +17,12 @@ ProxyTransactionManagementConfiguration是一个配置类，它又定义了另�
 3.  TransactionInterceptor：相当于BeanFactoryTransactionAttributeSourceAdvisor中的Advice
 
 **AnnotationTransactionAttributeSource**就是用来判断某个类上是否存在@Transactional注解，或者判断某个方法上是否存在@Transactional注解的。
-​
 
 **TransactionInterceptor**就是代理逻辑，当某个类中存在@Transactional注解时，到时就产生一个代理对象作为Bean，代理对象在执行某个方法时，最终就会进入到TransactionInterceptor的invoke()方法。
 
 ## Spring事务基本执行原理
 
 一个Bean在执行Bean的创建生命周期时，会经过InfrastructureAdvisorAutoProxyCreator的初始化后的方法，会判断当前当前Bean对象是否和BeanFactoryTransactionAttributeSourceAdvisor匹配，匹配逻辑为判断该Bean的类上是否存在@Transactional注解，或者类中的某个方法上是否存在@Transactional注解，如果存在则表示该Bean需要进行动态代理产生一个代理对象作为Bean对象。
-​
 
 该代理对象在执行某个方法时，会再次判断当前执行的方法是否和BeanFactoryTransactionAttributeSourceAdvisor匹配，如果匹配则执行该Advisor中的TransactionInterceptor的invoke()方法，执行基本流程为：
 
@@ -37,8 +31,6 @@ ProxyTransactionManagementConfiguration是一个配置类，它又定义了另�
 3.  执行MethodInvocation.proceed()方法，简单理解就是执行业务方法，其中就会执行sql
 4.  如果没有抛异常，则提交
 5.  如果抛了异常，则回滚
-
-​
 
 ## Spring事务详细执行流程
 
@@ -54,10 +46,8 @@ Spring事务执行流程图：<https://www.processon.com/view/link/5fab6edf1e085
 4.  等等情况...
 
 所以，这就要求Spring事务能支持上面各种场景，这就是Spring事务传播机制的由来。那Spring事务传播机制是如何实现的呢?
-​
 
 先来看上述几种场景中的一种情况，a()在一个事务中执行，调用b()方法时需要新开一个事务执行：
-​
 
 1.  首先，代理对象执行a()方法前，先利用事务管理器新建一个数据库连接a
 2.  将数据库连接a的autocommit改为false
@@ -77,8 +67,6 @@ Spring事务执行流程图：<https://www.processon.com/view/link/5fab6edf1e085
 这个过程中最为核心的是：**在执行某个方法时，判断当前是否已经存在一个事务，就是判断当前线程的ThreadLocal中是否存在一个数据库连接对象，如果存在则表示已经存在一个事务了。**
 
 ## Spring事务传播机制分类
-
-​
 
 **其中，以非事务方式运行，表示以非Spring事务运行，表示在执行这个方法时，Spring事务管理器不会去建立数据库连接，执行sql时，由Mybatis或JdbcTemplate自己来建立数据库连接来执行sql。**
 
@@ -108,7 +96,7 @@ public class UserService {
 默认情况下传播机制为**REQUIRED，表示当前如果没有事务则新建一个事务，如果有事务则在当前事务中执行。**
 **​**
 
-所以上面这种情况的执行流程如下：
+所以上面这种情的执行流程如下：
 
 1.  新建一个数据库连接conn
 2.  设置conn的autocommit为false
@@ -244,7 +232,6 @@ public void b() throws Exception {
 ## TransactionSynchronization
 
 Spring事务有可能会提交，回滚、挂起、恢复，所以Spring事务提供了一种机制，可以让程序员来监听当前Spring事务所处于的状态。
-​
 
 ```java
 @Component
@@ -335,7 +322,5 @@ public class UserService {
 		System.out.println("a");
 	}
 
-
 }
 ```
-

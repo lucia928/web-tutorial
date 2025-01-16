@@ -1,9 +1,7 @@
-有道云链接：http://note.youdao.com/noteshare?id=e6ce24e9411eab5445612286d641eccd&sub=29A52DF2ACB64C4D974730C75D409180
-## 前言分析
-​
+# **Spring 启动流程**
 
+## 前言分析
 通常，我们说的Spring启动，就是构造ApplicationContext对象以及调用refresh()方法的过程。
-​
 
 首先，Spring启动过程主要做了这么几件事情：
 
@@ -20,8 +18,6 @@
 3. 调用Lifecycle Bean的start()方法
 3. 发布**ContextRefreshedEvent**事件
 
-
-
 由于Spring启动过程中要创建非懒加载的单例Bean对象，那么就需要用到BeanPostProcessor，所以Spring在启动过程中就需要做两件事：
 
 1. 生成默认的BeanPostProcessor对象，并添加到BeanFactory中
@@ -30,13 +26,8 @@
    1. ApplicationContextAwareProcessor：处理ApplicationContextAware等回调
 2. 找到外部用户所定义的BeanPostProcessor对象（类型为BeanPostProcessor的Bean对象），并添加到BeanFactory中
 
-
-
 ## BeanFactoryPostProcessor
-​
-
 BeanPostProcessor表示Bean的后置处理器，是用来对Bean进行加工的，类似的，BeanFactoryPostProcessor理解为BeanFactory的后置处理器，用来用对BeanFactory进行加工的。
-​
 
 Spring支持用户定义BeanFactoryPostProcessor的实现类Bean，来对BeanFactory进行加工，比如：
 ```java
@@ -51,13 +42,11 @@ public class ZhouyuBeanFactoryPostProcessor implements BeanFactoryPostProcessor 
 }
 ```
 以上代码，就利用了BeanFactoryPostProcessor来拿到BeanFactory，然后获取BeanFactory内的某个BeanDefinition对象并进行修改，注意这一步是发生在Spring启动时，创建单例Bean之前的，所以此时对BeanDefinition就行修改是会生效的。
-​
 
 注意：在ApplicationContext内部有一个核心的DefaultListableBeanFactory，它实现了ConfigurableListableBeanFactory和BeanDefinitionRegistry接口，所以ApplicationContext和DefaultListableBeanFactory是可以注册BeanDefinition的，但是ConfigurableListableBeanFactory是不能注册BeanDefinition的，只能获取BeanDefinition，然后做修改。
 
 
 所以Spring还提供了一个BeanFactoryPostProcessor的子接口：**BeanDefinitionRegistryPostProcessor**
-​
 
 ## BeanDefinitionRegistryPostProcessor
 
@@ -70,7 +59,6 @@ public interface BeanDefinitionRegistryPostProcessor extends BeanFactoryPostProc
 }
 ```
 我们可以看到BeanDefinitionRegistryPostProcessor继承了BeanFactoryPostProcessor接口，并新增了一个方法，注意方法的参数为BeanDefinitionRegistry，所以如果我们提供一个类来实现BeanDefinitionRegistryPostProcessor，那么在postProcessBeanDefinitionRegistry()方法中就可以注册BeanDefinition了。比如：
-​
 
 ```java
 @Component
@@ -112,9 +100,7 @@ public class ZhouyuBeanDefinitionRegistryPostProcessor implements BeanDefinition
 
 这是ConfigurableApplicationContext接口上refresh()方法的注释，意思是：加载或刷新持久化的配置，可能是XML文件、属性文件或关系数据库中存储的。由于这是一个启动方法，如果失败，它应该销毁已经创建的单例，以避免暂用资源。换句话说，在调用该方法之后，应该实例化所有的单例，或者根本不实例化单例 。
 
-
 有个理念需要注意：**ApplicationContext关闭之后不代表JVM也关闭了，ApplicationContext是属于JVM的，说白了ApplicationContext也是JVM中的一个对象。**
-**​**
 
 在Spring的设计中，也提供可以刷新的ApplicationContext和不可以刷新的ApplicationContext。比如：
 ```java
@@ -140,8 +126,6 @@ AnnotationConfigWebApplicationContext继承的是AbstractRefreshableWebApplicati
 
 
 底层原理流程图：[https://www.processon.com/view/link/5f60a7d71e08531edf26a919](https://www.processon.com/view/link/5f60a7d71e08531edf26a919)
-
-
 
 
 下面以AnnotationConfigApplicationContext为例子，来介绍refresh的底层原理。
@@ -221,10 +205,6 @@ AnnotationConfigWebApplicationContext继承的是AbstractRefreshableWebApplicati
    1. 设置ApplicationContext的lifecycleProcessor，默认情况下设置的是DefaultLifecycleProcessor
    1. 调用lifecycleProcessor的onRefresh()方法，如果是DefaultLifecycleProcessor，那么会获取所有类型为Lifecycle的Bean对象，然后调用它的start()方法，这就是ApplicationContext的生命周期扩展机制
    1. 发布**ContextRefreshedEvent**事件
-
-
-
-
 
 ## 执行BeanFactoryPostProcessor
 

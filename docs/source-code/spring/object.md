@@ -1,13 +1,4 @@
-
-​有道云链接：http://note.youdao.com/noteshare?id=663444a188ed9057dffd07cfbeed43cc&sub=D6060DA6961E42D699A3B7DDB2118F93（复制链接到浏览器的时候注意转行的空格哦）
-
-作者：周瑜
-
-前面两节课，我们大概了解了Spring中的一些概念和底层工作流程，本节课开始将真正讲一些Spring中的概念和工作流程。
-​
-
-本节课的内容，是后续看Spring源码所必备的，防止后续看源码的过程中，遇到不会的概念得单独跳出来学习。
-​
+# **Spring中的核心对象**
 
 ## BeanDefinition
 
@@ -21,11 +12,9 @@ BeanDefinition表示Bean定义，BeanDefinition中存在很多属性用来描述
 - destroyMethodName：表示Bean销毁时要执行的方法
 - 还有很多...
 
-
-
 在Spring中，我们经常会通过以下几种方式来定义Bean：
 
-1. <bean/>
+1. `<bean/>`
 1. @Bean
 1. @Component(@Service,@Controller)
 
@@ -43,8 +32,6 @@ context.registerBeanDefinition("user", beanDefinition);
 
 System.out.println(context.getBean("user"));
 ```
-​
-
 我们还可以通过BeanDefinition设置一个Bean的其他属性
 ```java
 beanDefinition.setScope("prototype"); // 设置作用域
@@ -53,14 +40,11 @@ beanDefinition.setLazyInit(true); // 设置懒加载
 ```
 
 
-和申明式事务、编程式事务类似，通过<bean/>，@Bean，@Component等申明式方式所定义的Bean，最终都会被Spring解析为对应的BeanDefinition对象，并放入Spring容器中。
+和申明式事务、编程式事务类似，通过`<bean/>`，@Bean，@Component等申明式方式所定义的Bean，最终都会被Spring解析为对应的BeanDefinition对象，并放入Spring容器中。
 
 
 ## BeanDefinitionReader
-​
-
 接下来，我们来介绍几种在Spring源码中所提供的BeanDefinition读取器（BeanDefinitionReader），这些BeanDefinitionReader在我们使用Spring时用得少，但在Spring源码中用得多，相当于Spring源码的基础设施。
-### 
 ### AnnotatedBeanDefinitionReader
 
 
@@ -83,7 +67,7 @@ System.out.println(context.getBean("user"));
 ### XmlBeanDefinitionReader
 
 
-可以解析<bean/>标签
+可以解析`<bean/>`标签
 ```java
 AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 
@@ -98,7 +82,6 @@ System.out.println(context.getBean("user"));
 
 
 ClassPathBeanDefinitionScanner是扫描器，但是它的作用和BeanDefinitionReader类似，它可以进行扫描，扫描某个包路径，对扫描到的类进行解析，比如，扫描到的类上如果存在@Component注解，那么就会把这个类解析为一个BeanDefinition，比如：
-​
 
 ```java
 AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
@@ -115,10 +98,8 @@ System.out.println(context.getBean("userService"));
 
 
 BeanFactory表示Bean**工厂**，所以很明显，BeanFactory会负责创建Bean，并且提供获取Bean的API。
-​
 
 而ApplicationContext是BeanFactory的一种，在Spring源码中，是这么定义的：
-​
 
 ```java
 public interface ApplicationContext extends EnvironmentCapable, ListableBeanFactory, HierarchicalBeanFactory,
@@ -127,13 +108,10 @@ public interface ApplicationContext extends EnvironmentCapable, ListableBeanFact
             ...
 }
 ```
-​
-
 首先，在Java中，接口是可以**多继承**的，我们发现ApplicationContext继承了ListableBeanFactory和HierarchicalBeanFactory，而ListableBeanFactory和HierarchicalBeanFactory都继承至BeanFactory，所以我们可以认为ApplicationContext继承了BeanFactory，相当于苹果继承水果，宝马继承汽车一样，ApplicationContext也是BeanFactory的一种，拥有BeanFactory支持的所有功能，不过ApplicationContext比BeanFactory更加强大，ApplicationContext还基础了其他接口，也就表示ApplicationContext还拥有其他功能，比如MessageSource表示国际化，ApplicationEventPublisher表示事件发布，EnvironmentCapable表示获取环境变量，等等，关于ApplicationContext后面再详细讨论。
 
 
 在Spring的源码实现中，当我们new一个ApplicationContext时，其底层会new一个BeanFactory出来，当使用ApplicationContext的某些方法时，比如getBean()，底层调用的是BeanFactory的getBean()方法。
-​
 
 在Spring源码中，BeanFactory接口存在一个非常重要的实现类是：**DefaultListableBeanFactory，也是非常核心的。**具体重要性，随着后续课程会感受更深。
 
@@ -149,12 +127,9 @@ beanFactory.registerBeanDefinition("user", beanDefinition);
 
 System.out.println(beanFactory.getBean("user"));
 ```
-​
-
 **DefaultListableBeanFactory是非常强大的，支持很多功能，可以通过查看DefaultListableBeanFactory的类继承实现结构来看**
 
-
-![image.png](https://cdn.nlark.com/yuque/0/2020/png/365147/1602053031607-fd00a145-67fa-4231-8cca-9186db5f2b00.png#height=272&id=ln8oK&margin=%5Bobject%20Object%5D&name=image.png&originHeight=544&originWidth=1279&originalType=binary&ratio=1&size=55904&status=done&style=none&width=639.5)
+![image-20250116142842319](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501161428373.png)
 
 
 **这部分现在看不懂没关系，源码熟悉一点后回来再来看都可以。**
@@ -178,17 +153,10 @@ System.out.println(beanFactory.getBean("user"));
 1. AbstractAutowireCapableBeanFactory：继承了AbstractBeanFactory，实现了AutowireCapableBeanFactory，拥有了自动装配的功能
 1. DefaultListableBeanFactory：继承了AbstractAutowireCapableBeanFactory，实现了ConfigurableListableBeanFactory接口和BeanDefinitionRegistry接口，所以DefaultListableBeanFactory的功能很强大
 
-
-
-
-
-
-
 ## ApplicationContext
 
 
 上面有分析到，ApplicationContext是个接口，实际上也是一个BeanFactory，不过比BeanFactory更加强大，比如：
-​
 
 
 1. HierarchicalBeanFactory：拥有获取父BeanFactory的功能
@@ -198,8 +166,6 @@ System.out.println(beanFactory.getBean("user"));
 1. ApplicationEventPublisher：拥有广播事件的功能（没有添加事件监听器的功能）
 1. MessageSource：拥有国际化功能
 
-​
-
 具体的功能演示，后面会有。
 
 
@@ -208,10 +174,8 @@ System.out.println(beanFactory.getBean("user"));
 1. AnnotationConfigApplicationContext
 1. ClassPathXmlApplicationContext
 
-
-
 ### AnnotationConfigApplicationContext
-![image.png](https://cdn.nlark.com/yuque/0/2020/png/365147/1602055860352-0925b046-b88e-4085-b872-b1ec5aeb8fee.png#height=255&id=biJ36&margin=%5Bobject%20Object%5D&name=image.png&originHeight=510&originWidth=1639&originalType=binary&ratio=1&size=54256&status=done&style=none&width=819.5)
+![image-20250116142907345](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501161429397.png)
 
 
 **这部分现在看不懂没关系，源码熟悉一点后回来再来看都可以。**
@@ -222,13 +186,9 @@ System.out.println(beanFactory.getBean("user"));
 1. AnnotationConfigRegistry：可以单独注册某个为类为BeanDefinition（可以处理该类上的**@Configuration注解**，已经可以处理**@Bean注解**），同时可以扫描
 1. AnnotationConfigApplicationContext：继承了GenericApplicationContext，实现了AnnotationConfigRegistry接口，拥有了以上所有的功能
 
-
-
 ### ClassPathXmlApplicationContext
-![image.png](https://cdn.nlark.com/yuque/0/2020/png/365147/1602056629659-0bb9b513-834c-4e57-9120-55dc40fd8674.png#height=237&id=TDJ6q&margin=%5Bobject%20Object%5D&name=image.png&originHeight=474&originWidth=1497&originalType=binary&ratio=1&size=44996&status=done&style=none&width=748.5)
+![image-20250116142932407](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501161429463.png)
 它也是继承了AbstractApplicationContext，但是相对于AnnotationConfigApplicationContext而言，功能没有AnnotationConfigApplicationContext强大，比如不能注册BeanDefinition
-
-
 
 
 ### 国际化
@@ -317,8 +277,6 @@ System.out.println(context.getEnvironment().getProperty("zhouyu"));
 来使得某个properties文件中的参数添加到运行时环境中
 
 
-
-
 ### 事件发布
 先定义一个事件监听器
 ```java
@@ -403,8 +361,6 @@ public class UserService {
 那么test属性就能正常的完成属性赋值
 
 
-
-
 ### ConversionService
 Spring中提供的类型转化服务，它比PropertyEditor更强大
 ```java
@@ -460,11 +416,10 @@ System.out.println(value);
 
 
 ## OrderComparator
-OrderComparator是Spring所提供的一种比较器，可以用来根据@Order注解或实现Ordered接口来执行值进行笔记，从而可以进行排序。
+OrderComparator是Spring所提供的一种比较器，可以用来根据@Order注解或实现Ordered接口进行排序。
 
 
 比如：
-​
 
 ```java
 public class A implements Ordered {
@@ -480,8 +435,6 @@ public class A implements Ordered {
 	}
 }
 ```
-​
-
 ```java
 public class B implements Ordered {
 
@@ -520,7 +473,6 @@ public class Main {
 }
 ```
 另外，Spring中还提供了一个OrderComparator的子类：**AnnotationAwareOrderComparator**，它支持用@Order来指定order值。比如：
-​
 
 ```java
 @Order(3)
@@ -571,11 +523,8 @@ public class Main {
 ```
 
 
-
-
 ## BeanPostProcessor
 BeanPostProcess表示Bena的后置处理器，我们可以定义一个或多个BeanPostProcessor，比如通过一下代码定义一个BeanPostProcessor：
-​
 
 ```java
 @Component
@@ -608,7 +557,6 @@ public class ZhouyuBeanPostProcessor implements BeanPostProcessor {
 我们可以通过定义BeanPostProcessor来干涉Spring创建Bean的过程。
 ## BeanFactoryPostProcessor
 BeanFactoryPostProcessor表示Bean工厂的后置处理器，其实和BeanPostProcessor类似，BeanPostProcessor是干涉Bean的创建过程，BeanFactoryPostProcessor是干涉BeanFactory的创建过程。比如，我们可以这样定义一个BeanFactoryPostProcessor：
-​
 
 ```java
 @Component
@@ -623,7 +571,6 @@ public class ZhouyuBeanFactoryPostProcessor implements BeanFactoryPostProcessor 
 
 
 我们可以在postProcessBeanFactory()方法中对BeanFactory进行加工。
-​
 
 ## FactoryBean
 
@@ -652,7 +599,6 @@ public class ZhouyuFactoryBean implements FactoryBean {
 
 
 有同学可能会想到，通过@Bean也可以自己生成一个对象作为Bean，那么和FactoryBean的区别是什么呢？其实在很多场景下他俩是可以替换的，但是站在原理层面来说的，区别很明显，@Bean定义的Bean是会经过完整的Bean生命周期的。
-​
 
 ## ExcludeFilter和IncludeFilter
 
@@ -680,8 +626,6 @@ public class AppConfig {
 public class AppConfig {
 }
 ```
-​
-
 FilterType分为：
 
 1. ANNOTATION：表示是否包含某个注解
@@ -689,8 +633,6 @@ FilterType分为：
 1. ASPECTJ：表示否是符合某个Aspectj表达式
 1. REGEX：表示是否符合某个正则表达式
 1. CUSTOM：自定义
-
-​
 
 在Spring的扫描逻辑中，默认会添加一个AnnotationTypeFilter给includeFilters，表示默认情况下Spring扫描过程中会认为类上有@Component注解的就是Bean。
 
@@ -728,6 +670,5 @@ public class Test {
 }
 ```
 需要注意的是，SimpleMetadataReader去解析类时，使用的**ASM技术**。
-​
 
 为什么要使用ASM技术，Spring启动的时候需要去扫描，如果指定的包路径比较宽泛，那么扫描的类是非常多的，那如果在Spring启动时就把这些类全部加载进JVM了，这样不太好，所以使用了ASM技术。

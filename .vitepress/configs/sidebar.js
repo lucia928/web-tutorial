@@ -194,51 +194,51 @@ function getSourceCodeSiderBar() {
       items: [
         {
           text: "Spring概览",
-          link: "/docs/source-code/spring/"
+          link: "/docs/source-code/spring/overview.md"
         },
         {
           text: "Spring核心对象",
-          link: "/docs/source-code/spring/"
+          link: "/docs/source-code/spring/object.md"
         },
         {
           text: "Bean的生成过程",
-          link: "/docs/source-code/spring/"
+          link: "/docs/source-code/spring/bean-create.md"
         },
         {
           text: "Bean的销毁过程",
-          link: "/docs/source-code/spring/"
+          link: "/docs/source-code/spring/bean-destory.md"
         },
         {
-          text: "Spring中到底有几种依赖注入的方式?",
-          link: "/docs/source-code/spring/"
+          text: "Spring依赖注入原理分析",
+          link: "/docs/source-code/spring/inject.md"
         },
         {
-          text: "什么是循环依赖?",
-          link: "/docs/source-code/spring/"
+          text: "Spring中的循环依赖",
+          link: "/docs/source-code/spring/circular-dependency.md"
         },
         {
           text: "推断构造方法",
-          link: "/docs/source-code/spring/"
+          link: "/docs/source-code/spring/inference-constructor.md"
         },
         {
           text: "Spring启动流程",
-          link: "/docs/source-code/spring/"
+          link: "/docs/source-code/spring/start-up.md"
+        },
+        {
+          text: "Spring之配置类解析源码解析",
+          link: "/docs/source-code/spring/config.md"
         },
         {
           text: "Spring整合Mybatis",
-          link: "/docs/source-code/spring/"
+          link: "/docs/source-code/spring/mybatis.md"
         },
         {
           text: "Spring Aop实现原理",
-          link: "/docs/source-code/spring/"
+          link: "/docs/source-code/spring/aop.md"
         },
         {
-          text: "Spring事务",
-          link: "/docs/source-code/spring/"
-        },
-        {
-          text: "SpringBoot 3.0",
-          link: "/docs/source-code/spring/"
+          text: "Spring事务的实现原理",
+          link: "/docs/source-code/spring/transaction.md"
         },
       ]
     },
@@ -247,52 +247,12 @@ function getSourceCodeSiderBar() {
       collapsed: false,
       items: [
         {
-          text: "什么是Handler",
-          link: "/docs/source-code/spring-mvc/"
+          text: "Spring MVC概览",
+          link: "/docs/source-code/spring-mvc/overview.md"
         },
         {
-          text: "什么是HandlerMapping",
-          link: "/docs/source-code/spring-mvc/"
-        },
-        {
-          text: "什么是HandlerAdapter",
-          link: "/docs/source-code/spring-mvc/"
-        },
-        {
-          text: "@RequestMapping方法参数解析",
-          link: "/docs/source-code/spring-mvc/"
-        },
-        {
-          text: "@RequestMapping方法返回值解析",
-          link: "/docs/source-code/spring-mvc/"
-        },
-        {
-          text: "SpringMVC父子容器",
-          link: "/docs/source-code/spring-mvc/"
-        },
-        {
-          text: "SpringMVC初始化",
-          link: "/docs/source-code/spring-mvc/"
-        },
-        {
-          text: "WebApplicationInitializer",
-          link: "/docs/source-code/spring-mvc/"
-        },
-        {
-          text: "方法参数解析",
-          link: "/docs/source-code/spring-mvc/"
-        },
-        {
-          text: "MultipartFile解析",
-          link: "/docs/source-code/spring-mvc/"
-        },
-        {
-          text: "拦截器解析",
-          link: "/docs/source-code/spring-mvc/"
-        },
-        {
-          text: "@EnableWebMvc解析",
-          link: "/docs/source-code/spring-mvc/"
+          text: "Spring MVC执行流程",
+          link: "/docs/source-code/spring-mvc/source-code.md"
         },
       ]
     },
@@ -301,32 +261,12 @@ function getSourceCodeSiderBar() {
       collapsed: false,
       items: [
         {
-          text: "Mybatis 介绍",
-          link: "/docs/source-code/mybatis/"
+          text: "Mybatis 概览",
+          link: "/docs/source-code/mybatis/overview.md"
         },
         {
-          text: "传统JDBC和Mybatis对比",
-          link: "/docs/source-code/mybatis/"
-        },
-        {
-          text: "Mybatis概览",
-          link: "/docs/source-code/mybatis/"
-        },
-        {
-          text: "Mybatis 介绍",
-          link: "/docs/source-code/mybatis/"
-        },
-        {
-          text: "openSession的过程",
-          link: "/docs/source-code/mybatis/"
-        },
-        {
-          text: "Mapper方法的执行流程",
-          link: "/docs/source-code/mybatis/"
-        },
-        {
-          text: "Mybatis重要类",
-          link: "/docs/source-code/mybatis/"
+          text: "MyBatis 执行流程",
+          link: "/docs/source-code/mybatis/source-code.md"
         },
       ]
     },
@@ -335,8 +275,16 @@ function getSourceCodeSiderBar() {
       collapsed: false,
       items: [
         {
-          text: "spring",
-          link: "/docs/microservices/spring-boot/"
+          text: "手写模拟SpringBoot核心流程",
+          link: "/docs/source-code/spring-boot/core.md"
+        },
+        {
+          text: "SpringBoot启动过程源码解析",
+          link: "/docs/source-code/spring-boot/start-up.md"
+        },
+        {
+          text: "SpringBoot自动配置底层源码解析",
+          link: "/docs/source-code/spring-boot/config.md"
         },
       ]
     },
@@ -349,24 +297,24 @@ function getDistributedSiderBar() {
       text: 'Zookeeper',
       items: [
         {
-          text: " Zookeeper特性与节点数据类型",
-          link: "/docs/distributed/zk"
+          text: "Zookeeper特性与节点数据类型",
+          link: "/docs/distributed/zk/overview.md"
         },
         {
-          text: " Zookeeper Java客户端实战",
-          link: "/docs/distributed/zk"
+          text: "Zookeeper Java客户端实战",
+          link: "/docs/distributed/zk/client.md"
         },
         {
-          text: " Zookeeper经典应用场景",
-          link: "/docs/distributed/zk"
+          text: "Zookeeper经典应用场景",
+          link: "/docs/distributed/zk/use-cases.md"
         },
         {
-          text: " Zookeeper源码分析",
-          link: "/docs/distributed/zk"
+          text: "Zookeeper源码分析",
+          link: "/docs/distributed/zk/source-code.md"
         },
         {
           text: "Zookeeper ZAB协议分析",
-          link: "/docs/distributed/zk"
+          link: "/docs/distributed/zk/zab.md"
         },
       ]
     },
@@ -375,23 +323,23 @@ function getDistributedSiderBar() {
       items: [
         {
           text: "分库分表入门",
-          link: "/docs/distributed/sharding-sphere"
+          link: "/docs/distributed/sharding-sphere/overview.md"
         },
         {
           text: "ShardingJDBC分库分表实战指南",
-          link: "/docs/distributed/sharding-sphere"
+          link: "/docs/distributed/sharding-sphere/database-sharding.md"
         },
         {
           text: "ShardingJDBC源码与内核解析",
-          link: "/docs/distributed/sharding-sphere"
+          link: "/docs/distributed/sharding-sphere/source-code.md"
         },
         {
           text: "深入理解ShardingProxy服务端数据分片",
-          link: "/docs/distributed/sharding-sphere"
+          link: "/docs/distributed/sharding-sphere/sharding-proxy.md"
         },
         {
           text: "CosID分布式主键生成框架",
-          link: "/docs/distributed/sharding-sphere"
+          link: "/docs/distributed/sharding-sphere/cosid.md"
         },
       ]
     }
@@ -647,16 +595,20 @@ function getMicroservicesSiderBar() {
       collapsed: false,
       items: [
         {
+          text: "常见限流算法精讲",
+          link: "/docs/microservices/sentinel/rate-limiting-algorithm.md"
+        },
+        {
           text: "Sentinel快速开始",
-          link: "/docs/microservices/sentinel/"
+          link: "/docs/microservices/sentinel/overview.md"
         },
         {
-          text: "整合Sentinel",
-          link: "/docs/microservices/sentinel/"
+          text: "Sentinel规则配置",
+          link: "/docs/microservices/sentinel/configuration-rules.md"
         },
         {
-          text: "Sentinel源码解析",
-          link: "/docs/microservices/sentinel/"
+          text: "Sentinel推送模式",
+          link: "/docs/microservices/sentinel/push-mode.md"
         },
       ]
     },
@@ -702,12 +654,8 @@ function getMicroservicesSiderBar() {
         },
         {
           text: "Skywalking使用",
-          link: "/docs/microservices/skywalking/"
-        },
-        {
-          text: "Skywalking集群部署",
-          link: "/docs/microservices/skywalking/"
-        },
+          link: "/docs/microservices/skywalking/user-guide.md"
+        }
       ]
     },
     {
@@ -717,10 +665,6 @@ function getMicroservicesSiderBar() {
         {
           text: "Spring Security 实战",
           link: "/docs/microservices/auth/spring-security.md"
-        },
-        {
-          text: "OAuth 2.0协议",
-          link: "/docs/microservices/auth/oauth.md"
         },
         {
           text: "微服务网关整合OAuth 2.0",
