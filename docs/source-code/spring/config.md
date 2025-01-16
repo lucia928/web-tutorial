@@ -1,14 +1,14 @@
 
-有道云链接：http://note.youdao.com/noteshare?id=5b88f1f7c220de3792f16ec5302b7ae7&sub=579548C9A1BB4A788F5D37DEAEDE93F7
 
 
-## 解析配置类
 
+# Spring 解析配置类
 
 解析配置类流程图：[https://www.processon.com/view/link/5f9512d5e401fd06fda0b2dd](https://www.processon.com/view/link/5f9512d5e401fd06fda0b2dd)
-解析配置类思维脑图：[https://www.processon.com/view/link/614c83cae0b34d7b342f6d14](https://www.processon.com/view/link/614c83cae0b34d7b342f6d14)
 
+解析配置类思维脑图：
 
+![image-20250116145710421](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501161457493.png)
 
 
 1. 在启动Spring时，需要传入一个AppConfig.class给ApplicationContext，ApplicationContext会根据AppConfig类封装为一个BeanDefinition，这种BeanDefinition我们把它称为配置类BeanDefinition。
@@ -30,19 +30,11 @@
    1. 如果ConfigurationClass中导入了一些资源文件，比如xx.xml，那么则解析这些xx.xml文件，得到并注册BeanDefinition
    1. 如果ConfigurationClass中导入了一些ImportBeanDefinitionRegistrar，那么则执行对应的registerBeanDefinitions进行BeanDefinition的注册
 
-
-
-
-
 ### 总结一下
 
 1. 解析AppConfig类，生成对应的ConfigurationClass
 1. 再扫描，扫描到的类都会生成对应的BeanDefinition，并且同时这些类也是ConfigurationClass
 1. 再解析ConfigurationClass的其他信息，比如@ImportResource注解的处理，@Import注解的处理，@Bean注解的处理
-
-
-
-
 
 
 

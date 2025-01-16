@@ -194,51 +194,51 @@ function getSourceCodeSiderBar() {
       items: [
         {
           text: "Spring概览",
-          link: "/docs/source-code/spring/"
+          link: "/docs/source-code/spring/overview.md"
         },
         {
           text: "Spring核心对象",
-          link: "/docs/source-code/spring/"
+          link: "/docs/source-code/spring/object.md"
         },
         {
           text: "Bean的生成过程",
-          link: "/docs/source-code/spring/"
+          link: "/docs/source-code/spring/bean-create.md"
         },
         {
           text: "Bean的销毁过程",
-          link: "/docs/source-code/spring/"
+          link: "/docs/source-code/spring/bean-destory.md"
         },
         {
-          text: "Spring中到底有几种依赖注入的方式?",
-          link: "/docs/source-code/spring/"
+          text: "Spring依赖注入原理分析",
+          link: "/docs/source-code/spring/inject.md"
         },
         {
-          text: "什么是循环依赖?",
-          link: "/docs/source-code/spring/"
+          text: "Spring中的循环依赖",
+          link: "/docs/source-code/spring/circular-dependency.md"
         },
         {
           text: "推断构造方法",
-          link: "/docs/source-code/spring/"
+          link: "/docs/source-code/spring/inference-constructor.md"
         },
         {
           text: "Spring启动流程",
-          link: "/docs/source-code/spring/"
+          link: "/docs/source-code/spring/start-up.md"
+        },
+        {
+          text: "Spring之配置类解析源码解析",
+          link: "/docs/source-code/spring/config.md"
         },
         {
           text: "Spring整合Mybatis",
-          link: "/docs/source-code/spring/"
+          link: "/docs/source-code/spring/mybatis.md"
         },
         {
           text: "Spring Aop实现原理",
-          link: "/docs/source-code/spring/"
+          link: "/docs/source-code/spring/aop.md"
         },
         {
-          text: "Spring事务",
-          link: "/docs/source-code/spring/"
-        },
-        {
-          text: "SpringBoot 3.0",
-          link: "/docs/source-code/spring/"
+          text: "Spring事务的实现原理",
+          link: "/docs/source-code/spring/transaction.md"
         },
       ]
     },
@@ -248,11 +248,11 @@ function getSourceCodeSiderBar() {
       items: [
         {
           text: "什么是Handler",
-          link: "/docs/source-code/spring-mvc/"
+          link: "/docs/source-code/spring-mvc/overview.md"
         },
         {
           text: "什么是HandlerMapping",
-          link: "/docs/source-code/spring-mvc/"
+          link: "/docs/source-code/spring-mvc/source-code.md"
         },
         {
           text: "什么是HandlerAdapter",
@@ -302,11 +302,11 @@ function getSourceCodeSiderBar() {
       items: [
         {
           text: "Mybatis 介绍",
-          link: "/docs/source-code/mybatis/"
+          link: "/docs/source-code/mybatis/overview.md"
         },
         {
           text: "传统JDBC和Mybatis对比",
-          link: "/docs/source-code/mybatis/"
+          link: "/docs/source-code/mybatis/source-code.md"
         },
         {
           text: "Mybatis概览",
@@ -335,8 +335,16 @@ function getSourceCodeSiderBar() {
       collapsed: false,
       items: [
         {
-          text: "spring",
-          link: "/docs/microservices/spring-boot/"
+          text: "手写模拟SpringBoot核心流程",
+          link: "/docs/source-code/spring-boot/core.md"
+        },
+        {
+          text: "SpringBoot启动过程源码解析",
+          link: "/docs/source-code/spring-boot/start-up.md"
+        },
+        {
+          text: "SpringBoot自动配置底层源码解析",
+          link: "/docs/source-code/spring-boot/config.md"
         },
       ]
     },

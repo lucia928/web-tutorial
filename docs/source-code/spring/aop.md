@@ -1,4 +1,4 @@
-有道云链接：<http://note.youdao.com/noteshare?id=f30e818e00f2c3eb6d4f26e6c0b70ade&sub=854D9B3F17A64B1DA9F965B2448E9EA6>
+# **Spring AOP实现原理**
 
 ## 动态代理
 
@@ -17,7 +17,6 @@ public class UserService  {
 ```
 
 此时，我们new一个UserService对象，然后执行test()方法，结果是显而易见的。
-​
 
 如果我们现在想在**不修改UserService类的源码**前提下，给test()增加额外逻辑，那么就可以使用动态代理机制来创建UserService对象了，比如：
 
@@ -49,7 +48,6 @@ userService.test();
 得到的都是UserService对象，但是执行test()方法时的效果却不一样了，这就是代理所带来的效果。
 
 上面是通过cglib来实现的代理对象的创建，是基于**父子类**的，被代理类（UserService）是父类，代理类是子类，代理对象就是代理类的实例对象，代理类是由cglib创建的，对于程序员来说不用关心。
-​
 
 除开cglib技术，jdk本身也提供了一种创建代理对象的动态代理机制，但是它只能代理接口，也就是UserService得先有一个接口才能利用jdk动态代理机制来生成一个代理对象，比如：
 
@@ -94,7 +92,6 @@ Exception in thread "main" java.lang.IllegalArgumentException: com.zhouyu.servic
 ```
 
 表示一定要是个接口。
-​
 
 由于这个限制，所以产生的代理对象的类型是UserInterface，而不是UserService，这是需要注意的。
 
@@ -130,11 +127,6 @@ userService.test();
 3.  After throwing advice：方法抛异常后执行
 4.  After (finally) advice：方法执行完finally之后执行，这是最后的，比return更后
 5.  Around advice：这是功能最强大的Advice，可以自定义执行顺序
-
-​
-
-看课上给的代码例子将一目了然
-​
 
 ## Advisor的理解
 
@@ -180,7 +172,6 @@ userService.test();
 ```
 
 上面代码表示，产生的代理对象，只有在执行testAbc这个方法时才会被增强，会执行额外的逻辑，而在执行其他方法时是不会增强的。
-​
 
 ## 创建代理对象的方式
 
@@ -210,7 +201,6 @@ public ProxyFactoryBean userServiceProxy(){
 ```
 
 通过这种方法来定义一个UserService的Bean，并且是经过了AOP的。但是这种方式**只能针对某一个Bean**。它是一个FactoryBean，所以利用的就是FactoryBean技术，间接的将UserService的代理对象作为了Bean。
-​
 
 ProxyFactoryBean还有额外的功能，比如可以把某个Advise或Advisor定义成为Bean，然后在ProxyFactoryBean中进行设置
 
@@ -239,8 +229,6 @@ public ProxyFactoryBean userService(){
 }
 ```
 
-​
-
 ### BeanNameAutoProxyCreator
 
 ProxyFactoryBean得自己指定被代理的对象，那么我们可以通过BeanNameAutoProxyCreator来通过指定某个bean的名字，来对该bean进行代理
@@ -258,7 +246,6 @@ public BeanNameAutoProxyCreator beanNameAutoProxyCreator() {
 ```
 
 通过BeanNameAutoProxyCreator可以对批量的Bean进行AOP，并且指定了代理逻辑，指定了一个InterceptorName，也就是一个Advise，前提条件是这个Advise也得是一个Bean，这样Spring才能找到的，但是BeanNameAutoProxyCreator的缺点很明显，它只能根据beanName来指定想要代理的Bean。
-​
 
 ### DefaultAdvisorAutoProxyCreator
 
@@ -287,7 +274,6 @@ public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
 通过DefaultAdvisorAutoProxyCreator会直接去找所有Advisor类型的Bean，根据Advisor中的PointCut和Advice信息，确定要代理的Bean以及代理逻辑。
 
 但是，我们发现，通过这种方式，我们得依靠某一个类来实现定义我们的Advisor，或者Advise，或者Pointcut，那么这个步骤能不能更加简化一点呢？
-​
 
 对的，通过**注解**！
 
@@ -306,12 +292,11 @@ public class ZhouyuAspect {
 }
 ```
 
-通过上面这个类，我们就直接定义好了所要代理的方法(通过一个表达式)，以及代理逻辑（被@Before修饰的方法），简单明了，这样对于Spring来说，它要做的就是来解析这些注解了，解析之后得到对应的Pointcut对象、Advice对象，生成Advisor对象，扔进ProxyFactory中，进而产生对应的代理对象，具体怎么解析这些注解就是\*\*@EnableAspectJAutoProxy注解\*\*所要做的事情了，后面详细分析。
+通过上面这个类，我们就直接定义好了所要代理的方法(通过一个表达式)，以及代理逻辑（被@Before修饰的方法），简单明了，这样对于Spring来说，它要做的就是来解析这些注解了，解析之后得到对应的Pointcut对象、Advice对象，生成Advisor对象，扔进ProxyFactory中，进而产生对应的代理对象，具体怎么解析这些注解就是@EnableAspectJAutoProxy注解所要做的事情了，后面详细分析。
 
 ## 对Spring AOP的理解
 
 OOP表示面向对象编程，是一种编程思想，AOP表示面向切面编程，也是一种编程思想，而我们上面所描述的就是Spring为了让程序员更加方便的做到面向切面编程所提供的技术支持，换句话说，就是Spring提供了一套机制，可以让我们更加容易的来进行AOP，所以这套机制我们也可以称之为Spring AOP。
-​
 
 但是值得注意的是，上面所提供的注解的方式来定义Pointcut和Advice，Spring并不是首创，首创是AspectJ，而且也不仅仅只有Spring提供了一套机制来支持AOP，还有比如 JBoss 4.0、aspectwerkz等技术都提供了对于AOP的支持。而刚刚说的注解的方式，Spring是依赖了AspectJ的，或者说，Spring是直接把AspectJ中所定义的那些注解直接拿过来用，自己没有再重复定义了，不过也仅仅只是把注解的定义赋值过来了，每个注解具体底层是怎么解析的，还是Spring自己做的，所以我们在用Spring时，如果你想用@Before、@Around等注解，是需要单独引入aspecj相关jar包的，比如：
 
@@ -321,7 +306,6 @@ compile group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.5'
 ```
 
 值得注意的是：AspectJ是在编译时对字节码进行了修改，是直接在UserService类对应的字节码中进行增强的，也就是可以理解为是在编译时就会去解析@Before这些注解，然后得到代理逻辑，加入到被代理的类中的字节码中去的，所以如果想用AspectJ技术来生成代理对象 ，是需要用单独的AspectJ编译器的。我们在项目中很少这么用，我们仅仅只是用了@Before这些注解，而我们在启动Spring的过程中，Spring会去解析这些注解，然后利用动态代理机制生成代理对象的。
-​
 
 IDEA中使用Aspectj：<https://blog.csdn.net/gavin_john/article/details/80156963>
 
@@ -342,10 +326,6 @@ IDEA中使用Aspectj：<https://blog.csdn.net/gavin_john/article/details/8015696
 7.  AOP proxy：表示代理工厂，用来创建代理对象的，在Spring Framework中，要么是JDK动态代理，要么是CGLIB代理
 8.  Weaving：表示织入，表示创建代理对象的动作，这个动作可以发生在编译时期（比如Aspejctj），或者运行时，比如Spring AOP
 
-​
-
-​
-
 ## Advice在Spring AOP中对应API
 
 上面说到的Aspject中的注解，其中有五个是用来定义Advice的，表示代理逻辑，以及执行时机：
@@ -356,8 +336,6 @@ IDEA中使用Aspectj：<https://blog.csdn.net/gavin_john/article/details/8015696
 4.  @After
 5.  @Around
 
-​
-
 我们前面也提到过，Spring自己也提供了类似的执行实际的实现类：
 
 1.  接口MethodBeforeAdvice，继承了接口BeforeAdvice
@@ -365,8 +343,6 @@ IDEA中使用Aspectj：<https://blog.csdn.net/gavin_john/article/details/8015696
 3.  接口ThrowsAdvice
 4.  接口AfterAdvice
 5.  接口MethodInterceptor
-
-​
 
 Spring会把五个注解解析为对应的Advice类：
 
@@ -379,7 +355,6 @@ Spring会把五个注解解析为对应的Advice类：
 ## TargetSource的使用
 
 在我们日常的AOP中，被代理对象就是Bean对象，是由BeanFactory给我们创建出来的，但是Spring AOP中提供了TargetSource机制，可以让我们用来自定义逻辑来创建**被代理对象**。
-​
 
 比如之前所提到的@Lazy注解，当加在属性上时，会产生一个代理对象赋值给这个属性，产生代理对象的代码为：
 
@@ -446,8 +421,97 @@ protected Object buildLazyResolutionProxy(final DependencyDescriptor descriptor,
 ## Introduction
 
 <https://www.cnblogs.com/powerwu/articles/5170861.html>
-​
 
 ## LoadTimeWeaver
 
 <https://www.cnblogs.com/davidwang456/p/5633609.html>
+
+
+
+## ProxyFactory选择cglib或jdk动态代理原理
+ProxyFactory在生成代理对象之前需要决定到底是使用JDK动态代理还是CGLIB技术：
+```java
+// config就是ProxyFactory对象
+
+// optimize为true,或proxyTargetClass为true,或用户没有给ProxyFactory对象添加interface
+if (config.isOptimize() || config.isProxyTargetClass() || hasNoUserSuppliedProxyInterfaces(config)) {
+	Class<?> targetClass = config.getTargetClass();
+	if (targetClass == null) {
+		throw new AopConfigException("TargetSource cannot determine target class: " +
+				"Either an interface or a target is required for proxy creation.");
+	}
+    // targetClass是接口，直接使用Jdk动态代理
+	if (targetClass.isInterface() || Proxy.isProxyClass(targetClass)) {
+		return new JdkDynamicAopProxy(config);
+	}
+    // 使用Cglib
+	return new ObjenesisCglibAopProxy(config);
+}
+else {
+    // 使用Jdk动态代理
+	return new JdkDynamicAopProxy(config);
+}
+```
+## 代理对象创建过程
+### JdkDynamicAopProxy
+
+1. 在构造JdkDynamicAopProxy对象时，会先拿到被代理对象自己所实现的接口，并且额外的增加SpringProxy、Advised、DecoratingProxy三个接口，组合成一个Class[]，并赋值给proxiedInterfaces属性
+1. 并且检查这些接口中是否定义了equals()、hashcode()方法
+1. 执行`Proxy.newProxyInstance(classLoader, this.proxiedInterfaces, this)`，得到代理对象，**JdkDynamicAopProxy**作为InvocationHandler，代理对象在执行某个方法时，会进入到JdkDynamicAopProxy的**invoke()**方法中
+### ObjenesisCglibAopProxy
+
+1. 创建Enhancer对象
+1. 设置Enhancer的superClass为通过ProxyFactory.setTarget()所设置的对象的类
+1. 设置Enhancer的interfaces为通过ProxyFactory.addInterface()所添加的接口，以及SpringProxy、Advised、DecoratingProxy接口
+1. 设置Enhancer的Callbacks为DynamicAdvisedInterceptor
+1. 最后创建一个代理对象，代理对象在执行某个方法时，会进入到DynamicAdvisedInterceptor的intercept()方法中
+
+## 代理对象执行过程
+
+1. 在使用ProxyFactory创建代理对象之前，需要往ProxyFactory先添加Advisor
+1. 代理对象在执行某个方法时，会把ProxyFactory中的Advisor拿出来和当前正在执行的方法进行匹配筛选
+1. 把和方法所匹配的Advisor适配成MethodInterceptor
+1. 把和当前方法匹配的MethodInterceptor链，以及被代理对象、代理对象、代理类、当前Method对象、方法参数封装为MethodInvocation对象
+1. 调用MethodInvocation的proceed()方法，开始执行各个MethodInterceptor以及被代理对象的对应方法
+1. 按顺序调用每个MethodInterceptor的invoke()方法，并且会把MethodInvocation对象传入invoke()方法
+1. 直到执行完最后一个MethodInterceptor了，就会调用invokeJoinpoint()方法，从而执行被代理对象的当前方法
+
+### 各注解对应的MethodInterceptor
+
+- **@Before**对应的是AspectJMethodBeforeAdvice，在进行动态代理时会把AspectJMethodBeforeAdvice转成**MethodBeforeAdviceInterceptor**
+   - 先执行advice对应的方法
+   - 再执行MethodInvocation的proceed()，会执行下一个Interceptor，如果没有下一个Interceptor了，会执行target对应的方法
+- **@After**对应的是AspectJAfterAdvice，直接实现了**MethodInterceptor**
+   - 先执行MethodInvocation的proceed()，会执行下一个Interceptor，如果没有下一个Interceptor了，会执行target对应的方法
+   - 再执行advice对应的方法
+- **@Around**对应的是AspectJAroundAdvice，直接实现了**MethodInterceptor**
+   - 直接执行advice对应的方法，由@Around自己决定要不要继续往后面调用
+- **@AfterThrowing**对应的是AspectJAfterThrowingAdvice，直接实现了**MethodInterceptor**
+   - 先执行MethodInvocation的proceed()，会执行下一个Interceptor，如果没有下一个Interceptor了，会执行target对应的方法
+   - 如果上面抛了Throwable，那么则会执行advice对应的方法
+- **@AfterReturning**对应的是AspectJAfterReturningAdvice，在进行动态代理时会把AspectJAfterReturningAdvice转成**AfterReturningAdviceInterceptor**
+   - 先执行MethodInvocation的proceed()，会执行下一个Interceptor，如果没有下一个Interceptor了，会执行target对应的方法
+   - 执行上面的方法后得到最终的方法的返回值
+   - 再执行Advice对应的方法
+
+## AbstractAdvisorAutoProxyCreator
+
+
+DefaultAdvisorAutoProxyCreator的父类是AbstractAdvisorAutoProxyCreator。
+
+
+**AbstractAdvisorAutoProxyCreator**非常强大以及重要，只要Spring容器中存在这个类型的Bean，就相当于开启了AOP，AbstractAdvisorAutoProxyCreator实际上就是一个BeanPostProcessor，所以在创建某个Bean时，就会进入到它对应的生命周期方法中，比如：在某个Bean**初始化之后**，会调用wrapIfNecessary()方法进行AOP，底层逻辑是，AbstractAdvisorAutoProxyCreator会找到所有的Advisor，然后判断当前这个Bean是否存在某个Advisor与之匹配（根据Pointcut），如果匹配就表示当前这个Bean有对应的切面逻辑，需要进行AOP，需要产生一个代理对象。
+
+
+## @EnableAspectJAutoProxy
+这个注解主要就是往Spring容器中添加了一个AnnotationAwareAspectJAutoProxyCreator类型的Bean。
+
+![image-20250116150457251](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501161504314.png)
+
+**AspectJAwareAdvisorAutoProxyCreator**继承了**AbstractAdvisorAutoProxyCreator**，重写了findCandidateAdvisors()方法，**AbstractAdvisorAutoProxyCreator**只能找到所有Advisor类型的Bean对象，但是**AspectJAwareAdvisorAutoProxyCreator**除开可以找到所有Advisor类型的Bean对象，还能把@Aspect注解所标注的Bean中的@Before等注解及方法进行解析，并生成对应的Advisor对象。
+
+所以，我们可以理解@EnableAspectJAutoProxy，其实就是像Spring容器中添加了一个AbstractAdvisorAutoProxyCreator类型的Bean，从而开启了AOP，并且还会解析@Before等注解生成Advisor。
+
+
+## Spring中AOP原理流程图
+[https://www.processon.com/view/link/5faa4ccce0b34d7a1aa2a9a5](https://www.processon.com/view/link/5faa4ccce0b34d7a1aa2a9a5)
