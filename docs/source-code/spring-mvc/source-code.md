@@ -374,9 +374,6 @@ return "hello zhouyu";
 那么SpringMVC就需要将字符串zhouyu转换成为User对象，这就需要我们自定义类型转换器了，比如：
 
 ```java
-/**
- * 作者：周瑜大都督
- */
 public class StringToUserEditor extends PropertyEditorSupport {
 
 	@Override
