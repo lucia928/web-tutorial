@@ -247,52 +247,12 @@ function getSourceCodeSiderBar() {
       collapsed: false,
       items: [
         {
-          text: "什么是Handler",
+          text: "Spring MVC概览",
           link: "/docs/source-code/spring-mvc/overview.md"
         },
         {
-          text: "什么是HandlerMapping",
+          text: "Spring MVC执行流程",
           link: "/docs/source-code/spring-mvc/source-code.md"
-        },
-        {
-          text: "什么是HandlerAdapter",
-          link: "/docs/source-code/spring-mvc/"
-        },
-        {
-          text: "@RequestMapping方法参数解析",
-          link: "/docs/source-code/spring-mvc/"
-        },
-        {
-          text: "@RequestMapping方法返回值解析",
-          link: "/docs/source-code/spring-mvc/"
-        },
-        {
-          text: "SpringMVC父子容器",
-          link: "/docs/source-code/spring-mvc/"
-        },
-        {
-          text: "SpringMVC初始化",
-          link: "/docs/source-code/spring-mvc/"
-        },
-        {
-          text: "WebApplicationInitializer",
-          link: "/docs/source-code/spring-mvc/"
-        },
-        {
-          text: "方法参数解析",
-          link: "/docs/source-code/spring-mvc/"
-        },
-        {
-          text: "MultipartFile解析",
-          link: "/docs/source-code/spring-mvc/"
-        },
-        {
-          text: "拦截器解析",
-          link: "/docs/source-code/spring-mvc/"
-        },
-        {
-          text: "@EnableWebMvc解析",
-          link: "/docs/source-code/spring-mvc/"
         },
       ]
     },
@@ -301,32 +261,12 @@ function getSourceCodeSiderBar() {
       collapsed: false,
       items: [
         {
-          text: "Mybatis 介绍",
+          text: "Mybatis 概览",
           link: "/docs/source-code/mybatis/overview.md"
         },
         {
-          text: "传统JDBC和Mybatis对比",
+          text: "MyBatis 执行流程",
           link: "/docs/source-code/mybatis/source-code.md"
-        },
-        {
-          text: "Mybatis概览",
-          link: "/docs/source-code/mybatis/"
-        },
-        {
-          text: "Mybatis 介绍",
-          link: "/docs/source-code/mybatis/"
-        },
-        {
-          text: "openSession的过程",
-          link: "/docs/source-code/mybatis/"
-        },
-        {
-          text: "Mapper方法的执行流程",
-          link: "/docs/source-code/mybatis/"
-        },
-        {
-          text: "Mybatis重要类",
-          link: "/docs/source-code/mybatis/"
         },
       ]
     },
