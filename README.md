@@ -18,7 +18,7 @@ Java技术栈各项技术的深入分析与实践，包括JVM、Tomcat、Netty�
 
 在线访问：https://tutorial-wiki.pages.dev/
 
-本期启动：`npm install & npm run docs:dev`
+本地启动：`npm install & npm run docs:dev`
 
 ## 贡献
 

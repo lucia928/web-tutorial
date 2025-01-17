@@ -146,7 +146,7 @@ function getConcurrentSiderBar() {
           link: "/docs/concurrent/aqs.md"
         },
         {
-          text: "ReentrantReadWriteLock&StampLock详解",
+          text: "读写锁详解",
           link: "/docs/concurrent/reentrant-read-write-lock.md"
         },
         {
@@ -174,7 +174,7 @@ function getConcurrentSiderBar() {
           link: "/docs/concurrent/cpu-cache.md"
         },
         {
-          text: "高性能内存队列Disruptor详解",
+          text: "Disruptor详解",
           link: "/docs/concurrent/disruptor.md"
         },
         {
