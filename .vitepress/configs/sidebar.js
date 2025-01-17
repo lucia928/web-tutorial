@@ -354,31 +354,31 @@ function getDataBaseSiderBar() {
       items: [
         {
           text: "Explain详解与索引优化最佳实践",
-          link: "/docs/database/mysql/"
+          link: "/docs/database/mysql/explain.md"
         },
         {
           text: "Mysql索引优化实战",
-          link: "/docs/database/mysql/"
+          link: "/docs/database/mysql/index.md"
         },
         {
           text: "Mysql事务原理与优化最佳实践",
-          link: "/docs/database/mysql/"
+          link: "/docs/database/mysql/transaction.md"
         },
         {
           text: "Mysql索引优化实战二",
-          link: "/docs/database/mysql/"
+          link: "/docs/database/mysql/index2.md"
         },
         {
           text: "Mysql锁机制与优化实践以及MVCC底层原理剖析",
-          link: "/docs/database/mysql/"
+          link: "/docs/database/mysql/mvcc.md"
         },
         {
           text: "Innodb底层原理与Mysql日志机制深入剖析",
-          link: "/docs/database/mysql/"
+          link: "/docs/database/mysql/innodb.md"
         },
         {
           text: "Mysql全局优化与Mysql 8.0新特性详解",
-          link: "/docs/database/mysql/"
+          link: "/docs/database/mysql/mysql8.md"
         },
         // {
         //   text: "MySQL中的锁",
@@ -444,27 +444,27 @@ function getDataBaseSiderBar() {
       items: [
         {
           text: "MongoDB快速实战与基本原理",
-          link: "/docs/database/mongodb/"
+          link: "/docs/database/mongodb/overview.md"
         },
         {
           text: "MongoDB聚合操作与索引使用详解",
-          link: "/docs/database/mongodb/"
+          link: "/docs/database/mongodb/integration-index.md"
         },
         {
           text: "MongoDB复制集实战及其原理分析",
-          link: "/docs/database/mongodb/"
+          link: "/docs/database/mongodb/replica-set.md"
         },
         {
           text: "MongoDB分片集群&高级集群架构详解",
-          link: "/docs/database/mongodb/"
+          link: "/docs/database/mongodb/sharded-cluster.md"
         },
         {
           text: "MongoDB存储原理&多文档事务详解",
-          link: "/docs/database/mongodb/"
+          link: "/docs/database/mongodb/document.md"
         },
         {
           text: "MongoDB建模调优&change stream实战",
-          link: "/docs/database/mongodb/"
+          link: "/docs/database/mongodb/change-stream.md"
         }
       ]
     },
