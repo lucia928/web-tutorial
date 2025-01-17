@@ -211,7 +211,7 @@ OAuth 2.0 在许多不同的应用场景中都能够发挥作用，尤其是那�
 
 3：用户在客户端上发起登录。
 
-4：向认证服务器发起认证授权请求，例如http://localhost:9000/auth/oauth/authorize?client_id=xxx&response_type=code&scope=message.read&redirect_uri=http://www.baidu.com，注意，此时参数不需要client_secret。
+4：向认证服务器发起认证授权请求，例如`http://localhost:9000/auth/oauth/authorize?client_id=xxx&response_type=code&scope=message.read&redirect_uri=http://www.baidu.com`，注意，此时参数不需要client_secret。
 
 5：认证服务器带上客户端参数，将操作引导至用户授权确认页面，用户在该页面进行授权确认操作。
 

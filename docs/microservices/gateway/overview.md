@@ -178,7 +178,7 @@ spring:
         - AddRequestHeader=X-Request-color, red  #添加请求头
 ```
 
-测试：[http://localhost:8888/order/testgateway](http://localhost:8888/order/testgateway2)
+测试：`http://localhost:8888/order/testgateway2`
 
 ```java
 @GetMapping("/testgateway")
@@ -211,7 +211,7 @@ spring:
         - AddRequestParameter=color, blue  # 添加请求参数
 ```
 
-测试：[http://localhost:8888/order/testgateway3](http://localhost:8888/order/testgateway3)
+测试：`http://localhost:8888/order/testgateway3`
 
 ```java
 @GetMapping("/testgateway3")
@@ -458,9 +458,9 @@ KeyResolver keyResolver() {
 
 **4) 测试**
 
-**url限流：**[**http://localhost:8888/order/findOrderByUserId/1**](http://localhost:8888/order/findOrderByUserId/1) 
+**url限流**：`http://localhost:8888/order/findOrderByUserId/1`
 
-**参数限流：**[**http://localhost:8888/order/findOrderByUserId/1?user=fox**](http://localhost:8888/order/findOrderByUserId/1?user=fox)
+**参数限流**：`http://localhost:8888/order/findOrderByUserId/1?user=fox`
 
 ![image-20250107103847502](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501071038547.png)
 

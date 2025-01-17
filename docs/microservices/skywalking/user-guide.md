@@ -65,7 +65,7 @@ Skywalking跨多个微服务追踪，只需要每个微服务启动时添加java
 
 启动微服务mall-gateway，mall-order，mall-user ，配置skywalking的jvm参数
 
-测试：http://localhost:8888/user/findOrderByUserId/1
+测试：`http://localhost:8888/user/findOrderByUserId/1`
 
 ![image-20250106140138134](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501061401220.png)
 
@@ -119,7 +119,7 @@ https://skywalking.apache.org/docs/skywalking-java/latest/en/setup/service-agent
 </configuration>
 ```
 
-测试http://localhost:8888/user/findOrderByUserId/1，查看调用日志
+测试 `http://localhost:8888/user/findOrderByUserId/1`，查看调用日志
 
 ### ![image-20250106140330815](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501061403959.png)
 

@@ -114,7 +114,7 @@ public class AdminController {
 
 **4）退出登录**
 
-Spring security默认实现了logout退出，用户只需要向 Spring Security 项目中发送 [http://localhost:8080/logout](http://localhost:8080/login?logout) 退出请求即可。
+Spring security默认实现了logout退出，用户只需要向 Spring Security 项目中发送    `http://localhost:8080/login?logout` 退出请求即可。
 
 ### **设置用户名密码**
 

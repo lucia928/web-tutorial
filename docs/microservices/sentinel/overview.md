@@ -175,7 +175,7 @@ public class HelloController {
 
 **3）测试**
 
-测试效果：http://localhost:8800/hello
+测试效果：`http://localhost:8800/hello`
 
 ![image-20250114164102268](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/blog/202501141641318.png)
 
