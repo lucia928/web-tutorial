@@ -388,19 +388,31 @@ function getDataBaseSiderBar() {
       items: [
         {
           text: "Redis核心数据结构与高性能原理",
-          link: "/docs/database/redis"
+          link: "/docs/database/redis/overview.md"
         },
         {
           text: "Redis持久化、主从与哨兵架构详解",
-          link: "/docs/database/redis"
+          link: "/docs/database/redis/master-slave-and-sentinel.md"
         },
         {
-          text: "Redis核心数据结构与高性能原理",
-          link: "/docs/database/redis"
+          text: "Redis缓存高可用集群",
+          link: "/docs/database/redis/master-slave.md"
         },
         {
           text: "Redis高可用集群之水平扩展",
-          link: "/docs/database/redis"
+          link: "/docs/database/redis/horizontal-scaling.md"
+        },
+        {
+          text: "Redis缓存设计与性能优化",
+          link: "/docs/database/redis/cache.md"
+        },
+        {
+          text: "Redis队列Stream、Redis多线程详解",
+          link: "/docs/database/redis/stream.md"
+        },
+        {
+          text: "Redis HyperLogLog与事务",
+          link: "/docs/database/redis/hyper-log-log.md"
         },
       ]
     },
