@@ -358,15 +358,11 @@ function getDataBaseSiderBar() {
         },
         {
           text: "Mysql索引优化实战",
-          link: "/docs/database/mysql/index.md"
+          link: "/docs/database/mysql/index-optimization.md"
         },
         {
           text: "Mysql事务原理与优化最佳实践",
           link: "/docs/database/mysql/transaction.md"
-        },
-        {
-          text: "Mysql索引优化实战二",
-          link: "/docs/database/mysql/index2.md"
         },
         {
           text: "Mysql锁机制与优化实践以及MVCC底层原理剖析",
