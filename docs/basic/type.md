@@ -1,12 +1,10 @@
 # 数据类型
 
-## 两种类型
-
-### 基本类型
+## 基本类型
 
 字符串（String）、数字(Number)、布尔(Boolean)、空（Null）、未定义（Undefined）、Symbol、BigInt（大整数）
 
-### 引用类型
+## 引用类型
 
 对象(Object)、数组(Array)、函数(Function)、正则（RegExp）、日期（Date）、Map、Set等
 

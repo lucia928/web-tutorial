@@ -2,7 +2,7 @@
  * @Author: lucia928
  * @Date: 2025-03-30 16:25:06
  * @LastEditors: lucia928
- * @LastEditTime: 2025-04-08 21:48:32
+ * @LastEditTime: 2025-04-21 22:27:13
  * @FilePath: \web-tutorial\.vitepress\configs\sidebar.js
  * @Description:
  * @Copyright (c) 2025 by luxuhui1998@163.com, All Rights Reserved.
@@ -31,12 +31,20 @@ function getBasicSideBar() {
           link: "/docs/basic/define.md",
         },
         {
+          text: "作用域",
+          link: "/docs/basic/scope.md",
+        },
+        {
           text: "类型转换",
           link: "/docs/basic/transform.md",
         },
         {
           text: "==和===",
           link: "/docs/basic/equal.md",
+        },
+        {
+          text: "浅拷贝与深拷贝",
+          link: "/docs/basic/clone.md",
         },
       ],
     },
