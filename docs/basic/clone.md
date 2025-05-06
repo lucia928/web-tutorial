@@ -16,13 +16,10 @@
 
 `相关方法`：
 
-- JSON方法（`JSON.parse(JSON.stringify())`），会忽略`undefined`、`symbol`和`函数`，不支持循环引用
+- JSON方法（`JSON.parse(JSON.stringify())`），会忽略`undefined`、`symbol`和`函数`，不能拷贝`Date`、`Map`、`Set`等特殊对象，不支持循环引用，丢失原型链
+- 新的原生API（`structuredClone()`），不能拷贝`函数`和`DOM`节点，丢失原型链
 - lodash（`_.cloneDeep()`）
-- jQuery（`jQuery.extend()`)
-
-## 区别
-
-![image-20250421222142059](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/lu/image-20250421222142059.png)
+- jQuery（`jQuery.extend()`）
 
 ## 简单实现深拷贝
 
@@ -59,3 +56,25 @@ function deepClone(data, hash = new WeakMap()) {
 }
 ```
 
+## 区别
+
+![image-20250421222142059](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/lu/image-20250421222142059.png)
+
+## 性能考量
+
+深拷贝通常比浅拷贝消耗更多资源，特别是对于大型、复杂的数据结构。在选择拷贝策略时，应考虑以下几点：
+
+1. 数据结构的大小和复杂度
+2. 性能要求
+3. 对象的使用方式（是否需要完全独立的副本）
+
+## 最佳实践
+
+1. 明确需求：首先确定是否真的需要深拷贝。很多时候浅拷贝或者部分深拷贝就够了
+2. 选择合适的方式：
+    - 浅拷贝： `Object.assign()`或者展开运算符
+    - 简单深拷贝： `JSON.parse(JSON.stringify())`或`structuredClone()`
+    - 复杂深拷贝：`_.cloneDeep()`或自定义函数
+3. 测试边缘情况：特别是当处理包含特殊对象或者循环引用的数据时
+4. 考虑不可变数据模式，而不是直接修改对象（`{...user, name: xxx}`），可以减少深拷贝的需求
+5. 性能平衡：在深拷贝和性能之间找到平衡点，尤其是在处理大型数据结构时
