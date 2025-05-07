@@ -18,7 +18,7 @@
 
 ## 如何使用
 
-在线访问：https://tutorial-wiki.pages.dev/
+在线访问：https://web-tutorial.pages.dev/
 
 本地启动：`npm install & npm run docs:dev`
 
