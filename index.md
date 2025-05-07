@@ -1,9 +1,6 @@
 ---
 layout: home
 
-hero:
-  # name: Java Tutorial
-
 features:
   - icon: 
       src: /basic.svg
