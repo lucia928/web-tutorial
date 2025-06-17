@@ -58,6 +58,10 @@ function getBasicSideBar() {
           text: "原型与原型链",
           link: "/docs/basic/prototype.md",
         },
+        {
+          text: "实现继承方式",
+          link: "/docs/basic/inherit.md",
+        },
       ],
     },
   ]

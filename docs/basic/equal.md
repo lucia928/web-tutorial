@@ -93,3 +93,17 @@ obj1 === obj2; // true obj1、obj2指向同一内存地址
 
 
 
+## 拓展 
+
+### Object.is()
+
+与`===`类似，但解决两个特殊场景
+
+- `NaN`等于自身
+- `+0`和`-0`不相等
+
+``` javascript
+Object.is(NaN, NaN); // true
+Object.is(+0, -0); // false
+```
+
