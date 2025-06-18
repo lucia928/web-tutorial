@@ -2,7 +2,7 @@
  * @Author: lucia928
  * @Date: 2025-03-30 16:25:06
  * @LastEditors: lucia928
- * @LastEditTime: 2025-05-07 22:10:15
+ * @LastEditTime: 2025-06-18 23:04:18
  * @FilePath: \web-tutorial\.vitepress\configs\sidebar.js
  * @Description:
  * @Copyright (c) 2025 by luxuhui1998@163.com, All Rights Reserved.
@@ -62,6 +62,10 @@ function getBasicSideBar() {
           text: "实现继承方式",
           link: "/docs/basic/inherit.md",
         },
+        {
+          text: "this关键字",
+          link: "/docs/basic/this.md",
+        }
       ],
     },
   ]
