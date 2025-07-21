@@ -86,13 +86,30 @@ var obj = {
     a: 18
 }
 
-// call函数第一个参数要绑定的对象，后面的参数为foo执行的参数，立即执行一次
+// call函数第一个参数要绑定的对象（没传、传null或undefined指向全局对象），后面的参数为foo执行的参数，临时改变，立即执行一次
 foo.call(obj, 1, 2); // 18 1 2
-// apply函数第一个参数要绑定的对象，后面的参数为foo执行的参数（数组形式），立即执行一次
+// apply函数第一个参数要绑定的对象（没传、传null或undefined指向全局对象），后面的参数为foo执行的参数（数组形式），临时改变，立即执行一次
 foo.apply(obj, [1,2]); // 18 1 2
-// bind函数第一个参数要绑定的对象，后面的参数为foo执行的参数（可不传或传全部、部分参数），返回一个新函数，不会执行
+// bind函数第一个参数要绑定的对象（没传、传null或undefined指向全局对象），后面的参数为foo执行的参数（可不传或传全部、部分参数），永久改变，返回一个新函数，不会执行
 var fooFn = foo.bind(obj, 1);
 fooFn(2); // 18 1 2
+
+// 手写bind
+Function.prototype.myBind = function (context) {
+    // 防止非函数调用
+    if (typeof this !== "function") {
+    	throw new TypeError("Error");
+    }
+    // 获取参数
+    const bindArgs = [...arguments].slice(1);
+    const originalFn = this;
+    return function Fn() {
+        // 通过new调用时，this指向新创建的对象
+        // 普通调用时，this指向context
+        // 合并bind参数和调用时传入的参数
+        return originalFn.apply(this instanceof Fn ? new originalFn(...arguments) : context, bindArgs.concat(...arguments));
+    }
+}
 ```
 
 ### new绑定
@@ -107,12 +124,18 @@ function foo(a) {
 var obj = new foo(18);
 console.log(obj.a); // 18
 
-// 构造函数执行过程
-// 1、创建一个空对象
-// 2、设置原型，将对象的隐式原型指向函数的prototype对象
-// 3、改变this指向，执行构造函数的代码（为新对象添加属性和方法）
-// 4、返回 如果构造函数没有return或者返回的是简单数据类型，直接返回创建的对象
-//    如果return的是引用类型，就返回这个引用类型的对象。
+// 手动实现new操作符的功能
+function mynew(Func, ...args) {
+    // 1、创建一个空对象
+    const obj = {};
+    // 2、设置原型，将对象的隐式原型指向函数的prototype对象
+    Object.setPrototypeOf(obj, Func.prototype);
+    // 3、改变this指向，执行构造函数的代码（为新对象添加属性和方法）
+    let result = Func.apply(obj, args);
+    // 4、返回 如果构造函数没有return或者返回的是简单数据类型，直接返回创建的对象
+    //    如果return的是引用类型，就返回这个引用类型的对象。
+    return result instanceof Object ? result : obj;
+}
 ```
 
 ## 优先级

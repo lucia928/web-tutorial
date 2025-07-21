@@ -2,7 +2,7 @@
  * @Author: lucia928
  * @Date: 2025-03-30 16:25:06
  * @LastEditors: lucia928
- * @LastEditTime: 2025-06-18 23:04:18
+ * @LastEditTime: 2025-07-21 16:48:00
  * @FilePath: \web-tutorial\.vitepress\configs\sidebar.js
  * @Description:
  * @Copyright (c) 2025 by luxuhui1998@163.com, All Rights Reserved.
@@ -65,6 +65,18 @@ function getBasicSideBar() {
         {
           text: "this关键字",
           link: "/docs/basic/this.md",
+        },
+        {
+          text: "防抖和节流",
+          link: "/docs/basic/debounce.md",
+        },
+        {
+          text: "事件循环机制",
+          link: "/docs/basic/eventloop.md",
+        },
+        {
+          text: "本地存储",
+          link: "/docs/basic/storage.md",
         }
       ],
     },
@@ -82,7 +94,7 @@ function getCssSideBar() {
         },
         {
           text: "格式化上下文",
-          link: "/docs/css/FC.md",
+          link: "/docs/css/fc.md",
         },
       ],
     },

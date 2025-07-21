@@ -28,19 +28,24 @@ function deepClone(data, hash = new WeakMap()) {
     // 判断传入的待拷贝对象的引用是否存在于hash中
     if (hash.has(data)) {
         return hash.get(data);
-    } else if (typeof data !== 'object' || data === null) {
+    } 
+    if (typeof data !== 'object' || data === null) {
         // 判断数据类型是否是引用数据类型
         return data;
-    } else if (data instanceof RegExp) {
+    }
+    if (data instanceof RegExp) {
         // 实现reg数据的深拷贝
         return new RegExp(data);
-    } else if (data instanceof Date) {
+    } 
+    if (data instanceof Date) {
         // 实现date数据的深拷贝
         return new Date(data);
-    } else if (data instanceof Map) {
+    }
+    if (data instanceof Map) {
         // 实现map数据的深拷贝
         return new Map([...data]);
-    } else if (data instanceof Set) {
+    }
+    if (data instanceof Set) {
         // 实现set数据的深拷贝
         return new Set([...data]);
     }
