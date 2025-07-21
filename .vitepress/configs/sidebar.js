@@ -80,6 +80,10 @@ function getCssSideBar() {
           text: "盒子模型",
           link: "/docs/css/box.md",
         },
+        {
+          text: "格式化上下文",
+          link: "/docs/css/FC.md",
+        },
       ],
     },
   ]
