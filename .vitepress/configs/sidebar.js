@@ -2,7 +2,7 @@
  * @Author: lucia928
  * @Date: 2025-03-30 16:25:06
  * @LastEditors: lucia928
- * @LastEditTime: 2025-07-21 16:48:00
+ * @LastEditTime: 2025-07-22 16:23:35
  * @FilePath: \web-tutorial\.vitepress\configs\sidebar.js
  * @Description:
  * @Copyright (c) 2025 by luxuhui1998@163.com, All Rights Reserved.
@@ -77,6 +77,18 @@ function getBasicSideBar() {
         {
           text: "本地存储",
           link: "/docs/basic/storage.md",
+        },
+        {
+          text: "前端模块化",
+          link: "/docs/basic/module.md",
+        },
+        {
+          text: "Promise",
+          link: "/docs/basic/promise.md",
+        },
+        {
+          text: "数据结构Set和Map",
+          link: "/docs/basic/set&map.md",
         }
       ],
     },
