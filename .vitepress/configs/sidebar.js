@@ -2,7 +2,7 @@
  * @Author: lucia928
  * @Date: 2025-03-30 16:25:06
  * @LastEditors: lucia928
- * @LastEditTime: 2025-07-22 16:23:35
+ * @LastEditTime: 2025-07-23 21:06:27
  * @FilePath: \web-tutorial\.vitepress\configs\sidebar.js
  * @Description:
  * @Copyright (c) 2025 by luxuhui1998@163.com, All Rights Reserved.
@@ -107,6 +107,22 @@ function getCssSideBar() {
         {
           text: "格式化上下文",
           link: "/docs/css/fc.md",
+        },
+        {
+          text: "响应式设计",
+          link: "/docs/css/responsive.md",
+        },
+        {
+          text: "CSS中隐藏元素的方式",
+          link: "/docs/css/hidden.md",
+        },
+        {
+          text: "CSS选择器",
+          link: "/docs/css/selector.md",
+        },
+        {
+          text: "回流和重绘",
+          link: "/docs/css/reflow.md",
         },
       ],
     },
