@@ -31,4 +31,4 @@
 
 以上的方式最常用的还是`display`和`visibility`，其他方式只能认为是奇招，他们真正用途并不是用于隐藏元素，所以不推荐使用。
 
-![隐藏元素](D:\Projects\example\图片\隐藏元素.png)
+![隐藏元素](./images/hidden.png)
