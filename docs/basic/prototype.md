@@ -42,7 +42,7 @@ let obj = {
 
 ## 关系
 
-![image-20250507215521595](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/lu/image-20250507215521595.png)
+![prototype](./images/prototype.png)
 
 - `proto`和`constructor`属性是对象所独有的；`prototype`属性是函数独有的，因为函数也是一种对象，所以函数也有`proto`和`constructor`属性
 - `prototype`属性的作用是让函数所实例化的对象共享属性和方法

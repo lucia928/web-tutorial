@@ -63,7 +63,7 @@ function deepClone(data, hash = new WeakMap()) {
 
 ## 区别
 
-![image-20250421222142059](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/lu/image-20250421222142059.png)
+![clone](./images/clone.png)
 
 ## 性能考量
 

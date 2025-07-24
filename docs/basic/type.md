@@ -28,7 +28,7 @@ b = 20;
 console.log(a); // 10值
 ```
 
-![image-20250331224114054](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/lu/image-20250331224114054.png)
+![type_1](./images/type_1.png)
 
 ### 引用类型
 
@@ -41,7 +41,7 @@ obj2.name = "xxx";
 console.log(obj1.name); // xxx
 ```
 
-![image-20250331224415562](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/lu/image-20250331224415562.png)
+![type_2](./images/type_2.png)
 
 ## 总结
 

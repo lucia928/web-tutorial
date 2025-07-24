@@ -72,7 +72,7 @@ function bar(){
 bar()
 ```
 
-![image-20250408223914998](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/lu/image-20250408223914998.png)
+![scope_1](./images/scope_1.png)
 
 
 
@@ -83,7 +83,7 @@ bar()
 
 当访问变量时，js引擎会尝试在当前作用域下查找该变量，如果没有找到则逐级向外层作用域查找，直到查找到该变量或者到全局作用域仍未找到直接报错（非严格模式下隐式声明该变量）
 
-![image-20250408224602375](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/lu/image-20250408224602375.png)
+![scope_1](./images/scope_2.png)
 
 ``` javascript
 const globalVar = 'global';

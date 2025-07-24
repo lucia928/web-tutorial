@@ -225,4 +225,4 @@ const child = new Child('child', [1, 2, 3]);
 
 ## 总结
 
-![微信图片_20250617231837](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/lu/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250617231837.jpg)
+![inherit](./images/inherit.png)

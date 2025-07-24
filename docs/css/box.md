@@ -23,7 +23,7 @@
 // 盒子总占据位置(横向) = 220px + 40px = 320px;
 ```
 
-![image-20250722172657087](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/lu/image-20250722172657087.png)
+![box_1](./images/box_1.png)
 
 ## IE盒模型（border-box）
 
@@ -48,4 +48,4 @@
 // 盒子总占据位置(横向) = 200px + 40px = 240px;
 ```
 
-![image-20250722172804323](https://blog-1304855543.cos.ap-guangzhou.myqcloud.com/lu/image-20250722172804323.png)
+![box_2](./images/box_2.png)
