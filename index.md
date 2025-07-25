@@ -23,4 +23,10 @@ features:
     link: /docs/ts/
     linkText: more
 
+  - icon: 
+      src: /vue.svg
+    title: Vue框架
+    details: 语法、生命周期、实现原理以及Vue2和Vue3差异
+    link: /docs/vue/
+    linkText: more
 ---

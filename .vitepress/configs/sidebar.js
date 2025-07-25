@@ -2,7 +2,7 @@
  * @Author: lucia928
  * @Date: 2025-03-30 16:25:06
  * @LastEditors: lucia928
- * @LastEditTime: 2025-07-24 14:41:58
+ * @LastEditTime: 2025-07-24 16:00:35
  * @FilePath: \web-tutorial\.vitepress\configs\sidebar.js
  * @Description:
  * @Copyright (c) 2025 by luxuhui1998@163.com, All Rights Reserved.
@@ -11,6 +11,7 @@ export default {
   "/docs/basic/": getBasicSideBar(),
   "/docs/css/": getCssSideBar(),
   "/docs/ts/": getTsSideBar(),
+  "/docs/vue/": getVueSideBar(),
 }
 
 function getBasicSideBar() {
@@ -139,6 +140,25 @@ function getTsSideBar() {
         {
           text: "常见问题",
           link: "/docs/ts/question.md",
+        },
+      ],
+    },
+  ]
+}
+
+
+function getVueSideBar() {
+  return [
+    {
+      text: "Vue",
+      items: [
+        {
+          text: "应用架构模式",
+          link: "/docs/vue/spa.md",
+        },
+        {
+          text: "生命周期",
+          link: "/docs/vue/life_cycle.md",
         },
       ],
     },
