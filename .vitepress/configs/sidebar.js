@@ -2,7 +2,7 @@
  * @Author: lucia928
  * @Date: 2025-03-30 16:25:06
  * @LastEditors: lucia928
- * @LastEditTime: 2025-07-24 16:00:35
+ * @LastEditTime: 2025-07-26 10:26:14
  * @FilePath: \web-tutorial\.vitepress\configs\sidebar.js
  * @Description:
  * @Copyright (c) 2025 by luxuhui1998@163.com, All Rights Reserved.
@@ -159,6 +159,22 @@ function getVueSideBar() {
         {
           text: "生命周期",
           link: "/docs/vue/life_cycle.md",
+        },
+        {
+          text: "双向数据绑定",
+          link: "/docs/vue/data_binding.md",
+        },
+        {
+          text: "组件间通信",
+          link: "/docs/vue/communication.md",
+        },
+        {
+          text: "指令相关",
+          link: "/docs/vue/directives.md",
+        },
+        {
+          text: "常见问题",
+          link: "/docs/vue/questions.md",
         },
       ],
     },
