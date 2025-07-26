@@ -27,3 +27,13 @@
 - 列表渲染指令（v-for）。
 - 属性绑定指令（v-bind）。
 - 事件绑定指令（v-on）。
+
+##  Vue3变化
+
+- 响应式原理：通过Proxy进行数据拦截，能够监听对象和数组的新增、删除操作。
+- 组合式 API (Composition API)：将相关逻辑集中在一起，增强了代码的可读性和内聚性。相比之下，Vue2 的选项式 API 会将逻辑分散在不同的位置。
+- 生命周期调整：部分生命周期钩子函数名称变化；`setup`代替了`beforeCreate`和`created`；新增`onRenderTracked`和`onRenderTriggered`。
+- 体积减少：通过`tree-shaking`功能，仅打包需要的模块代码。
+- 虚拟 DOM 优化：在虚拟 DOM 上增加了`patchFlag` 字段，帮助在 Diff 过程中区分`静态节点`和不同类型的动态节点，减少不必要的比较。
+- 见不到this的使用，减少了this指向不明的情况。
+- 更好的TS支持。

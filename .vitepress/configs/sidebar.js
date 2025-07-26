@@ -2,7 +2,7 @@
  * @Author: lucia928
  * @Date: 2025-03-30 16:25:06
  * @LastEditors: lucia928
- * @LastEditTime: 2025-07-26 10:26:14
+ * @LastEditTime: 2025-07-26 16:10:24
  * @FilePath: \web-tutorial\.vitepress\configs\sidebar.js
  * @Description:
  * @Copyright (c) 2025 by luxuhui1998@163.com, All Rights Reserved.
@@ -171,6 +171,18 @@ function getVueSideBar() {
         {
           text: "指令相关",
           link: "/docs/vue/directives.md",
+        },
+        {
+          text: "Mixin",
+          link: "/docs/vue/mixin.md",
+        },
+        {
+          text: "nextTick",
+          link: "/docs/vue/nexttick.md",
+        },
+        {
+          text: "虚拟DOM",
+          link: "/docs/vue/virtual_dom.md",
         },
         {
           text: "常见问题",
