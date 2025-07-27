@@ -78,7 +78,7 @@ app.directive('focus', {
   beforeUpdate(el, binding, vnode, prevNode) {
       // el 指令绑定到的元素
       // binding 是一个对象, 包含instance：使用指令的组件实例、value：传递给指令的值、oldValue：先前的值等属性
-      // 
+      // vnode 虚拟节点
       // prevNode 上一个虚拟节点
   },
   // 在包含组件的 VNode 及其子组件的 VNode 更新之后调用
