@@ -26,11 +26,11 @@
 
 - **Vue.set()：** 通过`Vue.set`(调用`defineReactive => Object.defineProperty`)向响应式对象中添加一个`property`，并确保这个`新property`同样是响应式的，且触发视图更新。
 
-- **Object.assign()： **合并原对象和混入对象的属性，再赋值给原对象。
+- **Object.assign()：** 合并原对象和混入对象的属性，再赋值给原对象。
 
 - **$forceUpdated()：** 强制更新，迫使实例重新渲染（不建议）。
 
-- **Proxy实现数据响应式： **`Proxy`的监听是针对一个对象的，对这个对象的所有操作会进入监听操作。
+- **Proxy实现数据响应式：** `Proxy`的监听是针对一个对象的，对这个对象的所有操作会进入监听操作。
 
 ## computed VS watch
 

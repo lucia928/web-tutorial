@@ -217,7 +217,7 @@ console.log(baz.a); // 19
 
 ## 箭头函数的this
 
-箭头函数的`this`在编译的时候就确定了`this`的指向（根据函数或者全局作用域来确定），并且无法修改。
+箭头函数的`this`指向是在函数定义时绑定的，而不是在执行过程中绑定的。这意味着箭头函数内部的`this`值是在它被创建的上下文中确定的，而不是在它被调用的时候确定的，并且无法修改。
 
 ``` js
 const obj = {
@@ -246,5 +246,5 @@ var doFoo1 = obj2.foo();
 doFoo1(); // 18
 
 var doFoo2 = foo();
-foo(); // undefined
+doFoo2(); // undefined
 ```

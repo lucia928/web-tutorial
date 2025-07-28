@@ -55,6 +55,6 @@ console.log('script end');
 
 
 
-## nodejs事件循环机制
+## NodeJs事件循环机制
 
 NodeJs中，微任务会在事件循环的各个阶段之间执行，也就是一个阶段执行完毕，就会去执行微任务队列的任务。

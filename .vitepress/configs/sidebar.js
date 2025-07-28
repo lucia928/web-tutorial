@@ -2,7 +2,7 @@
  * @Author: lucia928
  * @Date: 2025-03-30 16:25:06
  * @LastEditors: lucia928
- * @LastEditTime: 2025-07-26 16:10:24
+ * @LastEditTime: 2025-07-28 15:57:32
  * @FilePath: \web-tutorial\.vitepress\configs\sidebar.js
  * @Description:
  * @Copyright (c) 2025 by luxuhui1998@163.com, All Rights Reserved.
@@ -53,12 +53,16 @@ function getBasicSideBar() {
           link: "/docs/basic/closure.md",
         },
         {
-          text: "类型检测",
-          link: "/docs/basic/type_detection.md",
+          text: "防抖和节流",
+          link: "/docs/basic/debounce.md",
         },
         {
           text: "原型与原型链",
           link: "/docs/basic/prototype.md",
+        },
+        {
+          text: "类型检测",
+          link: "/docs/basic/type_detection.md",
         },
         {
           text: "实现继承方式",
@@ -67,10 +71,6 @@ function getBasicSideBar() {
         {
           text: "this关键字",
           link: "/docs/basic/this.md",
-        },
-        {
-          text: "防抖和节流",
-          link: "/docs/basic/debounce.md",
         },
         {
           text: "事件循环机制",

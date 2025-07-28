@@ -20,7 +20,7 @@
 
 ## 静态方法
 
-` Promise.all()：`用于将多个 Promise实例，包装成一个新的 Promise实例；全部成功才`fulfilled`，有一个失败就`rejected `。
+` Promise.all()：`用于将多个 Promise实例，包装成一个新的 Promise实例；全部成功才`fulfilled`，有一个失败就立即返回`rejected `。
 
 `Promise.race()：`同上；状态就跟着第一个改变状态的实例。
 
