@@ -11,7 +11,7 @@ features:
 
   - icon: 
       src: /ts.svg
-    title: TS基础
+    title: TS系列
     details: 静态类型、类、接口、命名空间和模块等特性
     link: /docs/ts/
     linkText: more
@@ -24,9 +24,16 @@ features:
     linkText: more
 
   - icon: 
-      src: /concurrent.svg
+      src: /css.svg
     title: CSS系列
     details: 语法、属性和选择器，以及常见样式和布局
     link: /docs/css/
+    linkText: more
+
+  - icon: 
+      src: /http.svg
+    title: HTTP系列
+    details: 状态码、报文、缓存、跨域、HTTPS等核心知识点
+    link: /docs/http/
     linkText: more
 ---

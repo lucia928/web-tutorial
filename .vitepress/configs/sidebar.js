@@ -2,7 +2,7 @@
  * @Author: lucia928
  * @Date: 2025-03-30 16:25:06
  * @LastEditors: lucia928
- * @LastEditTime: 2025-07-29 09:36:39
+ * @LastEditTime: 2025-07-29 16:08:41
  * @FilePath: \web-tutorial\.vitepress\configs\sidebar.js
  * @Description:
  * @Copyright (c) 2025 by luxuhui1998@163.com, All Rights Reserved.
@@ -12,6 +12,7 @@ export default {
   "/docs/css/": getCssSideBar(),
   "/docs/ts/": getTsSideBar(),
   "/docs/vue/": getVueSideBar(),
+  "/docs/http/": getHttpSideBar(),
 }
 
 function getBasicSideBar() {
@@ -130,6 +131,10 @@ function getCssSideBar() {
           text: "回流和重绘",
           link: "/docs/css/reflow.md",
         },
+        {
+          text: "常见问题",
+          link: "/docs/css/questions.md",
+        },
       ],
     },
   ]
@@ -191,6 +196,20 @@ function getVueSideBar() {
         {
           text: "常见问题",
           link: "/docs/vue/questions.md",
+        },
+      ],
+    },
+  ]
+}
+
+function getHttpSideBar() {
+  return [
+    {
+      text: "HTTP系列",
+      items: [
+        {
+          text: "常见问题",
+          link: "/docs/http/questions.md",
         },
       ],
     },
