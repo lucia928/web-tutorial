@@ -2,7 +2,7 @@
  * @Author: lucia928
  * @Date: 2025-03-30 16:25:06
  * @LastEditors: lucia928
- * @LastEditTime: 2025-07-28 15:57:32
+ * @LastEditTime: 2025-07-29 09:36:39
  * @FilePath: \web-tutorial\.vitepress\configs\sidebar.js
  * @Description:
  * @Copyright (c) 2025 by luxuhui1998@163.com, All Rights Reserved.
@@ -25,20 +25,20 @@ function getBasicSideBar() {
           link: "/docs/basic/dynamic.md",
         },
         {
-          text: "数据类型",
-          link: "/docs/basic/type.md",
-        },
-        {
           text: "变量声明",
           link: "/docs/basic/define.md",
         },
         {
-          text: "作用域",
-          link: "/docs/basic/scope.md",
+          text: "数据类型",
+          link: "/docs/basic/type.md",
         },
         {
           text: "类型转换",
           link: "/docs/basic/transform.md",
+        },
+        {
+          text: "类型检测",
+          link: "/docs/basic/type_detection.md",
         },
         {
           text: "==和===",
@@ -47,6 +47,14 @@ function getBasicSideBar() {
         {
           text: "浅拷贝与深拷贝",
           link: "/docs/basic/clone.md",
+        },
+        {
+          text: "作用域",
+          link: "/docs/basic/scope.md",
+        },
+        {
+          text: "this关键字",
+          link: "/docs/basic/this.md",
         },
         {
           text: "闭包",
@@ -61,16 +69,8 @@ function getBasicSideBar() {
           link: "/docs/basic/prototype.md",
         },
         {
-          text: "类型检测",
-          link: "/docs/basic/type_detection.md",
-        },
-        {
           text: "实现继承方式",
           link: "/docs/basic/inherit.md",
-        },
-        {
-          text: "this关键字",
-          link: "/docs/basic/this.md",
         },
         {
           text: "事件循环机制",
@@ -91,7 +91,11 @@ function getBasicSideBar() {
         {
           text: "数据结构Set和Map",
           link: "/docs/basic/set&map.md",
-        }
+        },
+        {
+          text: "Ajax VS Axios VS Fetch",
+          link: "/docs/basic/ajax.md",
+        },
       ],
     },
   ]

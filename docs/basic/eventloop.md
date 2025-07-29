@@ -8,7 +8,7 @@
 
 - `同步任务：`立即执行的任务，同步任务一般会直接进入到主线程中执行。
 - `异步任务：`异步执行的任务，遇到异步任务不会等待它返回结果，而是将这个事件挂起，继续执行主线程的其他任务。当异步任务返回结果，将回调函数放到事件队列中，等到主线程空闲的时候再推入主线程执行。异步任务还可以细分为微任务与宏任务。
-  - `微任务：`一个需要异步执行的函数，执行时机是在主函数执行结束之后、当前宏任务结束之前。例如Promise.then/catch/finally、MutationObserver(监视对 DOM 树所做更改)、process.nextTick（Node.js）
+  - `微任务：`一个需要异步执行的函数，当前任务执行结束后立即执行的任务。例如Promise.then/catch/finally、MutationObserver(监视对 DOM 树所做更改)、process.nextTick（Node.js）
   
   - `宏任务`：时间粒度比较大，执行的时间间隔是不能精确控制的，对一些高实时性的需求就不太符合（ajax的onload、script外层同步代码、setTimeout、setInterval、UI rendering/UI事件、postMessage、MessageChannel、requestAnimationFrame、setImmediate、I/O（Node.js））
 

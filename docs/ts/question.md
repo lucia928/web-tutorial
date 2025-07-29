@@ -146,3 +146,16 @@ function infiniteLoop(): never {
 }
 ```
 
+## 泛型
+
+泛型是指在定义函数、接口、类的时候，不预先制定具体的类型，而是在使用的时候再指定类型的一种特性。使用泛型可以增强代码的可复用性，避免重复的类型定义。
+
+``` ts
+function add<T>(arg1: T, arg2: T): T {
+    return arg1 + arg2;
+}
+
+add<number>(1, 2);
+add<string>('hello ', 'world');
+```
+
