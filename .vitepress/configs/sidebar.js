@@ -62,6 +62,10 @@ function getBasicSideBar() {
           link: "/docs/basic/closure.md",
         },
         {
+          text: "内存泄漏",
+          link: "/docs/basic/memory_leak.md",
+        },
+        {
           text: "防抖和节流",
           link: "/docs/basic/debounce.md",
         },

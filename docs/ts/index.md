@@ -19,19 +19,33 @@
 
 ## 数据类型
 
-- boolean
-- number
-- string
-- enum
-- null
-- undefined
-- void
-- never
-- any
-- unknown
-- object
-- array
-- tuple
+- 基本类型
+
+  - boolean
+
+  - number
+
+  - string
+
+  - symbol
+
+  - bigint 
+
+  - null
+
+  - undefined
+
+
+- 拓展类型
+  - array
+  - tuple（元组，固定长度和类型的数组）
+  - object（非原始类型）
+  - enum（枚举类型，用于定义一组带名字的常量）
+  - void（无返回值）
+  - never（永不存在的类型）
+  - any（任意类型）
+  - unknown（未知类型）
+
 
 ## 高级类型
 
@@ -132,3 +146,13 @@ let combind: CombindIndexExample = {
   prop: "prop",
 }
 ```
+
+## 类型断言
+
+用于手动指定一个值的类型。它可以帮助开发者在编译时告诉 TS 编译器某个值的具体类型，从而避免类型检查错误。
+
+### 语法
+
+- 使用 *as* 关键字：`值 as 类型`
+- 使用尖括号：`<类型>值`
+

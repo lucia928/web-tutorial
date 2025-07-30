@@ -2,11 +2,11 @@
 
 `Vue实例`从创建到销毁的过程(即指从创建、初始化数据、编译模板、挂载Dom→渲染、更新→渲染、卸载等过程) 。
 
-| vue2          | vue2              | 描述                                                         |
+| vue2          | vue3              | 描述                                                         |
 | ------------- | ----------------- | ------------------------------------------------------------ |
-| beforeCreate  | setup             | 组件实例还未创建，data没有挂载，通常用于执行一些初始化任务   |
-| created       | setup             | 组件初始化完毕，data可以使用，常用于获取异步数据             |
-| beforeMount   | onBeforeMount     | dome已创建，未执行渲染                                       |
+| beforeCreate  | -             | 组件实例还未创建，data没有挂载，通常用于执行一些初始化任务   |
+| created       | -             | 组件初始化完毕，data可以使用，常用于获取异步数据             |
+| beforeMount   | onBeforeMount     | dom已创建，未执行渲染                                        |
 | mounted       | onMounted         | 初始化结束，dom已挂载，可用于获取数据和dome元素              |
 | beforeUpdate  | onBeforeUpdate    | 更新前，可用于获取更新前各种状态                             |
 | updated       | onUpdated         | 更新后，所有状态已是最新                                     |

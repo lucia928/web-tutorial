@@ -14,19 +14,25 @@
 
 ## 实例方法
 
-` then()：`实例状态发生改变时的回调函数，第一个参数是`fulfilled`状态的回调函数，第二个参数是`rejected`状态的回调函数；`then`方法返回的是一个新的Promise实例，也就是Promise能链式书写的原因。
+- ` then()：`实例状态发生改变时的回调函数，第一个参数是`fulfilled`状态的回调函数，第二个参数是`rejected`状态的回调函数；`then`方法返回的是一个新的Promise实例，也就是Promise能链式书写的原因。
 
-`catch()`：用于指定发生错误时的回调函数；Promise对象的错误具有“冒泡”性质，会一直向后传递，直到被捕获为止。
+- `catch()`：用于指定发生错误时的回调函数；Promise对象的错误具有“冒泡”性质，会一直向后传递，直到被捕获为止。
 
-`finally()`：用于指定不管 Promise 对象最后状态如何，都会执行的操作。
+- `finally()`：用于指定不管 Promise 对象最后状态如何，都会执行的操作。
 
 ## 静态方法
 
-` Promise.all()：`用于将多个 Promise实例，包装成一个新的 Promise实例；全部成功才`fulfilled`，有一个失败就立即返回`rejected `。
+- ` Promise.all()：`接收一个可迭代对象（通常是一个数组），并返回一个新的Promise。当所有给定的Promise都被`resolved`时，新的Promise才会`resolved`，并且其结果数组将成为新的Promise的结果。如果任意一个Promise被`rejected`，新的Promise就会立即拒绝，并且带有这个原因。（全部`resolved`才`resolved`，第一个`rejected`立马`rejected`）
 
-`Promise.race()：`同上；状态就跟着第一个改变状态的实例。
+- `Promise.allSettled()：`接收一个可迭代对象，并返回一个新的Promise。当所有给定的Promise都被`resolved`或`rejected`时，新的Promise才会`resolved`，并且其结果数组将包含每个Promise的状态和值或原因。（<u>永远返回`resolved`</u>）
 
-`Promise.allSettled()：`用于将多个 Promise实例，包装成一个新的 Promise实例；只有等到所有实例都返回结果，才会结束。
+- `Promise.race()：`接收一个可迭代对象，并返回一个新的Promise。一旦给定的Promise中有一个被`resolved`或`rejected`，新的Promise就会`resolved`或`rejected`，并且带有这个Promise的值或原因。（状态由第一个的状态确定）
+
+- `Promise.any()：`接收一个可迭代对象，并返回一个新的Promise。一旦给定的Promise中有一个被`resolved`，新的Promise就会`resolved`，并且带有这个Promise的值。如果所有的Promise都被`rejected`，新的Promise就会`rejected`，并且带有一个`AggregateError`（AggregateError: All promises were rejected）。（全部`rejected`才`rejected`，第一个`resolved`立马`resolved`）
+
+- `Promise.resolve():` 返回一个`resolved`的Promise。参数可以是普通值、另一个Promise或者具有`then`方法的对象。
+
+- `Promise.reject()`:  返回一个带有拒绝原因的Promise。
 
 ## 创建和使用
 
@@ -217,3 +223,4 @@ MyPromise.resolve('成功').then(value => console.log(value));
 
 - `promise`一旦创建，构造函数内部就会立即执行回调函数，无法取消。
 - 当处于`pending`状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成？）。
+
