@@ -34,6 +34,9 @@
 - 组合式 API (Composition API)：将相关逻辑集中在一起，增强了代码的可读性和内聚性。相比之下，Vue2 的选项式 API 会将逻辑分散在不同的位置。
 - 生命周期调整：部分生命周期钩子函数名称变化；`setup`代替了`beforeCreate`和`created`；新增`onRenderTracked`和`onRenderTriggered`。
 - 体积减少：通过`tree-shaking`功能，仅打包需要的模块代码。
-- 虚拟 DOM 优化：在虚拟 DOM 上增加了`patchFlag` 字段，帮助在 Diff 过程中区分`静态节点`和不同类型的动态节点，减少不必要的比较。
+- 虚拟 DOM 优化：
+  - 在虚拟 DOM 上增加了`patchFlag` 字段标记静态节点，Diff时跳过静态节点，减少不必要的比较。
+  - 静态提升，缓存静态节点，避免重复创建。
+  - `最长子序列`算法代替`双指针遍历`策略。
 - 见不到this的使用，减少了this指向不明的情况。
 - 更好的TS支持。

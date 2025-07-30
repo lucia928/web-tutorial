@@ -88,3 +88,11 @@
 | 使用场景 | 基本类型、跨组件传递数据、与原生DOM交互 | 处理复杂对象和数组、状态管理 |
 
 [深入Vue3响应式：手写实现reactive与ref上篇文章介绍了Vue3响应式的两个核心API，知道了两者的用法于区别 - 掘金](https://juejin.cn/post/7516369217768898600)
+
+## Composition Api 相比 Options Api的优势
+
+- **逻辑聚合更清晰：** 同一业务相关逻辑，Options Api分散在不同的选项中， 而Composition Api可以集中放在一个函数里，有更高的代码可读性和维护性。
+- **代码复用更加灵活：** Composition Api，通过自定义Hooks可以抽离通用逻辑，复用方式比mixins更加清晰，不会出现命名冲突，也能明确知道复用逻辑的来源。
+- **类型推断更友好：** 结合TS时，Composition Api的函数式写法能让类型推导更自然，而Options Api依赖this上下文，类型定义需要额外处理。
+- **按需导入减小包体积：** Composition Api支持按需导入，而Options Api的选项是固定结构，打包时可能包含一些未使用的逻辑。
+
