@@ -198,6 +198,10 @@ function getVueSideBar() {
           link: "/docs/vue/virtual_dom.md",
         },
         {
+          text: "跨域解决方案",
+          link: "/docs/vue/cross_origin.md"
+        },
+        {
           text: "常见问题",
           link: "/docs/vue/questions.md",
         },

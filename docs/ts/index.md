@@ -63,21 +63,18 @@
   - Partial（将某个类型的所有属性变为可选的）
   - Required（将某个类型的所有属性变为必选的）
   - Readonly（将某个类型的所有属性变为只读的）
-
 - 属性筛选类
   - Pick（从某个类型中挑选一些属性来构造一个新的类型）
   - Omit（从某个类型中排除一些属性来构造一个新的类型）
-
 - 类型过滤类
   - Exclude（从联合类型中排除某些成员）
   - Extract（从联合类型中提取某些成员）
   - NoNullable（从联合类型中排除 null 和 undefined）
-
 - 类型推导类
   - ConstructorParameter（获取构造函数的参数类型）
   - InstanceType（获取构造函数的返回类型）
+  - Parameters（获取函数的参数类型）
   - ReturnType（获取函数的返回值类型）
-  
 - 创建类
   - Record（创建一个对象类型，其属性键来自一个联合类型，且属性值都是相同类型）
 
