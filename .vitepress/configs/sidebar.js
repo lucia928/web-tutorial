@@ -2,7 +2,7 @@
  * @Author: lucia928
  * @Date: 2025-03-30 16:25:06
  * @LastEditors: lucia928
- * @LastEditTime: 2025-07-29 16:08:41
+ * @LastEditTime: 2025-08-01 16:22:23
  * @FilePath: \web-tutorial\.vitepress\configs\sidebar.js
  * @Description:
  * @Copyright (c) 2025 by luxuhui1998@163.com, All Rights Reserved.
@@ -194,12 +194,32 @@ function getVueSideBar() {
           link: "/docs/vue/nexttick.md",
         },
         {
+          text:  "侦听器",
+           link: "/docs/vue/watch.md"
+        },
+        {
+          text:  "计算属性",
+           link: "/docs/vue/computed.md"
+        },
+        {
+          text:  "模板引用",
+           link: "/docs/vue/template_ref.md"
+        },
+        {
           text: "虚拟DOM",
           link: "/docs/vue/virtual_dom.md",
         },
         {
           text: "跨域解决方案",
           link: "/docs/vue/cross_origin.md"
+        },
+        {
+          text:  "响应式解包",
+           link: "/docs/vue/unpacking.md"
+        },
+        {
+          text:  "TypeScript 与组合式 API",
+           link: "/docs/vue/ts.md"
         },
         {
           text: "常见问题",
