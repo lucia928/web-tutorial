@@ -106,6 +106,7 @@ watchEffect((onCleanup) => {
 ```
 
 - `onWatcherCleanup`函数（Vue3.5+，同步执行期间调用）
+- 异步操作导致的上下文丢失：当代码执行到await时，函数会暂停并让出执行权，此时watcher的同步阶段已结束。若在await之后调用`onWatcherCleanup`函数，Vue无法将清理函数与当前watcher关联，导致清理函数无法生效。
 
 ``` javascript
 import { watch, onWatcherCleanup } from 'vue'
@@ -161,8 +162,17 @@ setTimeout(() => {
 }, 100)
 
 // 手动停止一个侦听器，调用 watch 或 watchEffect 返回的函数
-const unwatch = watch(data, () => {})
-unwatch()
+const { stop, pause, resume }  = watch(data, () => {})
+
+// 停止
+stop()
+
+// Vue3.5+
+// 暂停侦听器
+pause()
+
+// 稍后恢复
+resume()
 </script>
 ```
 
