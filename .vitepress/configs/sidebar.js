@@ -2,7 +2,7 @@
  * @Author: lucia928
  * @Date: 2025-03-30 16:25:06
  * @LastEditors: lucia928
- * @LastEditTime: 2025-08-01 16:22:23
+ * @LastEditTime: 2025-08-03 21:11:49
  * @FilePath: \web-tutorial\.vitepress\configs\sidebar.js
  * @Description:
  * @Copyright (c) 2025 by luxuhui1998@163.com, All Rights Reserved.
@@ -150,6 +150,10 @@ function getTsSideBar() {
     {
       text: "Typescript",
       items: [
+        {
+          text: "路由守卫",
+          link: "/docs/ts/type_guard.md",
+        },
         {
           text: "常见问题",
           link: "/docs/ts/question.md",

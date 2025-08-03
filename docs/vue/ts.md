@@ -1,6 +1,8 @@
-# TypeScript 与组合式 API
+# TypeScript
 
-## 为组件的 `props` 标注类型
+## TypeScript 与组合式 API
+
+### 为组件的 `props` 标注类型
 
 ```ts
 <script setup lang="ts">
@@ -10,7 +12,7 @@ const props = defineProps({
   bar: Number
 })
 
-// 通过泛型参数来定义 props 的类型 “基于类型的声明”
+// 通过泛型参数来定义 props 的类型 “类型声明”
 interface Props {
   foo: string
   bar?: number
@@ -34,7 +36,7 @@ const props = defineProps({
 </script>
 ```
 
-## 为组件的 `emits` 标注类型
+### 为组件的 `emits` 标注类型
 
 ```ts
 <script setup lang="ts">
@@ -67,7 +69,7 @@ const emit = defineEmits<{
 </script>
 ```
 
-## 为 `ref()` 标注类型
+### 为 `ref()` 标注类型
 
 ```ts
 import { ref } from "vue"
@@ -86,7 +88,7 @@ const year = ref<string | number>(2020)
 const year = ref<number>()
 ```
 
-## 为 `reactive()` 标注类型
+### 为 `reactive()` 标注类型
 
 ```ts
 import { reactive } from "vue"
@@ -103,7 +105,7 @@ interface Book {
 const book: Book = reactive({ title: "Vue 3 指引" })
 ```
 
-## 为 `computed()` 标注类型
+### 为 `computed()` 标注类型
 
 ```ts
 import { ref, computed } from "vue"
@@ -118,7 +120,7 @@ const double = computed<number>(() => {
 })
 ```
 
-## 事件处理函数标注类型
+### 事件处理函数标注类型
 
 ```ts
 <script setup lang="ts">
@@ -134,7 +136,7 @@ function handleChange(event: Event) {
 </template>
 ```
 
-## 为 provide / inject 标注类型
+### 为 provide / inject 标注类型
 
 ```ts
 import { provide, inject } from "vue"
@@ -157,7 +159,7 @@ const foo = inject<string>("foo", "bar") // 类型：string
 const foo = inject("foo") as string
 ```
 
-## 为模板引用标注类型
+### 为模板引用标注类型
 
 ```ts
 // Vue 3.5  useTemplateRef() 创建的 ref 类型可以基于匹配的 ref attribute 所在的元素自动推断为静态类型
@@ -169,7 +171,7 @@ const el = useTemplateRef<HTMLInputElement>("el")
 const el = ref<HTMLInputElement | null>(null)
 ```
 
-## 为组件模板引用标注类型
+### 为组件模板引用标注类型
 
 ```ts
 <script setup lang="ts">
@@ -228,3 +230,100 @@ const openModal = () => {
 }
 </script>
 ```
+
+## TypeScript 工具类型
+
+## PropType\<T>
+
+用于在用运行时 props 声明时给一个 prop 标注更复杂的类型定义
+
+``` ts
+import type { PropType } from 'vue'
+
+interface Book {
+  title: string
+  author: string
+  year: number
+}
+
+export default {
+  props: {
+    book: {
+      // 提供一个比 `Object` 更具体的类型
+      type: Object as PropType<Book>,
+      required: true
+    },
+    books: {
+        type: Array as PropType<Book[]>,
+        default: () => []
+	}
+  }
+}
+```
+
+## MaybeRef\<T>
+
+Vue3.3+，`T | Ref<T>` 的别名。可用于对于标注组合式函数的参数， `unref`函数的参数类型。
+
+## MaybeRefOrGetter\<T>
+
+Vue3.3+，`T | Ref<T> | (() => T)` 的别名。可用于对于标注组合式函数的参数，`toValue`函数的参数类型。
+
+## ExtractPropTypes\<T>
+
+Vue3.3+，从运行时的 props 选项对象中提取 props 类型。提取到的是 props 定义的完整类型。
+
+``` ts
+import type { ExtractPropTypes } from 'vue'
+
+const propsOptions = {
+  foo: String,
+  bar: Boolean,
+  baz: {
+    type: Number,
+    required: true
+  },
+  qux: {
+    type: Number,
+    default: 1
+  }
+} as const
+
+type Props = ExtractPropTypes<typeof propsOptions>
+// {
+//   foo?: string,
+//   bar: boolean,
+//   baz: number,
+//   qux: number
+// }
+```
+
+## ExtractPublicPropTypes\<T>
+
+Vue3.3+，从运行时的 props 选项对象中提取 prop。提取到的是 props 定义的公开类型，即组件对外暴露、允许用户传入的 props 属性。
+
+``` ts
+import type { ExtractPublicPropTypes } from 'vue'
+
+const propsOptions = {
+  foo: String,
+  bar: Boolean,
+  baz: {
+    type: Number,
+    required: true
+  },
+  qux: {
+    type: Number,
+    default: 1
+  }
+} as const
+
+type Props = ExtractPublicPropTypes<typeof propsOptions>
+// {
+//   foo?: string,
+//   bar?: boolean,
+//   baz: number,
+//   qux?: number
+// }
+```
+
