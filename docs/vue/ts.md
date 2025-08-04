@@ -102,13 +102,14 @@ interface Book {
   year?: number
 }
 
-const book: Book = reactive({ title: "Vue 3 指引" })
+const book = reactive<Book>({ title: "Vue 3 指引" })
 ```
 
 ### 为 `computed()` 标注类型
 
 ```ts
 import { ref, computed } from "vue"
+import type { ComputedRef } from "vue"
 
 const count = ref(0)
 // 推导得到的类型：ComputedRef<number>
@@ -117,6 +118,11 @@ const double = computed(() => count.value * 2)
 // 通过泛型参数显式指定类型
 const double = computed<number>(() => {
   // 若返回值不是 number 类型则会报错
+})
+
+// 使用 ComputedRef 注解
+const double: ComputedRef<number> = computed(() => {
+    
 })
 ```
 

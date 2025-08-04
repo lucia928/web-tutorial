@@ -86,5 +86,5 @@ const { count } = toRefs(state) // count是ref，需.value访问
 ## 解包的核心
 
 - `ref`通过`__v_isRef`标记自身类型。
-- 内部通过`unref`工具函数，在模板渲染he`reactive`访问时自动获取`.vlaue`。
+- 内部通过`unref`工具函数，在模板渲染和`reactive`访问时自动获取`.vlaue`。
 - 数组/集合中不解包，是为了保留`ref`原始实例的可控性。

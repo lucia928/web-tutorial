@@ -77,6 +77,9 @@
   - ReturnType（获取函数的返回值类型）
 - 创建类
   - Record（创建一个对象类型，其属性键来自一个联合类型，且属性值都是相同类型）
+- 其他类
+  - Awaited（用来取出 Promise 的返回值类型，适合用在描述`then()`方法和 `await` 命令的参数类型）
+
 
 ```ts
 interface Person {

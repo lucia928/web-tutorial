@@ -35,8 +35,8 @@
 - 生命周期调整：部分生命周期钩子函数名称变化；`setup`代替了`beforeCreate`和`created`作为Composition Api的入口；新增`onRenderTracked`和`onRenderTriggered`。
 - 体积减少：通过`tree-shaking`功能，仅打包需要的模块代码。
 - 虚拟 DOM 优化：
-  - 在虚拟 DOM 上增加了`patchFlag` 字段标记静态节点，Diff时跳过静态节点，减少不必要的比较。
-  - 静态提升，缓存静态节点，避免重复创建。
+  - 在虚拟 DOM 上增加了`patchFlag` 字段标记Vnode哪些属性是动态的，减少不必要的Diff操作。
+  - 静态提升，静态元素`只会被创建一次`，被`放置在render 函数外`，每次渲染的时候只要`取出`即可。同时该元素会被打上`静态标记值为-1`，特殊标志是`负整数`表示永远不会用于 `Diff`。
   - `最长递增子序列算法`代替`双指针遍历策略`。
 - 见不到this的使用，减少了this指向不明的情况。
 - 更好的TS支持。
