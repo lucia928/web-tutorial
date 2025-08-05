@@ -74,6 +74,43 @@ onMounted(() => {
 </script>
 ```
 
+### 源码
+
+``` ts
+function useTemplateRef(key) {
+  const i = getCurrentInstance();
+  const r = reactivity.shallowRef(null);
+  if (i) {
+    const refs = i.refs === shared.EMPTY_OBJ ? i.refs = {} : i.refs;
+    let desc;
+    if ((desc = Object.getOwnPropertyDescriptor(refs, key)) && !desc.configurable) {
+      warn$1(`useTemplateRef('${key}') already exists.`);
+    } else {
+      Object.defineProperty(refs, key, {
+        enumerable: true,
+        get: () => r.value,
+        set: (val) => r.value = val
+      });
+    }
+  } else {
+    warn$1(
+      `useTemplateRef() is called when there is no active component instance to be associated with.`
+    );
+  }
+  const ret = reactivity.readonly(r) ;
+  {
+    knownTemplateRefs.add(ret);
+  }
+  return ret;
+}
+```
+
+- 通过`getCurrentInstance()`获取上下文实例。
+- `i.refs`获取到所有`ref`数据默认为`null`。
+- 创建一个`shallowRef`变量`r`作为返回值
+- 为`refs`添加`Object.definePropperty`监听`useTemplateRef`的参数`key`。
+- 在`getter`中返回`r`，`setter`中更新`r`。
+
 ## 函数模板引用
 
 除了使用字符串值作名字，`ref` attribute 还可以绑定为一个函数，会在每次组件更新时都被调用。
