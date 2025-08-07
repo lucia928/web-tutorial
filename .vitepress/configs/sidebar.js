@@ -155,6 +155,10 @@ function getTsSideBar() {
           link: "/docs/ts/declare.md",
         },
         {
+          text: "infer 关键字",
+          link: "/docs/ts/infer.md",
+        },
+        {
           text: "路由守卫",
           link: "/docs/ts/type_guard.md",
         },
