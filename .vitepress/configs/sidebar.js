@@ -248,6 +248,10 @@ function getHttpSideBar() {
       text: "HTTP系列",
       items: [
         {
+          text: "浏览器缓存机制",
+          link: "/docs/http/cache.md",
+        },
+        {
           text: "常见问题",
           link: "/docs/http/questions.md",
         },

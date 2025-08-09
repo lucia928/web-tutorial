@@ -29,12 +29,11 @@
 
   - symbol
 
-  - bigint 
+  - bigint
 
   - null
 
   - undefined
-
 
 - 拓展类型
   - array
@@ -45,7 +44,6 @@
   - never（永不存在的类型）
   - any（任意类型）
   - unknown（未知类型）
-
 
 ## 高级类型
 
@@ -76,10 +74,9 @@
   - Parameters（获取函数的参数类型）
   - ReturnType（获取函数的返回值类型）
 - 创建类
-  - Record（创建一个对象类型，其属性键来自一个联合类型，且属性值都是相同类型）
+  - Record（用于构造一个对象类型，其属性键是指定的键类型，属性值是指定的值类型）
 - 其他类
   - Awaited（用来取出 Promise 的返回值类型，适合用在描述`then()`方法和 `await` 命令的参数类型）
-
 
 ```ts
 interface Person {
@@ -105,9 +102,24 @@ type DefiniteString = NoNullable<MaybeString>
 class ExampleClass {
   constructor(public name: string, public age: number) {}
 }
-type Params = ConstructorParameters<typeof ExampleClass>
+type ConstructorParams = ConstructorParameters<typeof ExampleClass>
 type ExampleInstance = InstanceType<typeof ExampleClass>
+type Params = Parameters<(name: string) => string>
 type Return = ReturnType<() => string>
+
+type CatName = "miffy" | "boris" | "mordred"
+interface CatInfo {
+  age: number
+  breed: string
+}
+const cats: Record<CatName, CatInfo> = {
+  miffy: { age: 10, breed: "Persian" },
+  boris: { age: 5, breed: "Maine Coon" },
+  mordred: { age: 16, breed: "British Shorthair" },
+}
+
+const res = Promise.resolve(Promise.resolve('Hello World'))
+type ResType = Awaited<typeof res>
 ```
 
 ## 索引类型
@@ -153,6 +165,5 @@ let combind: CombindIndexExample = {
 
 ### 语法
 
-- 使用 *as* 关键字：`值 as 类型`
+- 使用 _as_ 关键字：`值 as 类型`
 - 使用尖括号：`<类型>值`
-

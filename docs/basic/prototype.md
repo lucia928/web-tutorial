@@ -44,8 +44,7 @@ let obj = {
 
 ![prototype](./images/prototype.png)
 
-- `proto`和`constructor`属性是对象所独有的；`prototype`属性是函数独有的，因为函数也是一种对象，所以函数也有`proto`和`constructor`属性
+- `__proto__`和`constructor`属性是对象所独有的；`prototype`属性是函数独有的，因为函数也是一种对象，所以函数也有`proto`和`constructor`属性
 - `prototype`属性的作用是让函数所实例化的对象共享属性和方法
 - `constructor`属性指向对象的构造函数，所有函数最终的构造函数都指向`Function`
-
 - 通过`__proto__`属性将对象连接起来的链路就是原型链
