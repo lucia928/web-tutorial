@@ -139,7 +139,7 @@ getType(null) // null
 
 | 检测目标 | 推荐方法 | 注意事项 |
 | ---- | ---- | ---- |
-| 基本类型 | tyoeof | null返回'object' |
+| 基本类型 | typeof | null返回'object' |
 | NaN | Number.isNaN()、isNaN() | 能区分undefined<br/>Number.isNaN()直接检查是否是NaN<br/>isNaN()先尝试转为数字，若无法转为数字返回true，否则返回false（判断是否是数字） |
 | 数组类型 | Array.isArray() | 兼容IE9+ |
 | 自定义对象 | instanceof | 跨框架失效<br/>无法判断基本类型<br/>null和undefined不是任何对象的实例，始终返回false<br/>无法准确判断自定义类的的继承关系<br/>可被手动原型链干扰 |

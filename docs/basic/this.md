@@ -32,7 +32,7 @@ var a = 18;
 foo(); // VM10846:3 Uncaught TypeError: Cannot read properties of undefined (reading 'a') at foo
 
 
-// 虽然this的绑定规则完全取决与调用位置，但是只有foo()运行在非严格模式下时，this才能默认绑定到全局对象
+// 虽然this的绑定规则完全取决于调用位置，但是只有foo()运行在非严格模式下时，this才能默认绑定到全局对象
 // 在严格模式下调用foo()不影响默认绑定
 function foo() {
     console.log(this.a);
@@ -140,7 +140,7 @@ function mynew(Func, ...args) {
 
 ## 优先级
 
-new绑定优先级 > 显示绑定优先级 > 隐式绑定优先级 > 默认绑定优先级
+new绑定优先级 > 显式绑定优先级 > 隐式绑定优先级 > 默认绑定优先级
 
 ``` js
 // 显式绑定 > 隐式绑定
