@@ -2,7 +2,7 @@
  * @Author: lucia928
  * @Date: 2025-03-30 16:25:06
  * @LastEditors: lucia928
- * @LastEditTime: 2025-08-04 10:52:50
+ * @LastEditTime: 2025-08-25 13:58:53
  * @FilePath: \web-tutorial\.vitepress\configs\sidebar.js
  * @Description:
  * @Copyright (c) 2025 by luxuhui1998@163.com, All Rights Reserved.
@@ -159,7 +159,7 @@ function getTsSideBar() {
           link: "/docs/ts/infer.md",
         },
         {
-          text: "路由守卫",
+          text: "类型守卫",
           link: "/docs/ts/type_guard.md",
         },
         {

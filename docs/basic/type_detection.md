@@ -70,6 +70,8 @@ function myInstanceof(left, right) {
 
 ### Object原型检测
 
+- 每个jS内置对象都有一个内部属性`[[Class]]`，其值为该对象的类型标识，当调用Object原型上的`toString()`方法，并通过`call()`方法改变this指向到目标数据时，对于对象类型的数据，该方法会直接读取目标数据的`[[Class]]`属性，并返回对应类型字符串`[object [[Class]]]`；对于基本类型数据，`call()`方法会先自动将其转换为对应的包装对象，再读取其`[[Class]]`属性，最后返回对应类型字符串`[object [[Class]]]`
+
 ``` javascript
 Object.prototype.toString.call(NaN) // '[object Number]'
 Object.prototype.toString.call(undefined) // '[object Undefined]'
